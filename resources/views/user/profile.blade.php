@@ -46,6 +46,7 @@
                             <div class="col-6 d-flex align-items-center">
                                 <span class="tb-title fw-bold">Profil Saya</span>
                                 <span class="tb-title fw-bold">Profil Saya</span>
+                                <span class="tb-title fw-bold">Profil Saya</span>
                             </div>
                         </div>
                         <div class="row">
