@@ -53,7 +53,6 @@
                                     <img id="profileImage"
                                         src="{{ Auth::guard('siswa')->user()->foto ? (Str::startsWith(Auth::guard('siswa')->user()->foto, 'http') ? Auth::guard('siswa')->user()->foto : asset('storage/' . Auth::guard('siswa')->user()->foto)) : asset('img/default-profile.jpg') }}"
                                         class="w-100 h-100 object-fit-cover rounded-circle" />
-
                                     <button type="button" class="btn btn-tb btn-table-primary mb-1 mb-lg-0 edit-button"
                                         onclick="document.getElementById('fileInput').click()">
                                         <i class="fa fa-pen"></i>
