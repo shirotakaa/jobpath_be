@@ -14,6 +14,12 @@ class PerusahaanController extends Controller
         $perusahaan = Perusahaan::all();
         return view('admin.pages.kelola-perusahaan', compact('perusahaan'));
     }
+
+    public function show($id)
+    {
+        $perusahaan = Perusahaan::findOrFail($id); // Ambil data siswa berdasarkan ID
+        return view('company.profile', compact('perusahaan'));
+    }
     
     public function kelolaPerusahaan()
     {

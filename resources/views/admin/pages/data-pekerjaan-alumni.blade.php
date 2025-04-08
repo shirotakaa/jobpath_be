@@ -271,7 +271,7 @@
             </div>
         </div>
     </div>
-
+   
     <div class="modal fade" tabindex="-1" id="modalEdit">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">

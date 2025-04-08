@@ -62,7 +62,7 @@
                                 <a href="{{ route('guest.index') }}">Home</a>
                             </li>
                             <li class="has-children">
-                                <a href="{{ route('perusahaan') }}">Perusahaan</a>
+                                <a href="{{ route('guest-perusahaan') }}">Perusahaan</a>
                             </li>
                             <li class="has-children">
                                 <a href="{{ route('guest-jejak-alumni') }}">Jejak Alumni</a>

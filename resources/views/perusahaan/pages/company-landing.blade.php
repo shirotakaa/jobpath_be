@@ -9,11 +9,15 @@
                     <div class="row">
                         <div class="col-lg-7">
                             <div class="block-banner">
-                                <h1 class="heading-banner heading-lg">Temukan peluang kerja terbaik bersama JobPath!</h1>
-                                <div class="banner-description mt-30">Jelajahi berbagai peran pekerjaan menarik berdasarkan minat dan jurusan studimu. Pekerjaan impianmu menunggumu.</div>
+                                <h1 class="heading-banner heading-lg">
+                                    {{ $perusahaanContent->judul_perusahaan ?? 'Temukan peluang kerja terbaik bersama JobPath!' }}
+                                </h1>
+                                <div class="banner-description mt-30">
+                                    {{ $perusahaanContent->subtitle_perusahaan ?? 'Jelajahi berbagai peran pekerjaan menarik berdasarkan minat dan jurusan studimu. Pekerjaan impianmu menunggumu.' }}
+                                </div>
                                 <div class="mt-60">
                                     <div class="box-button-shadow mr-10">
-                                        <a href="company-add-job.html" class="btn btn-default">Add Job Now</a>
+                                        <a href="{{ route('company.addjob') }}" class="btn btn-default">Add Job Now</a>
                                     </div>
                                 </div>
                             </div>
@@ -21,46 +25,43 @@
                         <div class="col-lg-5 d-none d-lg-block">
                             <div class="banner-imgs" style="height: 462px;">
                                 <img
-                                alt="JobPath"
-                                src="assets/user/imgs/banner/banner-img.png"
-                                class="img-responsive main-banner shape-3"
-                                width="100%"
-                                height="100%"
-                                style="object-fit: cover;"
-                              />
-                            
-                              <span class="banner-sm-1" style="height: 108px; display: block;">
-                                <img
-                                  alt="JobPath"
-                                  src="assets/user/imgs/banner/banner-sm-1.png"
-                                  class="img-responsive shape-1"
-                                  width="100%"
-                                  height="100%"
-                                  style="object-fit: cover;"
+                                    alt="JobPath"
+                                    src="{{ $perusahaanContent->asset_1 ? asset('storage/' . $perusahaanContent->asset_1) : asset('assets/user/imgs/banner/banner-img.png') }}"
+                                    class="img-responsive main-banner shape-3"
+                                    width="100%"
+                                    height="100%"
+                                    style="object-fit: cover;"
                                 />
-                              </span>
-                            
-                              <span class="banner-sm-2" style="height: 142px; display: block;">
-                                <img
-                                  alt="JobPath"
-                                  src="assets/user/imgs/banner/banner-sm-2.png"
-                                  class="img-responsive shape-1"
-                                  width="100%"
-                                  height="100%"
-                                  style="object-fit: cover;"
-                                />
-                              </span>
-                            
-                              <span class="banner-sm-3" style="height: 194px; display: block;">
-                                <img
-                                  alt="JobPath"
-                                  src="assets/user/imgs/banner/banner-sm-3.png"
-                                  class="img-responsive shape-2"
-                                  width="100%"
-                                  height="100%"
-                                  style="object-fit: cover;"
-                                />
-                              </span>
+                                <span class="banner-sm-1" style="height: 108px; display: block;">
+                                    <img
+                                      alt="JobPath"
+                                      src="assets/user/imgs/banner/banner-sm-1.png"
+                                      class="img-responsive shape-1"
+                                      width="100%"
+                                      height="100%"
+                                      style="object-fit: cover;"
+                                    />
+                                  </span>
+                                <span class="banner-sm-2" style="height: 140px; display: block;">
+                                    <img
+                                        alt="JobPath"
+                                        src="{{ $perusahaanContent->asset_2 ? asset('storage/' . $perusahaanContent->asset_2) : asset('assets/user/imgs/banner/banner-sm-1.png') }}"
+                                        class="img-responsive shape-1"
+                                        width="100%"
+                                        height="100%"
+                                        style="object-fit: cover;"
+                                    />
+                                </span>
+                                <span class="banner-sm-3" style="height: 194px; display: block;">
+                                    <img
+                                        alt="JobPath"
+                                        src="{{ $perusahaanContent->asset_3 ? asset('storage/' . $perusahaanContent->asset_3) : asset('assets/user/imgs/banner/banner-sm-3.png') }}"
+                                        class="img-responsive shape-2"
+                                        width="100%"
+                                        height="100%"
+                                        style="object-fit: cover;"
+                                    />
+                                </span>
                             </div>
                         </div>
                     </div>
@@ -132,15 +133,15 @@
                         <div class="content-job-inner">
                             <h2 class="section-title heading-lg wow animate__animated animate__fadeInUp">Rekrut Talenta Terbaik dengan Mudah</h2>
                             <div class="mt-40 pr-50 text-md-lh28 wow animate__animated animate__fadeInUp">Pasang lowongan gratis, jangkau lebih banyak kandidat, dan temukan talenta terbaik untuk bisnis Anda. Kelola rekrutmen lebih efisien dengan sistem yang praktis dan terstruktur.</div>
-                            <div class="mt-40">
+                            {{-- <div class="mt-40">
                                 <div class="box-button-shadow wow animate__animated animate__fadeInUp"><a href="#" class="btn btn-default">Daftar Sekarang</a></div>
-                            </div>
+                            </div> --}}
                         </div>
                     </div>
                     <div class="col-lg-6 col-sm-12">
                         <div class="box-image-job">
                             <figure class=" wow animate__animated animate__fadeIn">
-                                <img alt="JobPath" src="assets/user/imgs/banner/banner-img.png"/>
+                                <img alt="JobPath" src="{{ $perusahaanContent->asset_2 ? asset('storage/' . $perusahaanContent->asset_2) : asset('assets/user/imgs/banner/banner-sm-1.png') }}"/>
                             </figure>
                         </div>
                     </div>

@@ -43,9 +43,10 @@ class AuthController extends Controller
             ];
         });
 
+        $categories = Pekerjaan::select('kategori')->distinct()->pluck('kategori');
         $alumni = JejakAlumni::where('tampilkan_di_landing', true)->get();
         $hero = \App\Models\HeroLanding::latest()->first(); // Mengambil data terbaru dari tabel
-        return view('user.index',compact('identitas', 'perusahaan', 'alumni', 'hero', 'kategoriPekerjaan'));
+        return view('user.index',compact('identitas', 'perusahaan', 'alumni', 'hero', 'kategoriPekerjaan', 'categories'));
     }
 
     public function loginAdmin(Request $request)
@@ -111,6 +112,21 @@ class AuthController extends Controller
         ]);
     }
 
+    public function userlogout(Request $request)
+    {
+        Auth::guard('siswa')->logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect()->route('guest.index')->with('success', 'Logout berhasil.');
+    }    
+
+    public function perusahaanlogout(Request $request)
+    {
+        Auth::guard('siswa')->logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect()->route('guest.index')->with('success', 'Logout berhasil.');
+    } 
     
     public function logout(Request $request)
     {

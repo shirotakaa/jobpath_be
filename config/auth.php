@@ -36,18 +36,24 @@ return [
     */
 
     'guards' => [
+        'web' => [
+            'driver' => 'session',
+            'provider' => 'users',
+        ],
+
         'admin' => [
             'driver' => 'session',
-            'provider' => 'admin',
+            'provider' => 'admins',
         ],
+
         'siswa' => [
             'driver' => 'session',
-            'provider' => 'siswa',
+            'provider' => 'siswas',
         ],
 
         'perusahaan' => [
             'driver' => 'session',
-            'provider' => 'perusahaan',
+            'provider' => 'perusahaans',
         ],
     ],
 
@@ -69,23 +75,20 @@ return [
     */
 
     'providers' => [
-        'admin' => [
+        'admins' => [
             'driver' => 'eloquent',
-            'model' => env('AUTH_MODEL', App\Models\Admin::class),
-        ],
-        'siswa' => [
-            'driver' => 'eloquent',
-            'model' => env('AUTH_MODEL', App\Models\Siswa::class),
+            'model' => App\Models\Admin::class,
         ],
 
-        'perusahaan' => [
+        'siswas' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Siswa::class,
+        ],
+
+        'perusahaans' => [
             'driver' => 'eloquent',
             'model' => App\Models\Perusahaan::class,
         ],
-        // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
-        // ],
     ],
 
     /*

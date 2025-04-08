@@ -76,13 +76,42 @@
                                     </div>
                                 @endforeach
                             </div>
+
+                            <div class="paginations text-center">
+                                <ul class="pager" id="pagination-container"></ul>
+                            </div>
+                             
         
                             <!-- Pagination -->
-                            @if ($perusahaan->total() > 8)
+                            {{-- @if ($perusahaan->lastPage() > 1)
                                 <div class="paginations text-center">
-                                    {{ $perusahaan->links('vendor.pagination.bootstrap-4') }}
+                                    <ul class="pager">
+                                        <!-- Tombol Previous -->
+                                        <li>
+                                            <a href="{{ $perusahaan->previousPageUrl() ?? '#' }}"
+                                               class="pager-prev {{ $perusahaan->onFirstPage() ? 'disabled' : '' }}">                                                
+                                            </a>
+                                        </li>
+                                    
+                                        <!-- Nomor Halaman -->
+                                        @for ($i = 1; $i <= $perusahaan->lastPage(); $i++)
+                                            <li>
+                                                <a href="{{ $perusahaan->url($i) }}"
+                                                   class="pager-number {{ $perusahaan->currentPage() == $i ? 'active' : '' }}">
+                                                    {{ $i }}
+                                                </a>
+                                            </li>
+                                        @endfor
+                                    
+                                        <!-- Tombol Next -->
+                                        <li>
+                                            <a href="{{ $perusahaan->nextPageUrl() ?? '#' }}"
+                                               class="pager-next {{ $perusahaan->currentPage() == $perusahaan->lastPage() ? 'disabled' : '' }}">                                            
+                                            </a>
+                                        </li>
+                                    </ul>    
                                 </div>
-                            @endif
+                            @endif --}}
                         </div>
                     </div>
                 </div>
@@ -131,49 +160,67 @@
         });
     </script>
 
-    <script>
-        const companyCards = document.querySelectorAll(".company-card");
-        const pageNumbers = document.querySelectorAll(".pager-number");
-        const prevButton = document.querySelector(".pager-prev");
-        const nextButton = document.querySelector(".pager-next");
+<script>
+    const companyCards = document.querySelectorAll(".company-card");
+    const cardsPerPage = 8;
+    const totalPages = Math.ceil(companyCards.length / cardsPerPage);
+    let currentPage = 1;
 
-        const cardsPerPage = 8;
-        const totalPages = Math.ceil(companyCards.length / cardsPerPage);
-        let currentPage = 1;
+    const paginationContainer = document.getElementById("pagination-container");
 
-        function showPage(page) {
-            const start = (page - 1) * cardsPerPage;
-            const end = start + cardsPerPage;
+    function createPagination() {
+        paginationContainer.innerHTML = "";
 
-            companyCards.forEach((card, index) => {
-                card.style.display = (index >= start && index < end) ? "block" : "none";
-            });
-
-            pageNumbers.forEach((number) => {
-                number.classList.toggle("active", parseInt(number.textContent) === page);
-            });
-
-            currentPage = page;
-        }
-
-        pageNumbers.forEach((number) => {
-            number.addEventListener("click", (e) => {
-                e.preventDefault();
-                showPage(parseInt(number.textContent));
-            });
-        });
-
-        prevButton.addEventListener("click", (e) => {
+        // Prev Button
+        const prev = document.createElement("li");
+        prev.innerHTML = `<a href="#" class="pager-prev"</a>`;
+        paginationContainer.appendChild(prev);
+        prev.addEventListener("click", (e) => {
             e.preventDefault();
             if (currentPage > 1) showPage(currentPage - 1);
         });
 
-        nextButton.addEventListener("click", (e) => {
+        // Page Numbers
+        for (let i = 1; i <= totalPages; i++) {
+            const li = document.createElement("li");
+            li.innerHTML = `<a href="#" class="pager-number">${i}</a>`;
+            li.querySelector("a").addEventListener("click", (e) => {
+                e.preventDefault();
+                showPage(i);
+            });
+            paginationContainer.appendChild(li);
+        }
+
+        // Next Button
+        const next = document.createElement("li");
+        next.innerHTML = `<a href="#" class="pager-next"</a>`;
+        paginationContainer.appendChild(next);
+        next.addEventListener("click", (e) => {
             e.preventDefault();
             if (currentPage < totalPages) showPage(currentPage + 1);
         });
+    }
 
-        showPage(currentPage);
-    </script>
+    function showPage(page) {
+        const start = (page - 1) * cardsPerPage;
+        const end = start + cardsPerPage;
+
+        companyCards.forEach((card, index) => {
+            card.style.display = (index >= start && index < end) ? "block" : "none";
+        });
+
+        // Update active class
+        const pageLinks = document.querySelectorAll(".pager-number");
+        pageLinks.forEach((link) => {
+            link.classList.toggle("active", parseInt(link.textContent) === page);
+        });
+
+        currentPage = page;
+    }
+
+    createPagination();
+    showPage(currentPage);
+</script>
+
 
 @endsection

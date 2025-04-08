@@ -43,7 +43,6 @@ class UserProfileController extends Controller
             }
 
             // Simpan foto baru
-            // Simpan foto baru
             $foto = $request->file('foto')->store('siswa', 'public');
             $user->foto = asset('storage/' . $foto); // Ini yang salah,
 

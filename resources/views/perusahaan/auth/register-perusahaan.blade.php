@@ -83,7 +83,7 @@
                         </div>
                         <button type="submit" class="btn btn-default w-100 mt-3">Daftar</button>
 
-                        <!-- OR Separator -->
+                        {{-- <!-- OR Separator -->
                         <div class="d-flex align-items-center my-3">
                             <hr class="flex-grow-1">
                             <span class="mx-2">OR</span>
@@ -97,7 +97,7 @@
                             <img src="assets/user/imgs/google-icon.png" alt="Google Icon"
                                 style="width: 20px; height: 20px;" class="me-2">
                             Continue with Google
-                        </button>
+                        </button> --}}
 
                     </form>
                     @if ($errors->any())
@@ -112,7 +112,7 @@
 
                     <!-- Sudah punya akun -->
                     <div class="text-center mt-3">
-                        <span>Sudah punya akun? <a href="company-login.html" class="text-primary fw-semibold">Masuk di
+                        <span>Sudah punya akun? <a href="{{ route('login-perusahaan') }}" class="text-primary fw-semibold">Masuk di
                                 sini</a></span>
                     </div>
 

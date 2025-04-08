@@ -137,6 +137,16 @@
                                     height="100%"
                                     style="object-fit: cover;"
                                 />
+                                <span class="banner-sm-1" style="height: 108px; display: block;">
+                                    <img
+                                      alt="JobPath"
+                                      src="assets/user/imgs/banner/banner-sm-1.png"
+                                      class="img-responsive shape-1"
+                                      width="100%"
+                                      height="100%"
+                                      style="object-fit: cover;"
+                                    />
+                                  </span>
                                 <span class="banner-sm-2" style="height: 140px; display: block;">
                                     <img
                                         alt="JobPath"
@@ -229,7 +239,7 @@
                             <h2 class="section-title heading-lg wow animate__animated animate__fadeInUp">Rekrut Talenta Terbaik dengan Mudah</h2>
                             <div class="mt-40 pr-50 text-md-lh28 wow animate__animated animate__fadeInUp">Pasang lowongan gratis, jangkau lebih banyak kandidat, dan temukan talenta terbaik untuk bisnis Anda. Kelola rekrutmen lebih efisien dengan sistem yang praktis dan terstruktur.</div>
                             <div class="mt-40">
-                                <div class="box-button-shadow wow animate__animated animate__fadeInUp"><a href="#" class="btn btn-default">Daftar Sekarang</a></div>
+                                <div class="box-button-shadow wow animate__animated animate__fadeInUp"><a href="{{ route('register-perusahaan') }}" class="btn btn-default">Daftar Sekarang</a></div>
                             </div>
                         </div>
                     </div>

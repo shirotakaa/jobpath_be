@@ -12,24 +12,7 @@
                                 <h1 class="heading-banner wow animate__animated animate__fadeInUp">{{ $hero->judul_hero }}</h1>
                                 <div class="banner-description mt-30 wow animate__animated animate__fadeInUp" data-wow-delay=".1s">
                                     {{ $hero->subtitle_hero }}
-                                </div>
-                                <div class="form-find mt-60 wow animate__animated animate__fadeInUp" data-wow-delay=".2s">
-                                    <form>
-                                        <input type="text" class="form-input input-keysearch mr-10"
-                                            placeholder="Job title, Company... " />
-                                        <!-- <input type="text" class="form-input input-keysearch mr-10" placeholder="City, Postcode... " /> -->
-                                        <select class="form-input mr-10 select-active">
-                                            <option value="">Pilih Kategori</option>
-                                            <option value="IT">Design</option>
-                                            <option value="Finance">Marketing</option>
-                                            <option value="Marketing">Technology</option>
-                                            <option value="Design">Engineering</option>
-                                            <option value="Lainnya">Finance</option>
-                                        </select>
-
-                                        <button class="btn btn-default btn-find">Temukan</button>
-                                    </form>
-                                </div>
+                                </div>                                
                             </div>
                         </div>
                         <div class="col-lg-4 col-md-6">

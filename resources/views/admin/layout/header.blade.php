@@ -82,8 +82,11 @@
                             <a href="{{ route('admin.profil') }}" class="menu-link px-5 {{ request()->routeIs('profil') ? 'active' : '' }}">Profil</a>
                         </div>                        
                         <div class="menu-item px-5">
-                            <a href="{{ route('sign-in') }}" class="menu-link px-5 logout-link">Keluar</a>
-                        </div>                        
+                            <form action="{{ route('logout') }}" method="POST" class="m-0 p-0">
+                                @csrf
+                                <button type="submit" class="menu-link px-5 border-0 bg-transparent w-100 text-start">Logout</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>

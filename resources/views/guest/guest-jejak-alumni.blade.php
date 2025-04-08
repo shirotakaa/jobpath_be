@@ -43,11 +43,7 @@
                 <div class="row flex-row-reverse">
                     <div class="col-lg-9 col-md-12 col-sm-12 col-12 float-right" style="width: 100%;">
                         <div class="content-page">
-                            <div class="row job-listing-grid-2" style="padding-top: 8px;">
-                                @php
-                                    $alumni = \App\Models\JejakAlumni::where('status', 'Approved')->paginate(8);
-                                @endphp
-        
+                            <div class="row job-listing-grid-2" style="padding-top: 8px;">                               
                                 @foreach ($alumni as $item)
                                     <div class="col-lg-4 col-md-6 alumni-card">
                                         <div class="card-grid-2 hover-up">
@@ -85,22 +81,29 @@
                                 <div class="paginations text-center">
                                     <ul class="pager">
                                         <!-- Tombol Previous -->
-                                        @if ($alumni->currentPage() > 1)
-                                            <li><a href="{{ $alumni->previousPageUrl() }}" class="pager-prev"></a></li>
-                                        @endif
-        
+                                        <li>
+                                            <a href="{{ $alumni->previousPageUrl() ?? '#' }}"
+                                               class="pager-prev {{ $alumni->onFirstPage() ? 'disabled' : '' }}">                                                
+                                            </a>
+                                        </li>
+                                    
                                         <!-- Nomor Halaman -->
                                         @for ($i = 1; $i <= $alumni->lastPage(); $i++)
                                             <li>
-                                                <a href="{{ $alumni->url($i) }}" class="pager-number {{ $alumni->currentPage() == $i ? 'active' : '' }}">{{ $i }}</a>
+                                                <a href="{{ $alumni->url($i) }}"
+                                                   class="pager-number {{ $alumni->currentPage() == $i ? 'active' : '' }}">
+                                                    {{ $i }}
+                                                </a>
                                             </li>
                                         @endfor
-        
+                                    
                                         <!-- Tombol Next -->
-                                        @if ($alumni->currentPage() < $alumni->lastPage())
-                                            <li><a href="{{ $alumni->nextPageUrl() }}" class="pager-next"></a></li>
-                                        @endif
-                                    </ul>
+                                        <li>
+                                            <a href="{{ $alumni->nextPageUrl() ?? '#' }}"
+                                               class="pager-next {{ $alumni->currentPage() == $alumni->lastPage() ? 'disabled' : '' }}">                                            
+                                            </a>
+                                        </li>
+                                    </ul>    
                                 </div>
                             @endif
                         </div>
@@ -128,7 +131,7 @@
                                     Generasi Berikutnya!
                                 </p>
                                 <div class="box-button-shadow mt-30 wow animate__animated animate__fadeInUp">
-                                    <a href="jejak-alumni-form.html" class="btn btn-default" data-bs-toggle="modal"
+                                    <a href="" class="btn btn-default" data-bs-toggle="modal"
                                         data-bs-target="#loginModal">Isi Formulir</a>
                                 </div>
                             </div>
@@ -197,7 +200,7 @@
             });
         });
     </script>
-    <script>
+    {{-- <script>
         const alumniCards = document.querySelectorAll(".alumni-card");
         const pageNumbers = document.querySelectorAll(".pager-number");
         const prevButton = document.querySelector(".pager-prev");
@@ -240,5 +243,5 @@
         });
 
         showPage(currentPage);
-    </script>
+    </script> --}}
 @endsection
