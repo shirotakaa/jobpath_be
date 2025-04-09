@@ -159,6 +159,8 @@ Route::middleware(['auth:siswa'])->group(function () {
     Route::get('/daftar-pekerjaan', [UserController::class, 'daftarPekerjaan'])->name('daftar-pekerjaan');
     Route::get('/detail-pekerjaan/{judul_pekerjaan}', [UserController::class, 'detailPekerjaan'])->name('detail-pekerjaan');
 
+    Route::get('/perusahaan-page', [UserController::class, 'perusahaan'])->name('perusahaan');
+    
     Route::put('/profil/update', [UserProfileController::class, 'update'])->name('siswa.profil.update');
 
     Route::get('/jejak-alumni', [UserController::class, 'jejakAlumni'])->name('jejak-alumni');
