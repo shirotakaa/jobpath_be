@@ -62,13 +62,13 @@
                                 <a href="{{ route('guest.index') }}">Home</a>
                             </li>
                             <li class="has-children">
-                                <a href="{{ route('guest-perusahaan') }}">Perusahaan</a>
+                                <a href="{{ route('guest-list-perusahaan') }}">Perusahaan</a>
                             </li>
                             <li class="has-children">
                                 <a href="{{ route('guest-jejak-alumni') }}">Jejak Alumni</a>
                             </li>
                             <li class="has-children">
-                                <a href="faq-user.html">FAQ</a>
+                                <a href="{{ route('guest-faq') }}">FAQ</a>
                             </li>
                         </ul>
                     </nav>

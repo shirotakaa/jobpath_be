@@ -163,111 +163,112 @@
     </script>
 
 <script>
-    const companyCards = document.querySelectorAll(".alumni-card");
-    const cardsPerPage = 6;
-    const totalPages = Math.ceil(companyCards.length / cardsPerPage);
-    let currentPage = 1;
+    document.addEventListener("DOMContentLoaded", function () {
+        const searchInput = document.getElementById("searchInput");
+        const searchButton = document.getElementById("searchButton");
+        const jobListContainer = document.querySelector(".job-listing-grid-2");
+        const paginationContainer = document.getElementById("pagination-container");
 
-    const paginationContainer = document.getElementById("pagination-container");
+        const allCards = Array.from(document.querySelectorAll(".alumni-card"));
+        const cardsPerPage = 6;
+        let currentPage = 1;
+        let filteredCards = [...allCards]; // default: semua alumni
 
-    function createPagination() {
-        paginationContainer.innerHTML = "";
+        function renderCards() {
+            jobListContainer.innerHTML = "";
 
-        // Prev Button
-        const prev = document.createElement("li");
-        prev.innerHTML = `<a href="#" class="pager-prev"</a>`;
-        paginationContainer.appendChild(prev);
-        prev.addEventListener("click", (e) => {
-            e.preventDefault();
-            if (currentPage > 1) showPage(currentPage - 1);
-        });
+            const start = (currentPage - 1) * cardsPerPage;
+            const end = start + cardsPerPage;
 
-        // Page Numbers
-        for (let i = 1; i <= totalPages; i++) {
-            const li = document.createElement("li");
-            li.innerHTML = `<a href="#" class="pager-number">${i}</a>`;
-            li.querySelector("a").addEventListener("click", (e) => {
-                e.preventDefault();
-                showPage(i);
-            });
-            paginationContainer.appendChild(li);
+            const currentCards = filteredCards.slice(start, end);
+            if (currentCards.length > 0) {
+                currentCards.forEach(card => jobListContainer.appendChild(card));
+            } else {
+                jobListContainer.innerHTML =
+                    "<p class='text-center'>Tidak ada alumni yang ditemukan.</p>";
+            }
         }
 
-        // Next Button
-        const next = document.createElement("li");
-        next.innerHTML = `<a href="#" class="pager-next"</a>`;
-        paginationContainer.appendChild(next);
-        next.addEventListener("click", (e) => {
+        function createPagination() {
+            paginationContainer.innerHTML = "";
+            const totalPages = Math.ceil(filteredCards.length / cardsPerPage);
+
+
+            // Prev Button
+            const prev = document.createElement("li");
+            prev.innerHTML = `<a href="#" class="pager-prev">&laquo;</a>`;
+            prev.classList.toggle("disabled", currentPage === 1);
+            paginationContainer.appendChild(prev);
+            prev.addEventListener("click", (e) => {
+                e.preventDefault();
+                if (currentPage > 1) {
+                    currentPage--;
+                    renderCards();
+                    createPagination();
+                }
+            });
+
+            // Page Numbers
+            for (let i = 1; i <= totalPages; i++) {
+                const li = document.createElement("li");
+                li.innerHTML = `<a href="#" class="pager-number">${i}</a>`;
+                if (i === currentPage) li.querySelector("a").classList.add("active");
+
+                li.querySelector("a").addEventListener("click", (e) => {
+                    e.preventDefault();
+                    currentPage = i;
+                    renderCards();
+                    createPagination();
+                });
+
+                paginationContainer.appendChild(li);
+            }
+
+            // Next Button
+            const next = document.createElement("li");
+            next.innerHTML = `<a href="#" class="pager-next">&raquo;</a>`;
+            next.classList.toggle("disabled", currentPage === totalPages);
+            paginationContainer.appendChild(next);
+            next.addEventListener("click", (e) => {
+                e.preventDefault();
+                if (currentPage < totalPages) {
+                    currentPage++;
+                    renderCards();
+                    createPagination();
+                }
+            });
+        }
+
+        function handleSearch() {
+            const keyword = searchInput.value.trim().toLowerCase();
+            filteredCards = allCards.filter(card => {
+                const name = card.querySelector(".card-profile strong")?.textContent.toLowerCase() || "";
+                return name.includes(keyword);
+            });
+
+            currentPage = 1;
+            renderCards();
+            createPagination();
+        }
+
+        // Event listeners
+        searchButton.addEventListener("click", function (e) {
             e.preventDefault();
-            if (currentPage < totalPages) showPage(currentPage + 1);
-        });
-    }
-
-    function showPage(page) {
-        const start = (page - 1) * cardsPerPage;
-        const end = start + cardsPerPage;
-
-        companyCards.forEach((card, index) => {
-            card.style.display = (index >= start && index < end) ? "block" : "none";
+            handleSearch();
         });
 
-        // Update active class
-        const pageLinks = document.querySelectorAll(".pager-number");
-        pageLinks.forEach((link) => {
-            link.classList.toggle("active", parseInt(link.textContent) === page);
+        searchInput.addEventListener("keypress", function (e) {
+            if (e.key === "Enter") {
+                e.preventDefault();
+                handleSearch();
+            }
         });
 
-        currentPage = page;
-    }
-
-    createPagination();
-    showPage(currentPage);
+        // Inisialisasi awal
+        renderCards();
+        createPagination();
+    });
 </script>
 
-    {{-- <script>
-        const alumniCards = document.querySelectorAll(".alumni-card");
-        const pageNumbers = document.querySelectorAll(".pager-number");
-        const prevButton = document.querySelector(".pager-prev");
-        const nextButton = document.querySelector(".pager-next");
-      
-        const cardsPerPage = 8;
-        const totalPages = Math.ceil(alumniCards.length / cardsPerPage);
-        let currentPage = 1;
-      
-        function showPage(page) {
-          const start = (page - 1) * cardsPerPage;
-          const end = start + cardsPerPage;
-      
-          alumniCards.forEach((card, index) => {
-            card.style.display = (index >= start && index < end) ? "block" : "none";
-          });
-      
-          pageNumbers.forEach((number) => {
-            number.classList.toggle("active", parseInt(number.textContent) === page);
-          });
-      
-          currentPage = page;
-        }
-      
-        pageNumbers.forEach((number) => {
-          number.addEventListener("click", (e) => {
-            e.preventDefault();
-            showPage(parseInt(number.textContent));
-          });
-        });
-      
-        prevButton.addEventListener("click", (e) => {
-          e.preventDefault();
-          if (currentPage > 1) showPage(currentPage - 1);
-        });
-      
-        nextButton.addEventListener("click", (e) => {
-          e.preventDefault();
-          if (currentPage < totalPages) showPage(currentPage + 1);
-        });
-      
-        showPage(currentPage);
-        
-    </script> --}}
       
 @endsection

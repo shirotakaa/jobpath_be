@@ -52,11 +52,11 @@
                         <p class="text-md-lh28 color-black-5 wow animate__animated animate__fadeInUp">Daftar perusahaan
                             yang telah bekerja sama dan membuka peluang bagi para alumni.</p>
                     </div>
-                    {{-- <div class="col-lg-5 text-lg-end text-start wow animate__animated animate__fadeInUp"
+                    <div class="col-lg-5 text-lg-end text-start wow animate__animated animate__fadeInUp"
                     data-wow-delay=".2s">
-                    <a href="company-list.html" class="mt-sm-15 mt-lg-30 btn btn-border icon-chevron-right">Lihat
-                        Semua</a>
-                </div> --}}
+                    <a href="{{ route('guest-list-perusahaan') }}"
+                            class="mt-sm-15 mt-lg-30 btn btn-border icon-chevron-right">Lihat
+                            Semua</a>
                 </div>
                 <div class="row mt-70">
                     @foreach ($perusahaan as $item)

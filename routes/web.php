@@ -87,7 +87,7 @@ Route::middleware(['auth:admin'])->group(function () {
     Route::get('/tambah-pekerjaan', [AdminController::class, 'kelolaPekerjaan'])->name('tambah-pekerjaan');
     Route::resource('siswa', SiswaController::class);
     Route::resource('faq', FaqController::class);
-    Route::resource('perusahaan', PerusahaanController::class);
+    // Route::resource('perusahaan', PerusahaanController::class);
     Route::resource('faq-content', FaqContentController::class)->only(['update']);
 
     // CRUD Pekerjaan
@@ -184,6 +184,7 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/register-perusahaan', function () {
     return view('perusahaan.auth.register-perusahaan');
 })->name('register-perusahaan');
+Route::resource('perusahaan', PerusahaanController::class);
 Route::get('/login-perusahaan', function () {
     return view('perusahaan.auth.login-perusahaan');
 })->name('login-perusahaan');

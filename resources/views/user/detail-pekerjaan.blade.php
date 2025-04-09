@@ -108,12 +108,7 @@
                                         <span class="sidebar-website-text">{{ $pekerjaan->lokasi }}</span>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="text-start mt-20">
-                                <a href="#" class="btn btn-default mr-15" data-bs-toggle="modal"
-                                    data-bs-target="#applyJobModal">Daftar</a>
-                                <a href="#" class="btn btn-border" id="btn-lihat-simpan">Simpan</a>
-                            </div>
+                            </div>                            
                             <div class="sidebar-list-job">
                                 <ul>
                                     <li>

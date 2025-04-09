@@ -37,10 +37,24 @@
                                                 <i class="fi-rr-angle-small-down"></i>
                                             </button>
                                             <ul class="dropdown-menu">
+                                                {{-- Tampilkan kategori selain "Lainnya" --}}
                                                 @foreach ($categories as $category)
-                                                    <li><a class="dropdown-item" href="#"
-                                                            onclick="selectCategory('{{ $category }}')">{{ $category }}</a>
-                                                    </li>
+                                                    @if (strtolower($category) !== 'lainnya')
+                                                        <li>
+                                                            <a class="dropdown-item" href="#"
+                                                                onclick="selectCategory('{{ $category }}')">{{ $category }}</a>
+                                                        </li>
+                                                    @endif
+                                                @endforeach
+
+                                                {{-- Tampilkan "Lainnya" di akhir jika ada --}}
+                                                @foreach ($categories as $category)
+                                                    @if (strtolower($category) === 'lainnya')
+                                                        <li>
+                                                            <a class="dropdown-item" href="#"
+                                                                onclick="selectCategory('{{ $category }}')">{{ $category }}</a>
+                                                        </li>
+                                                    @endif
                                                 @endforeach
                                             </ul>
                                         </div>
@@ -142,108 +156,114 @@
         let selectedCategory = '';
 
         function selectCategory(category) {
-            document.getElementById("selectedCategory").innerText = category;
-            selectedCategory = category.toLowerCase();
-        }
+    document.getElementById("selectedCategory").innerText = category;
+    selectedCategory = category.toLowerCase();
+
+    // Simpan kategori ke query URL (tanpa reload)
+    const params = new URLSearchParams(window.location.search);
+    params.set('kategori', category);
+    const newUrl = `${window.location.pathname}?${params.toString()}`;
+    window.history.replaceState({}, '', newUrl);
+}
+
+
+        // Auto-set selected category from URL
+        window.addEventListener('DOMContentLoaded', () => {
+            const params = new URLSearchParams(window.location.search);
+            const kategori = params.get('kategori');
+            if (kategori) {
+                document.getElementById("selectedCategory").innerText = kategori;
+                selectedCategory = kategori.toLowerCase();
+            }
+        });
 
         document.getElementById('jobSearchButton').addEventListener('click', function (e) {
-            e.preventDefault();
+    e.preventDefault();
 
-            let searchValue = document.getElementById('jobSearchInput').value.trim().toLowerCase();
-            let jobCards = document.querySelectorAll('.job-listing-grid-2 .card-grid-2');
-            let resultFound = false;
+    let searchValue = document.getElementById('jobSearchInput')?.value.trim();
+    const params = new URLSearchParams(window.location.search);
 
-            jobCards.forEach(function (card) {
-                let jobTitle = card.querySelector('.card-2-img-text span:last-child').innerText.toLowerCase();
-                let jobCategory = card.dataset.category ? card.dataset.category.toLowerCase() : "";
+    if (searchValue) {
+        params.set('query', searchValue);
+    } else {
+        params.delete('query');
+    }
 
-                let matchesSearch = searchValue === "" || jobTitle.includes(searchValue);
-                let matchesCategory = selectedCategory === "" || jobCategory === selectedCategory;
+    if (selectedCategory) {
+        params.set('kategori', selectedCategory);
+    } else {
+        params.delete('kategori');
+    }
 
-                if (matchesSearch && matchesCategory) {
-                    card.closest('.col-lg-3').style.display = "block"; // Pastikan elemen wrapper ditampilkan
-                    resultFound = true;
-                } else {
-                    card.closest('.col-lg-3').style.display = "none";
-                }
-            });
+    window.location.href = `${window.location.pathname}?${params.toString()}`;
+});
 
-            if (!resultFound) {
-                setTimeout(() => {
-                    Swal.fire({
-                        icon: "warning",
-                        title: "Hasil Tidak Ditemukan",
-                        text: "Tidak ada pekerjaan yang cocok dengan pencarian Anda.",
-                        confirmButtonColor: "#3085d6",
-                        confirmButtonText: "OK"
+    </script>
+
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const companyCards = document.querySelectorAll(".job-card");
+            const cardsPerPage = 8;
+            const totalPages = Math.ceil(companyCards.length / cardsPerPage);
+            let currentPage = 1;
+
+            const paginationContainer = document.getElementById("pagination-container");
+
+            function createPagination() {
+                paginationContainer.innerHTML = "";
+
+                const prev = document.createElement("li");
+                prev.innerHTML = `<a href="#" class="pager-prev"></a>`;
+                paginationContainer.appendChild(prev);
+                prev.addEventListener("click", (e) => {
+                    e.preventDefault();
+                    if (currentPage > 1) showPage(currentPage - 1);
+                });
+
+                for (let i = 1; i <= totalPages; i++) {
+                    const li = document.createElement("li");
+                    li.innerHTML = `<a href="#" class="pager-number">${i}</a>`;
+                    li.querySelector("a").addEventListener("click", (e) => {
+                        e.preventDefault();
+                        showPage(i);
                     });
-                }, 100); // Tambahkan delay kecil agar lebih smooth
+                    paginationContainer.appendChild(li);
+                }
+
+                const next = document.createElement("li");
+                next.innerHTML = `<a href="#" class="pager-next"></a>`;
+                paginationContainer.appendChild(next);
+                next.addEventListener("click", (e) => {
+                    e.preventDefault();
+                    if (currentPage < totalPages) showPage(currentPage + 1);
+                });
             }
+
+            function showPage(page) {
+                const start = (page - 1) * cardsPerPage;
+                const end = start + cardsPerPage;
+
+                companyCards.forEach((card, index) => {
+                    card.style.display = (index >= start && index < end) ? "block" : "none";
+                });
+
+                const pageLinks = document.querySelectorAll(".pager-number");
+                pageLinks.forEach((link) => {
+                    link.classList.toggle("active", parseInt(link.textContent) === page);
+                });
+
+                currentPage = page;
+            }
+
+            createPagination();
+            showPage(currentPage);
         });
     </script>
 
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const companyCards = document.querySelectorAll(".job-card");
-        const cardsPerPage = 8;
-        const totalPages = Math.ceil(companyCards.length / cardsPerPage);
-        let currentPage = 1;
 
-        const paginationContainer = document.getElementById("pagination-container");
-
-        function createPagination() {
-            paginationContainer.innerHTML = "";
-
-            const prev = document.createElement("li");
-            prev.innerHTML = `<a href="#" class="pager-prev"></a>`;
-            paginationContainer.appendChild(prev);
-            prev.addEventListener("click", (e) => {
-                e.preventDefault();
-                if (currentPage > 1) showPage(currentPage - 1);
-            });
-
-            for (let i = 1; i <= totalPages; i++) {
-                const li = document.createElement("li");
-                li.innerHTML = `<a href="#" class="pager-number">${i}</a>`;
-                li.querySelector("a").addEventListener("click", (e) => {
-                    e.preventDefault();
-                    showPage(i);
-                });
-                paginationContainer.appendChild(li);
-            }
-
-            const next = document.createElement("li");
-            next.innerHTML = `<a href="#" class="pager-next"></a>`;
-            paginationContainer.appendChild(next);
-            next.addEventListener("click", (e) => {
-                e.preventDefault();
-                if (currentPage < totalPages) showPage(currentPage + 1);
-            });
-        }
-
-        function showPage(page) {
-            const start = (page - 1) * cardsPerPage;
-            const end = start + cardsPerPage;
-
-            companyCards.forEach((card, index) => {
-                card.style.display = (index >= start && index < end) ? "block" : "none";
-            });
-
-            const pageLinks = document.querySelectorAll(".pager-number");
-            pageLinks.forEach((link) => {
-                link.classList.toggle("active", parseInt(link.textContent) === page);
-            });
-
-            currentPage = page;
-        }
-
-        createPagination();
-        showPage(currentPage);
-    });
-</script>
-
-
-    {{-- <script>
+    {{--
+    <script>
         const jobCards = document.querySelectorAll(".job-card");
         const pageNumbers = document.querySelectorAll(".pager-number");
         const prevButton = document.querySelector(".pager-prev");
