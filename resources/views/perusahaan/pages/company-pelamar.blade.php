@@ -49,7 +49,7 @@
                         </div>
                         <div class="col-lg-5 col-md-3 text-lg-end text-start">
                             <ul class="breadcrumbs mt-sm-15">
-                                <li><a href="#">Home</a></li>
+                                <li><a href="{{ route('company.landing') }}">Home</a></li>
                                 <li>Daftar Pelamar</li>
                             </ul>
                         </div>

@@ -133,6 +133,6 @@ class AuthController extends Controller
         Auth::guard('admin')->logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect()->route('sign-in')->with('success', 'Logout berhasil.');
+        return redirect()->route('guest.index')->with('success', 'Logout berhasil.');
     }
 }

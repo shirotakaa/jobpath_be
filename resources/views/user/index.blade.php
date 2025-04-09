@@ -134,8 +134,8 @@
                                         <a class="d-inline-block">
                                             <figure class="rounded-circle overflow-hidden d-flex align-items-center justify-content-center m-0" style="width: 85px; height: 85px;">
                                                 @php
-                                                    $iconName = strtolower(str_replace(' ', '-', $kategori['nama']));
-                                                @endphp
+                                                    $iconName = str_replace(' ', '', ucwords(strtolower($kategori['nama'])));
+                                                @endphp                                            
                                                 <img src="assets/user/imgs/icons/{{ $iconName }}.svg" alt="{{ $kategori['nama'] }}" class="w-100 h-100 object-fit-cover"/>
                                             </figure>
                                         </a>

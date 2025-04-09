@@ -119,6 +119,7 @@ Route::middleware(['auth:perusahaan'])->group(function () {
     Route::get('/company-add-job', [UserController::class, 'addjob'])->name('company.addjob');
     Route::get('/company-landing', [UserController::class, 'landing'])->name('company.landing');
     Route::get('/company-job', [UserController::class, 'job'])->name('company.job');
+    Route::post('/pekerjaan/store-user', [PekerjaanController::class, 'storeUser'])->name('pekerjaan.storeUser');
     Route::delete('/company-job/{id}', [PekerjaanController::class, 'destroy'])->name('pekerjaan.deletejob');
 
     Route::get('/company-change-pw', [UserController::class, 'PwChange'])->name('company-change-pw');
@@ -153,7 +154,6 @@ Route::middleware(['auth:siswa'])->group(function () {
     Route::get('/lamaran', [UserController::class, 'lamaran'])->name('user.lamaran');
 
     // Store pekerjaan oleh siswa (jika memang diizinkan)
-    Route::post('/pekerjaan/store-user', [PekerjaanController::class, 'storeUser'])->name('pekerjaan.storeUser');
     Route::get('/daftar-pekerjaan', [UserController::class, 'daftarPekerjaan'])->name('daftar-pekerjaan');
     Route::get('/detail-pekerjaan/{judul_pekerjaan}', [UserController::class, 'detailPekerjaan'])->name('detail-pekerjaan');
 

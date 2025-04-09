@@ -21,15 +21,15 @@ class Authenticate extends Middleware
             }
 
             if ($request->is('company*') || $request->is('perusahaan*')) {
-                return route('login-perusahaan'); // login perusahaan
+                return route('guest.index'); // login perusahaan
             }
 
             if ($request->is('index') || $request->is('lamaran') || $request->is('siswa/*') || $request->is('detail-pekerjaan*')) {
-                return route('login'); // login siswa
+                return route('guest.index'); // login siswa
             }
 
             // Default fallback
-            return route('login');
+            return route('guest.index');
         }
     }
 }
