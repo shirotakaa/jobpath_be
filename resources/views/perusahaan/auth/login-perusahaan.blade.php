@@ -41,7 +41,8 @@
                     <div class="modal-title w-100 fw-bold mb-4 fs-2">
                         Login
                     </div>
-                    <form method="POST" action="{{ route('login-perusahaan') }}">
+                    <form method="POST" action="{{ route('login-perusahaan.submit') }}">
+
                         @csrf
                         <div class="mb-3">
                             <input name="email" type="email" class="form-control input-custom"

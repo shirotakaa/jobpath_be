@@ -122,6 +122,8 @@ Route::middleware(['auth:perusahaan'])->group(function () {
     Route::post('/pekerjaan/store-user', [PekerjaanController::class, 'storeUser'])->name('pekerjaan.storeUser');
     Route::delete('/company-job/{id}', [PekerjaanController::class, 'destroy'])->name('pekerjaan.deletejob');
 
+    Route::get('/perusahaan-page', [UserController::class, 'perusahaan'])->name('perusahaan');
+
     Route::get('/company-change-pw', [UserController::class, 'PwChange'])->name('company-change-pw');
     Route::get('/company-faq', [UserController::class, 'faqCompany'])->name('company-faq');
 
