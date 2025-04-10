@@ -44,42 +44,66 @@
                         <div class="content-page">
                             <div class="row job-listing-grid-2" style="padding-top: 8px;">
                                 @foreach ($perusahaan as $item)
-                                    <div class="col-lg-3 col-md-6 company-card">
-                                        <div class="card-grid-2 card-employers hover-up wow animate__animated animate__fadeIn">
-                                            <div class="text-center card-grid-2-image-rd">
-                                                <a href="#" class="d-inline-block">
-                                                    <figure class="rounded-circle overflow-hidden d-flex align-items-center justify-content-center m-0"
-                                                        style="width: 85px; height: 85px;">
-                                                        <img alt="JobPath"
-                                                            src="{{ $item->logo ? asset($item->logo) : asset('assets/user/imgs/employers/employer-default.png') }}"
-                                                            class="w-100 h-100 object-fit-cover" />
-                                                    </figure>
-                                                </a>
+                                <div class="col-lg-3 col-md-6 company-card">
+                                    <div class="card-grid-2 card-employers hover-up wow animate__animated animate__fadeIn">
+                                        <div class="text-center card-grid-2-image-rd">
+                                            <a href="#" class="d-inline-block">
+                                                <figure class="rounded-circle overflow-hidden d-flex align-items-center justify-content-center m-0"
+                                                    style="width: 85px; height: 85px;">
+                                                    <img alt="JobPath"
+                                                        src="{{ $item->logo ? asset($item->logo) : asset('assets/user/imgs/employers/employer-default.png') }}"
+                                                        class="w-100 h-100 object-fit-cover" />
+                                                </figure>
+                                            </a>
+                                        </div>
+                                        <div class="card-block-info">
+                                            <div class="card-profile">
+                                                <h5><a href="#"><strong>{{ $item->nama_perusahaan }}</strong></a></h5>
+                                                <span class="text-sm">{{ $item->lokasi }}</span>
                                             </div>
-                                            <div class="card-block-info">
-                                                <div class="card-profile">
-                                                    <h5><a href="#"><strong>{{ $item->nama_perusahaan }}</strong></a></h5>
-                                                    <span class="text-sm">{{ $item->lokasi }}</span>
-                                                </div>
-                                                <div class="mt-15 d-flex flex-column align-items-center text-center"></div>
-                                                <div class="card-2-bottom card-2-bottom-candidate">
-                                                    <div class="text-center mb-5">
-                                                        <a href="#" class="btn btn-border btn-brand-hover"
-                                                            data-bs-toggle="modal" data-bs-target="#loginModal">
-                                                            {{ $item->jumlah_lowongan }} Open Jobs
-                                                        </a>
-                                                    </div>
+                                            <div class="mt-15 d-flex flex-column align-items-center text-center"></div>
+                                            <div class="card-2-bottom card-2-bottom-candidate">
+                                                <div class="text-center mb-5">
+                                                    <a href="#" class="btn btn-border btn-brand-hover"
+                                                        data-bs-toggle="modal" data-bs-target="#loginModal">
+                                                        {{ $item->jumlah_lowongan }} Open Jobs
+                                                    </a>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                @endforeach
-                            </div>
-        
-                            <!-- Pagination -->
-                            @if ($perusahaan->total() > 8)
+                                </div>
+                            @endforeach
+                        </div>
+    
+                        <!-- Pagination -->
+                        @if ($perusahaan->lastPage() > 1)
                                 <div class="paginations text-center">
-                                    {{ $perusahaan->links('vendor.pagination.bootstrap-4') }}
+                                    <ul class="pager">
+                                        <!-- Tombol Previous -->
+                                        <li>
+                                            <a href="{{ $perusahaan->previousPageUrl() ?? '#' }}"
+                                               class="pager-prev {{ $perusahaan->onFirstPage() ? 'disabled' : '' }}">                                                
+                                            </a>
+                                        </li>
+                                    
+                                        <!-- Nomor Halaman -->
+                                        @for ($i = 1; $i <= $perusahaan->lastPage(); $i++)
+                                            <li>
+                                                <a href="{{ $perusahaan->url($i) }}"
+                                                   class="pager-number {{ $perusahaan->currentPage() == $i ? 'active' : '' }}">
+                                                    {{ $i }}
+                                                </a>
+                                            </li>
+                                        @endfor
+                                    
+                                        <!-- Tombol Next -->
+                                        <li>
+                                            <a href="{{ $perusahaan->nextPageUrl() ?? '#' }}"
+                                               class="pager-next {{ $perusahaan->currentPage() == $perusahaan->lastPage() ? 'disabled' : '' }}">                                            
+                                            </a>
+                                        </li>
+                                    </ul>    
                                 </div>
                             @endif
                         </div>
@@ -170,7 +194,7 @@
         });
     </script>
 
-    <script>
+    {{-- <script>
         const companyCards = document.querySelectorAll(".company-card");
         const pageNumbers = document.querySelectorAll(".pager-number");
         const prevButton = document.querySelector(".pager-prev");
@@ -213,5 +237,5 @@
         });
 
         showPage(currentPage);
-    </script>
+    </script> --}}
 @endsection

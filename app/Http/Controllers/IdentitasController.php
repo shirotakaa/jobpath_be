@@ -56,8 +56,8 @@ class IdentitasController extends Controller
     public function guestJejakAlumni()
     {
         $identitas = Identitas::first();
-        $alumni = JejakAlumni::where('status', true)->get();
-        return view('guest.guest-jejak-alumni', compact('identitas'));
+        $alumni = JejakAlumni::where('status', 'Approved')->paginate(6);
+        return view('guest.guest-jejak-alumni', compact('identitas','alumni'));
     }
 
     public function guestFaq()
@@ -78,7 +78,9 @@ class IdentitasController extends Controller
     public function PerusahaanFaq()
     {
         $identitas = Identitas::first();
-        return view('guest.faq-perusahaan', compact('identitas'));
+        $faqs = Faq::all();
+        $faqContent = \App\Models\FaqContent::latest()->first(); // Mengambil data terbaru dari tabel
+        return view('guest.faq-perusahaan', compact('identitas','faqContent', 'faqs'));
     }
 
     // public function guest()

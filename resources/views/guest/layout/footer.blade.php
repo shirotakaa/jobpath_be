@@ -57,18 +57,8 @@
                                 <a href="{{ $identitas->instagram }}" class="icon-socials icon-instagram"
                                     target="_blank"></a>
                             @endif
-                            @if (!empty($identitas->youtube))
-                                <a href="{{ $identitas->youtube }}" target="_blank" class="me-2">
-                                    <i class="bi bi-youtube"></i>
-                                </a>
-                            @endif
-                            @if (!empty($identitas->tiktok))
-                                <a href="{{ $identitas->tiktok }}" class="icon-socials icon-tiktok" target="_blank"></a>
-                            @endif
-                            @if (!empty($identitas->whatsapp))
-                                <a href="https://wa.me/{{ $identitas->whatsapp }}" class="icon-socials icon-whatsapp"
-                                    target="_blank"></a>
-                            @endif
+                            <a href="#" class="icon-socials icon-instagram"></a>
+                            <a href="#" class="icon-socials icon-linkedin"></a>
                         </div>
                     </div>
                 </div>

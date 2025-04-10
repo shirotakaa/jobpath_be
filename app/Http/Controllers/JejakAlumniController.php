@@ -110,8 +110,8 @@ class JejakAlumniController extends Controller
             'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'pekerjaan' => 'nullable|string|max:255',
             'perusahaan' => 'nullable|string|max:255',
-            'instagram' => 'nullable|url|max:255',
-            'linkedin' => 'nullable|url|max:255',
+            'instagram' => 'nullable|max:255',
+            'linkedin' => 'nullable|max:255',
         ]);
 
         // Cari data alumni berdasarkan ID

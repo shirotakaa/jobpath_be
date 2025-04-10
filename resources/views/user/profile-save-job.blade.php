@@ -29,151 +29,104 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="row job-listing-grid-2" style="padding-top: 8px;">
-                            <div class="col-lg-4 col-md-6">
-                                <div class="card-grid-2 hover-up wow animate__animated animate__fadeIn"
-                                    data-wow-delay=".s">
-                                    <div class="card-block-info">
-                                        <div class="row">
-                                            <div class="col-lg-12 col-12"
-                                                style="display: flex; justify-content: space-between; gap: 16px;">
-                                                <a href="job-detail.html"
-                                                    class="card-2-img-text card-grid-2-img-medium">
-                                                    <span class="card-grid-2-img-small"><img alt="JobPath"
-                                                            src="assets/user/imgs/job/ui-ux.svg" /></span>
-                                                    <span>Supervisor, Strategy Partime</span>
-                                                </a>
-                                                <div class="text-end pt-5">
-                                                    <span class="text-gray-100 text-md"><i
-                                                            class="fi-rr-bookmark"></i></span>
-                                                </div>
-                                            </div>
-                                        </div>
+                        <div class="row job-listing-grid-2" id="saved-jobs-container" style="padding-top: 8px;">
+                            
+                        </div>                        
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
 
-                                        <div class="mt-15" style="display: flex; gap: 24px;">
-                                            <a href="company-detail.html"><span
-                                                    class="text-brand-10 text-icon-first">Amanda</span></a>
-                                            <span class="text-mutted-2" style="font-size: 12px;"><i
-                                                    class="fi-rr-marker" style="font-size: 12px;"></i>
-                                                Wisconsin</span>
-                                        </div>
-
-                                        <div class="text-small mt-15">
-                                            Bertanggung jawab dalam merancang dan mengelola strategi bisnis perusahaan. Memastikan implementasi strategi berjalan efektif untuk mencapai target yang ditetapkan.
-                                        </div>
-
-                                        <div class="card-2-bottom mt-30">
-                                            <div class="row">
-                                                <div class="col-lg-6 col-4">
-                                                    <span class="card-text-price"> $500<span>/Hour</span> </span>
-                                                </div>
-                                                <div class="col-lg-6 col-8 text-end">
-                                                    <a href="job-detail.html"><span class="text-brand-10">Lamar
-                                                            Sekarang</span></a>
-                                                </div>
-                                            </div>
-                                        </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const container = document.querySelector(".job-listing-grid-2");
+            const savedJobs = JSON.parse(localStorage.getItem("saved_jobs")) || [];
+    
+            if (savedJobs.length === 0) {
+                container.innerHTML = `<p>Belum ada pekerjaan yang disimpan.</p>`;
+                return;
+            }
+    
+            container.innerHTML = ""; // Kosongkan kontainer
+    
+            savedJobs.forEach((job, index) => {
+                const jobCard = document.createElement("div");
+                jobCard.className = "col-lg-4 col-md-6";
+                jobCard.innerHTML = `
+                    <div class="card-grid-2 hover-up wow animate__animated animate__fadeIn">
+                        <div class="card-block-info">
+                            <div class="row">
+                                <div class="col-lg-12 col-12" style="display: flex; justify-content: space-between; gap: 16px;">
+                                    <a href="/detail-pekerjaan/${job.slug}" class="card-2-img-text card-grid-2-img-medium">
+                                        <span class="card-grid-2-img-small">
+                                            <img src="${job.logo}" alt="${job.judul}" class="w-100 h-100 object-fit-cover">
+                                        </span>
+                                        <span>${job.judul}</span>
+                                    </a>
+                                    <div class="text-end pt-5">
+                                        <button class="btn-hapus text-md text-danger border-0 bg-transparent" data-index="${index}">
+                                            <i class="fi-rr-trash"></i>
+                                        </button>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-4 col-md-6">
-                                <div class="card-grid-2 hover-up wow animate__animated animate__fadeIn"
-                                    data-wow-delay=".s">
-                                    <div class="card-block-info">
-                                        <div class="row">
-                                            <div class="col-lg-12 col-12"
-                                                style="display: flex; justify-content: space-between; gap: 16px;">
-                                                <a href="job-detail.html"
-                                                    class="card-2-img-text card-grid-2-img-medium">
-                                                    <span class="card-grid-2-img-small"><img alt="JobPath"
-                                                            src="assets/user/imgs/job/ui-ux2.svg" /></span>
-                                                    <span>Copywriter - Fallon MN</span>
-                                                </a>
-                                                <div class="text-end pt-5">
-                                                    <span class="text-gray-100 text-md"><i
-                                                            class="fi-rr-bookmark"></i></span>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="mt-15" style="display: flex; gap: 24px;">
-                                            <a href="company-detail.html"><span
-                                                    class="text-brand-10 text-icon-first">Amanda</span></a>
-                                            <span class="text-mutted-2" style="font-size: 12px;"><i
-                                                    class="fi-rr-marker" style="font-size: 12px;"></i>
-                                                Wisconsin</span>
-                                        </div>
-
-                                        <div class="text-small mt-15">
-                                            Menulis dan mengembangkan konten kreatif untuk mendukung strategi pemasaran. Memastikan setiap tulisan menarik, persuasif, dan sesuai dengan identitas brand.
-                                        </div>
-
-                                        <div class="card-2-bottom mt-30">
-                                            <div class="row">
-                                                <div class="col-lg-6 col-4">
-                                                    <span class="card-text-price"> $500<span>/Hour</span> </span>
-                                                </div>
-                                                <div class="col-lg-6 col-8 text-end">
-                                                    <a href="job-detail.html"><span class="text-brand-10">Lamar
-                                                            Sekarang</span></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+    
+                            <div class="mt-15" style="display: flex; gap: 24px;">
+                                <span class="text-brand-10">${job.perusahaan}</span>
+                                <span class="text-mutted-2" style="font-size: 12px;"><i class="fi-rr-marker"></i> ${job.lokasi}</span>
                             </div>
-                            <div class="col-lg-4 col-md-6">
-                                <div class="card-grid-2 hover-up wow animate__animated animate__fadeIn"
-                                    data-wow-delay=".s">
-                                    <div class="card-block-info">
-                                        <div class="row">
-                                            <div class="col-lg-12 col-12"
-                                                style="display: flex; justify-content: space-between; gap: 16px;">
-                                                <a href="job-detail.html"
-                                                    class="card-2-img-text card-grid-2-img-medium">
-                                                    <span class="card-grid-2-img-small"><img alt="JobPath"
-                                                            src="assets/user/imgs/job/ui-ux3.svg" /></span> <span>UI
-                                                        / UX Designerfulltime</span>
-                                                </a>
-                                                <div class="text-end pt-5">
-                                                    <span class="text-gray-100 text-md"><i
-                                                            class="fi-rr-bookmark"></i></span>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="mt-15" style="display: flex; gap: 24px;">
-                                            <a href="company-detail.html"><span
-                                                    class="text-brand-10 text-icon-first">Amanda</span></a>
-                                            <span class="text-mutted-2" style="font-size: 12px;"><i
-                                                    class="fi-rr-marker" style="font-size: 12px;"></i>
-                                                Wisconsin</span>
-                                        </div>
-
-                                        <div class="text-small mt-15">
-                                            Merancang pengalaman pengguna yang intuitif dan efisien. Memastikan desain antarmuka nyaman dan mudah digunakan.
-                                        </div>
-
-                                        <div class="card-2-bottom mt-30">
-                                            <div class="row">
-                                                <div class="col-lg-6 col-4">
-                                                    <span class="card-text-price"> $500<span>/Hour</span> </span>
-                                                </div>
-                                                <div class="col-lg-6 col-8 text-end">
-                                                    <a href="job-detail.html"><span class="text-brand-10">Lamar
-                                                            Sekarang</span></a>
-                                                </div>
-                                            </div>
-                                        </div>
+    
+                            <div class="text-small mt-15">${job.deskripsi}</div>
+    
+                            <div class="card-2-bottom mt-30">
+                                <div class="row">
+                                    <div class="col-lg-6 col-4">
+                                        <span class="card-text-price">${job.gaji}<span>/Juta</span></span>
+                                    </div>
+                                    <div class="col-lg-6 col-8 text-end">
+                                        <a href="/detail-pekerjaan/${job.slug}">
+                                            <span class="text-brand-10">Lamar Sekarang</span>
+                                        </a>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-
-            </div>
-        </section>
-    </main>
+                `;
+                container.appendChild(jobCard);
+            });
+    
+            // Tombol hapus
+            container.addEventListener("click", function (e) {
+                if (e.target.closest(".btn-hapus")) {
+                    const btn = e.target.closest(".btn-hapus");
+                    const index = btn.getAttribute("data-index");
+    
+                    Swal.fire({
+                        title: "Yakin ingin menghapus?",
+                        text: "Pekerjaan ini akan dihapus dari daftar tersimpan.",
+                        icon: "warning",
+                        showCancelButton: true,
+                        confirmButtonText: "Ya, hapus",
+                        cancelButtonText: "Batal",
+                        customClass: {
+                            confirmButton: "btn swal-verif-btn",
+                            cancelButton: "btn btn-secondary",
+                            popup: "rounded-3xl"
+                        }
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            savedJobs.splice(index, 1);
+                            localStorage.setItem("saved_jobs", JSON.stringify(savedJobs));
+                            location.reload();
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+    
+    
 
 @endsection

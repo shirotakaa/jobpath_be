@@ -76,13 +76,42 @@
                                     </div>
                                 @endforeach
                             </div>
+
+                            <div class="paginations text-center">
+                                <ul class="pager" id="pagination-container"></ul>
+                            </div>
+                             
         
                             <!-- Pagination -->
-                            @if ($perusahaan->total() > 8)
+                            {{-- @if ($perusahaan->lastPage() > 1)
                                 <div class="paginations text-center">
-                                    {{ $perusahaan->links('vendor.pagination.bootstrap-4') }}
+                                    <ul class="pager">
+                                        <!-- Tombol Previous -->
+                                        <li>
+                                            <a href="{{ $perusahaan->previousPageUrl() ?? '#' }}"
+                                               class="pager-prev {{ $perusahaan->onFirstPage() ? 'disabled' : '' }}">                                                
+                                            </a>
+                                        </li>
+                                    
+                                        <!-- Nomor Halaman -->
+                                        @for ($i = 1; $i <= $perusahaan->lastPage(); $i++)
+                                            <li>
+                                                <a href="{{ $perusahaan->url($i) }}"
+                                                   class="pager-number {{ $perusahaan->currentPage() == $i ? 'active' : '' }}">
+                                                    {{ $i }}
+                                                </a>
+                                            </li>
+                                        @endfor
+                                    
+                                        <!-- Tombol Next -->
+                                        <li>
+                                            <a href="{{ $perusahaan->nextPageUrl() ?? '#' }}"
+                                               class="pager-next {{ $perusahaan->currentPage() == $perusahaan->lastPage() ? 'disabled' : '' }}">                                            
+                                            </a>
+                                        </li>
+                                    </ul>    
                                 </div>
-                            @endif
+                            @endif --}}
                         </div>
                     </div>
                 </div>
@@ -91,89 +120,111 @@
     </main>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
+        document.addEventListener("DOMContentLoaded", function () {
             const searchInput = document.querySelector(".input-search-job");
             const searchButton = document.querySelector(".box-button-find button");
-            const jobCards = document.querySelectorAll(".job-listing-grid-2 .col-lg-3");
             const jobListContainer = document.querySelector(".job-listing-grid-2");
-
-            searchButton.addEventListener("click", function() {
-                const searchValue = searchInput.value.toLowerCase();
-                let filteredJobs = [];
-
-                jobCards.forEach(card => {
-                    const jobTitleElement = card.querySelector(".card-profile h5 strong");
-                    if (jobTitleElement) {
-                        const jobTitle = jobTitleElement.textContent.toLowerCase();
-                        if (jobTitle.includes(searchValue)) {
-                            filteredJobs.push(card);
-                        }
-                    }
-                });
-
+            const paginationContainer = document.getElementById("pagination-container");
+    
+            const allCards = Array.from(document.querySelectorAll(".company-card"));
+            const cardsPerPage = 8;
+            let currentPage = 1;
+            let filteredCards = [...allCards]; // default: semua
+    
+            function renderCards() {
                 jobListContainer.innerHTML = "";
-
-                if (filteredJobs.length > 0) {
-                    filteredJobs.forEach(job => {
-                        jobListContainer.appendChild(job);
-                    });
+    
+                const start = (currentPage - 1) * cardsPerPage;
+                const end = start + cardsPerPage;
+    
+                const currentCards = filteredCards.slice(start, end);
+                if (currentCards.length > 0) {
+                    currentCards.forEach(card => jobListContainer.appendChild(card));
                 } else {
                     jobListContainer.innerHTML =
-                        "<p class='text-center'>Tidak ada pekerjaan yang ditemukan.</p>";
+                        "<p class='text-center'>Tidak ada perusahaan yang ditemukan.</p>";
                 }
-            });
-
-            searchInput.addEventListener("keypress", function(event) {
-                if (event.key === "Enter") {
-                    searchButton.click();
+            }
+    
+            function createPagination() {
+                paginationContainer.innerHTML = "";
+                const totalPages = Math.ceil(filteredCards.length / cardsPerPage);
+    
+                // Prev Button
+                const prev = document.createElement("li");
+                prev.innerHTML = `<a href="#" class="pager-prev">&laquo;</a>`;
+                prev.classList.toggle("disabled", currentPage === 1);
+                paginationContainer.appendChild(prev);
+                prev.addEventListener("click", (e) => {
+                    e.preventDefault();
+                    if (currentPage > 1) {
+                        currentPage--;
+                        renderCards();
+                        createPagination();
+                    }
+                });
+    
+                // Page Numbers
+                for (let i = 1; i <= totalPages; i++) {
+                    const li = document.createElement("li");
+                    li.innerHTML = `<a href="#" class="pager-number">${i}</a>`;
+                    if (i === currentPage) li.querySelector("a").classList.add("active");
+    
+                    li.querySelector("a").addEventListener("click", (e) => {
+                        e.preventDefault();
+                        currentPage = i;
+                        renderCards();
+                        createPagination();
+                    });
+    
+                    paginationContainer.appendChild(li);
                 }
-            });
-        });
-    </script>
-
-    <script>
-        const companyCards = document.querySelectorAll(".company-card");
-        const pageNumbers = document.querySelectorAll(".pager-number");
-        const prevButton = document.querySelector(".pager-prev");
-        const nextButton = document.querySelector(".pager-next");
-
-        const cardsPerPage = 8;
-        const totalPages = Math.ceil(companyCards.length / cardsPerPage);
-        let currentPage = 1;
-
-        function showPage(page) {
-            const start = (page - 1) * cardsPerPage;
-            const end = start + cardsPerPage;
-
-            companyCards.forEach((card, index) => {
-                card.style.display = (index >= start && index < end) ? "block" : "none";
-            });
-
-            pageNumbers.forEach((number) => {
-                number.classList.toggle("active", parseInt(number.textContent) === page);
-            });
-
-            currentPage = page;
-        }
-
-        pageNumbers.forEach((number) => {
-            number.addEventListener("click", (e) => {
+    
+                // Next Button
+                const next = document.createElement("li");
+                next.innerHTML = `<a href="#" class="pager-next">&raquo;</a>`;
+                next.classList.toggle("disabled", currentPage === totalPages);
+                paginationContainer.appendChild(next);
+                next.addEventListener("click", (e) => {
+                    e.preventDefault();
+                    if (currentPage < totalPages) {
+                        currentPage++;
+                        renderCards();
+                        createPagination();
+                    }
+                });
+            }
+    
+            function handleSearch() {
+                const searchValue = searchInput.value.trim().toLowerCase();
+                filteredCards = allCards.filter(card => {
+                    const companyName = card.querySelector(".card-profile h5 strong")?.textContent.toLowerCase() || "";
+                    return companyName.includes(searchValue);
+                });
+    
+                currentPage = 1;
+                renderCards();
+                createPagination();
+            }
+    
+            searchButton.addEventListener("click", function (e) {
                 e.preventDefault();
-                showPage(parseInt(number.textContent));
+                handleSearch();
             });
+    
+            searchInput.addEventListener("keypress", function (e) {
+                if (e.key === "Enter") {
+                    e.preventDefault();
+                    handleSearch();
+                }
+            });
+    
+            // Inisialisasi awal
+            renderCards();
+            createPagination();
         });
-
-        prevButton.addEventListener("click", (e) => {
-            e.preventDefault();
-            if (currentPage > 1) showPage(currentPage - 1);
-        });
-
-        nextButton.addEventListener("click", (e) => {
-            e.preventDefault();
-            if (currentPage < totalPages) showPage(currentPage + 1);
-        });
-
-        showPage(currentPage);
     </script>
+    
+
 
 @endsection

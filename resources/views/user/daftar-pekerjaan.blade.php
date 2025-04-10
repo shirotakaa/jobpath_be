@@ -22,7 +22,7 @@
                                 <div class="box-search-job w-100">
                                     <form class="form-search-job w-100">
                                         <input type="text" id="jobSearchInput" class="input-search-job"
-                                            placeholder="Cari pekerjaan" />
+                                            placeholder="Cari pekerjaan" value="{{ request('query') ?? '' }}" />
                                     </form>
                                 </div>
                             </div>
@@ -37,10 +37,24 @@
                                                 <i class="fi-rr-angle-small-down"></i>
                                             </button>
                                             <ul class="dropdown-menu">
+                                                {{-- Tampilkan kategori selain "Lainnya" --}}
                                                 @foreach ($categories as $category)
-                                                    <li><a class="dropdown-item" href="#"
-                                                            onclick="selectCategory('{{ $category }}')">{{ $category }}</a>
-                                                    </li>
+                                                    @if (strtolower($category) !== 'lainnya')
+                                                        <li>
+                                                            <a class="dropdown-item" href="#"
+                                                                onclick="selectCategory('{{ $category }}')">{{ $category }}</a>
+                                                        </li>
+                                                    @endif
+                                                @endforeach
+
+                                                {{-- Tampilkan "Lainnya" di akhir jika ada --}}
+                                                @foreach ($categories as $category)
+                                                    @if (strtolower($category) === 'lainnya')
+                                                        <li>
+                                                            <a class="dropdown-item" href="#"
+                                                                onclick="selectCategory('{{ $category }}')">{{ $category }}</a>
+                                                        </li>
+                                                    @endif
                                                 @endforeach
                                             </ul>
                                         </div>
@@ -70,11 +84,11 @@
                                                         style="display: flex; justify-content: space-between; gap: 16px;">
                                                         <a href="{{ route('detail-pekerjaan', $job->judul_pekerjaan) }}"
                                                             class="card-2-img-text card-grid-2-img-medium">
-                                                            <span class="card-grid-2-img-small">
+                                                            <span class="card-grid-2-img-small p-0">
                                                                 @if ($job->perusahaan->logo)
                                                                     <img alt="{{ $job->judul_pekerjaan }}"
                                                                         src="{{ asset($job->perusahaan->logo) }}"
-                                                                        class="w-100 h-100 object-fit-cover" />
+                                                                        class="w-100 h-100 object-fit-cover"  style="border-radius: 8px" />
                                                                 @endif
                                                             </span>
                                                             <span>{{ $job->judul_pekerjaan }}</span>
@@ -115,8 +129,7 @@
                                                             </span>
                                                         </div>
                                                         <div class="col-lg-6 col-8 text-end">
-                                                            <a
-                                                                href="{{ route('detail-pekerjaan', $job->judul_pekerjaan) }}">
+                                                            <a href="{{ route('detail-pekerjaan', $job->judul_pekerjaan) }}">
                                                                 <span class="text-brand-10">Lamar Sekarang</span>
                                                             </a>
                                                         </div>
@@ -127,15 +140,11 @@
                                     </div>
                                 @endforeach
                             </div>
+
                             <div class="paginations text-center">
-                                <ul class="pager">
-                                    <li><a href="#" class="pager-prev"></a></li>
-                                    <li><a href="#" class="pager-number">1</a></li>
-                                    <li><a href="#" class="pager-number">2</a></li>
-                                    <li><a href="#" class="pager-number">3</a></li>
-                                    <li><a href="#" class="pager-next"></a></li>
-                                </ul>
+                                <ul class="pager" id="pagination-container"></ul>
                             </div>
+
                         </div>
                     </div>
                 </div>
@@ -145,45 +154,115 @@
 
     <script>
         let selectedCategory = '';
-    
+
         function selectCategory(category) {
-            document.getElementById("selectedCategory").innerText = category;
-            selectedCategory = category.toLowerCase();
-        }
-    
-        document.getElementById('jobSearchButton').addEventListener('click', function (e) {
-            e.preventDefault();
-    
-            let searchValue = document.getElementById('jobSearchInput').value.toLowerCase();
-            let jobCards = document.querySelectorAll('.job-listing-grid-2 .card-grid-2');
-            let resultFound = false;
-    
-            jobCards.forEach(function (card) {
-                let jobTitle = card.querySelector('.card-2-img-text span:last-child').innerText.toLowerCase();
-                let jobCategory = card.getAttribute('data-category').toLowerCase(); // Ambil kategori dari atribut data-category
-    
-                // Cek apakah judul pekerjaan atau kategori cocok dengan pencarian
-                if ((jobTitle.includes(searchValue) || searchValue === "") &&
-                    (selectedCategory === "" || jobCategory === selectedCategory)) {
-                    card.parentElement.style.display = "block";
-                    resultFound = true;
-                } else {
-                    card.parentElement.style.display = "none";
-                }
-            });
-    
-            if (!resultFound) {
-                Swal.fire({
-                    icon: "warning",
-                    title: "Hasil Tidak Ditemukan",
-                    text: "Tidak ada pekerjaan yang cocok dengan pencarian Anda.",
-                    confirmButtonColor: "#3085d6",
-                    confirmButtonText: "OK"
-                });
+    document.getElementById("selectedCategory").innerText = category;
+    selectedCategory = category.toLowerCase();
+
+    // Simpan kategori ke query URL (tanpa reload)
+    const params = new URLSearchParams(window.location.search);
+    params.set('kategori', category);
+    const newUrl = `${window.location.pathname}?${params.toString()}`;
+    window.history.replaceState({}, '', newUrl);
+}
+
+
+        // Auto-set selected category from URL
+        window.addEventListener('DOMContentLoaded', () => {
+            const params = new URLSearchParams(window.location.search);
+            const kategori = params.get('kategori');
+            if (kategori) {
+                document.getElementById("selectedCategory").innerText = kategori;
+                selectedCategory = kategori.toLowerCase();
             }
         });
-    </script>    
 
+        document.getElementById('jobSearchButton').addEventListener('click', function (e) {
+    e.preventDefault();
+
+    let searchValue = document.getElementById('jobSearchInput')?.value.trim();
+    const params = new URLSearchParams(window.location.search);
+
+    if (searchValue) {
+        params.set('query', searchValue);
+    } else {
+        params.delete('query');
+    }
+
+    if (selectedCategory) {
+        params.set('kategori', selectedCategory);
+    } else {
+        params.delete('kategori');
+    }
+
+    window.location.href = `${window.location.pathname}?${params.toString()}`;
+});
+
+    </script>
+
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const companyCards = document.querySelectorAll(".job-card");
+            const cardsPerPage = 8;
+            const totalPages = Math.ceil(companyCards.length / cardsPerPage);
+            let currentPage = 1;
+
+            const paginationContainer = document.getElementById("pagination-container");
+
+            function createPagination() {
+                paginationContainer.innerHTML = "";
+
+                const prev = document.createElement("li");
+                prev.innerHTML = `<a href="#" class="pager-prev"></a>`;
+                paginationContainer.appendChild(prev);
+                prev.addEventListener("click", (e) => {
+                    e.preventDefault();
+                    if (currentPage > 1) showPage(currentPage - 1);
+                });
+
+                for (let i = 1; i <= totalPages; i++) {
+                    const li = document.createElement("li");
+                    li.innerHTML = `<a href="#" class="pager-number">${i}</a>`;
+                    li.querySelector("a").addEventListener("click", (e) => {
+                        e.preventDefault();
+                        showPage(i);
+                    });
+                    paginationContainer.appendChild(li);
+                }
+
+                const next = document.createElement("li");
+                next.innerHTML = `<a href="#" class="pager-next"></a>`;
+                paginationContainer.appendChild(next);
+                next.addEventListener("click", (e) => {
+                    e.preventDefault();
+                    if (currentPage < totalPages) showPage(currentPage + 1);
+                });
+            }
+
+            function showPage(page) {
+                const start = (page - 1) * cardsPerPage;
+                const end = start + cardsPerPage;
+
+                companyCards.forEach((card, index) => {
+                    card.style.display = (index >= start && index < end) ? "block" : "none";
+                });
+
+                const pageLinks = document.querySelectorAll(".pager-number");
+                pageLinks.forEach((link) => {
+                    link.classList.toggle("active", parseInt(link.textContent) === page);
+                });
+
+                currentPage = page;
+            }
+
+            createPagination();
+            showPage(currentPage);
+        });
+    </script>
+
+
+    {{--
     <script>
         const jobCards = document.querySelectorAll(".job-card");
         const pageNumbers = document.querySelectorAll(".pager-number");
@@ -227,5 +306,5 @@
         });
 
         showPage(currentPage);
-    </script>
+    </script> --}}
 @endsection

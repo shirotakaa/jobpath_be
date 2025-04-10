@@ -8,42 +8,73 @@ use App\Models\Faq;
 use App\Models\Perusahaan;
 use App\Models\JejakAlumni;
 use App\Models\Identitas;
+use App\Models\PerusahaanContent;
 
 use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-    public function daftarPekerjaan()
-    {
-        $pekerjaan = Pekerjaan::with('perusahaan')->where('status', 'Available')->get();
-        $identitas = Identitas::first();
-        $categories = Pekerjaan::select('kategori')->distinct()->pluck('kategori');
+    public function daftarPekerjaan(Request $request)
+{
+    $query = $request->query('query');
+    $kategori = $request->query('kategori');
 
-        return view('user.daftar-pekerjaan', compact('pekerjaan', 'identitas', 'categories'));
-    }
+    $pekerjaan = Pekerjaan::with('perusahaan')
+        ->where('status', 'Available')
+        ->when($query, function ($q) use ($query) {
+            $q->where(function ($subQuery) use ($query) {
+                $subQuery->where('judul_pekerjaan', 'like', "%$query%")
+                         ->orWhereHas('perusahaan', function ($q2) use ($query) {
+                             $q2->where('nama_perusahaan', 'like', "%$query%");
+                         });
+            });
+        })
+        ->when($kategori, function ($q) use ($kategori) {
+            $q->where('kategori', $kategori);
+        })
+        ->get(); // <-- gunakan get() bukan paginate()
 
+    $identitas = Identitas::first();
+    $categories = Pekerjaan::select('kategori')->distinct()->pluck('kategori');
+
+    return view('user.daftar-pekerjaan', compact('pekerjaan', 'identitas', 'categories', 'query', 'kategori'));
+}
 
     public function detailPekerjaan($judul_pekerjaan)
     {
-        $pekerjaan = Pekerjaan::where('judul_pekerjaan', $judul_pekerjaan)->firstOrFail();
+        $pekerjaan = Pekerjaan::with('perusahaan')->where('judul_pekerjaan', $judul_pekerjaan)->firstOrFail();
         $identitas = Identitas::first();
-
-        // Pastikan $pekerjaan memiliki id_siswa
-        if ($pekerjaan->id_siswa) {
-            $siswa = Siswa::find($pekerjaan->id_siswa);
-        } else {
-            $siswa = null; // Atau handle sesuai kebutuhan
-        }
-
-        return view('user.detail-pekerjaan', compact('pekerjaan', 'siswa', 'identitas'));
+    
+        // Ambil pekerjaan lain dengan kategori yang sama, tapi beda judul
+        $pekerjaanLain = Pekerjaan::with('perusahaan')
+            ->where('judul_pekerjaan', '!=', $judul_pekerjaan)
+            ->where('kategori', $pekerjaan->kategori) // filter berdasarkan kategori yang sama
+            ->whereNotNull('judul_pekerjaan')
+            ->whereHas('perusahaan')
+            ->limit(3)
+            ->get();
+    
+        $siswa = $pekerjaan->id_siswa ? Siswa::find($pekerjaan->id_siswa) : null;
+    
+        return view('user.detail-pekerjaan', compact('pekerjaan', 'pekerjaanLain', 'siswa', 'identitas'));
     }
+    
+    
 
-    public function jejakAlumni()
+    public function jejakAlumni(Request $request)
     {
         $identitas = Identitas::first();
-        $alumni = JejakAlumni::where('status', true)->get();
+        $alumni = JejakAlumni::where('status', 'Approved')->get();
+    
+        if ($request->ajax()) {
+            return response()->json([
+                'html' => view('user.jejak-alumni')->with('alumni', $alumni)->renderSections()['alumni']
+            ]);
+        }
+    
         return view('user.jejak-alumni', compact('identitas', 'alumni'));
     }
+    
 
     public function faqUser()
     {
@@ -53,10 +84,15 @@ class UserController extends Controller
         return view('user.faq-user', compact('identitas', 'faqs', 'faqContent'));
     }
 
-    public function saveJob()
+    public function saveJob(Request $request)
     {
         $identitas = Identitas::first();
-        return view('user.profile-save-job', compact('identitas'));
+        $ids = $request->query('id', []); // menangkap ?id[]=1&id[]=2
+
+        $pekerjaanList = Pekerjaan::whereIn('id_pekerjaan', $ids)->get();
+        $pekerjaan = Pekerjaan::with('perusahaan')->get(); // atau ->paginate(9) jika pakai paginasi
+
+        return view('user.profile-save-job', compact('identitas', 'pekerjaanList','pekerjaan'));
     }
 
     public function changePw()
@@ -66,18 +102,19 @@ class UserController extends Controller
     }
 
     public function perusahaan()
-    {
-        $identitas = Identitas::first();
-        $perusahaan = Perusahaan::select('perusahaan.*')
-            ->selectSub(function ($query) {
-                $query->from('pekerjaan')
-                    ->whereColumn('pekerjaan.id_perusahaan', 'perusahaan.id_perusahaan')
-                    ->where('pekerjaan.status', 'Available') // Hanya pekerjaan dengan status Available
-                    ->selectRaw('COUNT(*)');
-            }, 'jumlah_lowongan') // Alias untuk jumlah pekerjaan yang tersedia
-            ->paginate(8); // Pagination dengan 8 perusahaan per halaman
-        return view('user.perusahaan', compact('identitas', 'perusahaan'));
-    }
+{
+    $identitas = Identitas::first();
+    $perusahaan = Perusahaan::select('perusahaan.*')
+        ->selectSub(function ($query) {
+            $query->from('pekerjaan')
+                ->whereColumn('pekerjaan.id_perusahaan', 'perusahaan.id_perusahaan')
+                ->where('pekerjaan.status', 'Available')
+                ->selectRaw('COUNT(*)');
+        }, 'jumlah_lowongan')
+        ->get(); // Mengambil semua data tanpa pagination
+    return view('user.perusahaan', compact('identitas', 'perusahaan'));
+}
+
 
     public function jejakAlumniForm()
     {
@@ -94,7 +131,8 @@ class UserController extends Controller
     public function landing()
     {
         $identitas = Identitas::first();
-        return view('perusahaan.pages.company-landing', compact('identitas'));
+        $perusahaanContent = PerusahaanContent::first();
+        return view('perusahaan.pages.company-landing', compact('identitas','perusahaanContent'));
     }
 
     // public function guestlanding()
@@ -111,11 +149,12 @@ class UserController extends Controller
 
         // Ambil data perusahaan yang sedang login
         $perusahaan = auth()->guard('perusahaan')->user();
+        $identitas = Identitas::first();
 
         // Ambil pekerjaan yang dimiliki oleh perusahaan tersebut
         $pekerjaan = \App\Models\Pekerjaan::where('id_perusahaan', $perusahaan->id_perusahaan)->get();
 
-        return view('perusahaan.pages.company-job', compact('pekerjaan'));
+        return view('perusahaan.pages.company-job', compact('pekerjaan', 'identitas', 'perusahaan'));
     }
 
 
@@ -126,12 +165,13 @@ class UserController extends Controller
         }
 
         $idPerusahaan = auth()->guard('perusahaan')->user()->id_perusahaan;
+        $identitas = Identitas::first();
 
         $pelamar = Pelamar::where('id_perusahaan', $idPerusahaan)
             ->with(['pekerjaan', 'siswa'])
             ->get();
 
-        return view('perusahaan.pages.company-pelamar', compact('pelamar'));
+        return view('perusahaan.pages.company-pelamar', compact('pelamar', 'identitas'));
     }
 
     public function lamaran()
@@ -157,21 +197,22 @@ class UserController extends Controller
 
     public function addjob()
     {
-        return view('perusahaan.pages.company-add-job');
+        $identitas = Identitas::first();
+        return view('perusahaan.pages.company-add-job', compact('identitas'));
     }
 
     public function profile()
     {
-        return view('perusahaan.pages.company-profile');
-    }
-
-    public function PwChange()
-    {
-        return view('perusahaan.pages.company-change-pw');
+        $company = Perusahaan::findOrFail(auth()->guard('perusahaan')->user()->id_perusahaan);
+        $identitas = Identitas::first();
+        return view('perusahaan.pages.company-profile', compact('company', 'identitas'));
     }
 
     public function faqCompany()
     {
-        return view('perusahaan.pages.company-faq');
+        $identitas = Identitas::first();
+        $faqs = Faq::all();
+        $faqContent = \App\Models\FaqContent::latest()->first(); // Mengambil data terbaru dari tabel
+        return view('perusahaan.pages.company-faq', compact('faqs', 'faqContent', 'identitas'));
     }
-}   
+}

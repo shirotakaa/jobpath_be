@@ -4,7 +4,8 @@
             <div class="header-left">
                 <div class="header-logo">
                     <a href="{{ route('company.landing') }}" class="d-flex" style="width: 138px; height: 43px;">
-                        <img alt="JobPath" src="assets/user/imgs/logo-dark.png" style="width: 100%; height: 100%; object-fit: cover;" />
+                        <img alt="JobPath" src="{{ Storage::url($identitas->logo_dark) }}"
+                        style="width: 100%; height: 100%; object-fit: cover;" />
                     </a>
                 </div>
                 <div class="header-nav">
@@ -43,11 +44,15 @@
 <div class="mobile-header-active mobile-header-wrapper-style perfect-scrollbar">
     <div class="mobile-header-wrapper-inner">
         <div class="mobile-header-top">
+            <?php
+                $user = Auth::guard('perusahaan')->user();
+            ?>
+
             <div class="user-account">
-                <img src="assets/user/imgs/avatar/ava_1.png" alt="JobPath" class="w-100 h-100 object-fit-cover"/>
+                <img src="<?= $user->logo ?>" alt="<?= $user->nama_perusahaan ?>" class="w-100 h-100 object-fit-cover" />
                 <div class="content">
-                    <h6 class="user-name">Howdy</h6>
-                    <p class="font-xs text-muted">howdy@gmail.com</p>
+                    <h6 class="user-name"><?= $user->nama_perusahaan ?></h6>
+                    <p class="font-xs text-muted"><?= $user->email ?></p>
                 </div>
             </div>
             <div class="burger-icon burger-icon-white">
@@ -80,8 +85,14 @@
                     <h6 class="mb-10">Your Account</h6>
                     <ul class="mobile-menu font-heading">
                         <li><a href="{{ route('companyprofile') }}">Profil Saya</a></li>
-                        <li><a href="{{ route('company-change-pw') }}">Ubah Kata Sandi</a></li>
-                        <li><a href="{{ route('index-perusahaan') }}">Sign Out</a></li>
+                        <li>
+                            <form id="logout-form" action="{{ route('perusahaan.logout') }}" method="POST" style="display: none;">
+                                @csrf
+                            </form>
+                            <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                Sign Out
+                            </a>
+                        </li>
                     </ul>
                 </div>
                 <div class="block-signin mt-3 d-flex align-items-center mobile-wrap">

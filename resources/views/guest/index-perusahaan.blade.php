@@ -136,7 +136,7 @@
                                     width="100%"
                                     height="100%"
                                     style="object-fit: cover;"
-                                />
+                                />                                
                                 <span class="banner-sm-2" style="height: 140px; display: block;">
                                     <img
                                         alt="JobPath"
@@ -229,7 +229,7 @@
                             <h2 class="section-title heading-lg wow animate__animated animate__fadeInUp">Rekrut Talenta Terbaik dengan Mudah</h2>
                             <div class="mt-40 pr-50 text-md-lh28 wow animate__animated animate__fadeInUp">Pasang lowongan gratis, jangkau lebih banyak kandidat, dan temukan talenta terbaik untuk bisnis Anda. Kelola rekrutmen lebih efisien dengan sistem yang praktis dan terstruktur.</div>
                             <div class="mt-40">
-                                <div class="box-button-shadow wow animate__animated animate__fadeInUp"><a href="#" class="btn btn-default">Daftar Sekarang</a></div>
+                                <div class="box-button-shadow wow animate__animated animate__fadeInUp"><a href="{{ route('register-perusahaan') }}" class="btn btn-default">Daftar Sekarang</a></div>
                             </div>
                         </div>
                     </div>
@@ -249,7 +249,8 @@
             <div class="row">
                 <div class="col-md-4 col-sm-12" >
                     <a href="index.html" >
-                        <img alt="JobPath" src="assets/user/imgs/logo-dark.png" style="width: 134px; height: 43px; object-fit: cover;"/>
+                        <img alt="JobPath" src="{{ Storage::url($identitas->logo_dark) }}"
+                            style="width: 134px; height: 43px; object-fit: cover;" />
                     </a>
                     <div class="mt-20 mb-20" style="width: 70%;">Temukan peluang kerja terbaik untuk masa depan Anda. Bangun karier yang sesuai dengan minat dan keahlian Anda.</div>
                 </div>

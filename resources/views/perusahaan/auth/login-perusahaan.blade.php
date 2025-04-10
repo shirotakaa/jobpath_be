@@ -41,11 +41,12 @@
                     <div class="modal-title w-100 fw-bold mb-4 fs-2">
                         Login
                     </div>
-                    <form method="POST" action="{{ route('login-perusahaan') }}">
+                    <form method="POST" action="{{ route('login-perusahaan.submit') }}">
+
                         @csrf
                         <div class="mb-3">
                             <input name="email" type="email" class="form-control input-custom"
-                                placeholder="Masukkan NIS, Email, atau Nomor Telepon">
+                                placeholder="Masukkan Email">
                         </div>
                         <div class="mb-3 position-relative">
                             <input name="password" type="password" class="form-control input-custom" placeholder="Password">
@@ -57,8 +58,7 @@
                             <div class="form-check">
                                 <input type="checkbox" class="form-check-input" id="rememberMe">
                                 <label class="form-check-label" for="rememberMe">Remember me</label>
-                            </div>
-                            <a href="#" class="text-primary">Forgot Password</a>
+                            </div>                            
                         </div>
                         <button type="submit" class="btn btn-default w-100 mt-3">Log in</button>
                     </form>
