@@ -46,7 +46,7 @@
                         @csrf
                         <div class="mb-3">
                             <input name="email" type="email" class="form-control input-custom"
-                                placeholder="Masukkan NIS, Email, atau Nomor Telepon">
+                                placeholder="Masukkan Email">
                         </div>
                         <div class="mb-3 position-relative">
                             <input name="password" type="password" class="form-control input-custom" placeholder="Password">

@@ -190,7 +190,8 @@
             <div class="row">
                 <div class="col-md-4 col-sm-12" >
                     <a href="index.html" >
-                        <img alt="JobPath" src="assets/user/imgs/logo-dark.png" style="width: 134px; height: 43px; object-fit: cover;"/>
+                        <img alt="JobPath" src="{{ Storage::url($identitas->logo_dark) }}"
+                            style="width: 134px; height: 43px; object-fit: cover;" />
                     </a>
                     <div class="mt-20 mb-20" style="width: 70%;">Temukan peluang kerja terbaik untuk masa depan Anda. Bangun karier yang sesuai dengan minat dan keahlian Anda.</div>
                 </div>
