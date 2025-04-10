@@ -63,7 +63,8 @@
                             <textarea name="alamat" class="form-control input-custom" placeholder="Alamat" rows="3"
                                 required></textarea>
                         </div>
-                        <div class="mb-3">
+                        <div class="mb-3 text-start">
+                            <label for="logoUpload" class="form-label fs-6">Upload logo perusahaan</label>
                             <input name="logo" type="file" class="form-control input-custom" id="logoUpload"
                                 accept="image/*">
                         </div>
