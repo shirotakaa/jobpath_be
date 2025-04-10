@@ -8,6 +8,7 @@ use App\Models\Identitas;
 use App\Models\Perusahaan;
 use App\Models\JejakAlumni;
 use App\Models\Pekerjaan;
+use App\Models\Siswa;
 use App\Models\PerusahaanContent;
 use App\Models\HeroLanding;
 use Illuminate\Support\Facades\Hash;
@@ -33,20 +34,20 @@ class AuthController extends Controller
             }, 'jumlah_lowongan') // Alias untuk jumlah pekerjaan yang tersedia
             ->get();
         $kategoriPekerjaan = Pekerjaan::where('status', 'Available')
-        ->select('kategori')
-        ->distinct()
-        ->get()
-        ->map(function ($item) {
-            return [
-                'nama' => $item->kategori,
-                'jumlah' => Pekerjaan::where('status', 'Available')->where('kategori', $item->kategori)->count(),
-            ];
-        });
+            ->select('kategori')
+            ->distinct()
+            ->get()
+            ->map(function ($item) {
+                return [
+                    'nama' => $item->kategori,
+                    'jumlah' => Pekerjaan::where('status', 'Available')->where('kategori', $item->kategori)->count(),
+                ];
+            });
 
         $categories = Pekerjaan::select('kategori')->distinct()->pluck('kategori');
         $alumni = JejakAlumni::where('tampilkan_di_landing', true)->get();
         $hero = \App\Models\HeroLanding::latest()->first(); // Mengambil data terbaru dari tabel
-        return view('user.index',compact('identitas', 'perusahaan', 'alumni', 'hero', 'kategoriPekerjaan', 'categories'));
+        return view('user.index', compact('identitas', 'perusahaan', 'alumni', 'hero', 'kategoriPekerjaan', 'categories'));
     }
 
     public function loginAdmin(Request $request)
@@ -55,7 +56,7 @@ class AuthController extends Controller
             'email' => 'required',
             'password' => 'required',
         ]);
-    
+
         if (Auth::guard('admin')->attempt($credentials)) {
             $request->session()->regenerate();
             return response()->json([
@@ -64,7 +65,7 @@ class AuthController extends Controller
                 'redirect' => route('dashboard')
             ]);
         }
-    
+
         return response()->json([
             'success' => false,
             'message' => 'Email atau password salah. Silakan coba lagi.'
@@ -79,15 +80,20 @@ class AuthController extends Controller
             'password' => 'required|string',
         ]);
 
-        if (!Auth::guard('siswa')->attempt(['nis' => $request->nis, 'password' => $request->password])) {
-            return back()->withErrors([
-                'nis' => 'NIS yang Anda masukkan salah',
-                'password' => 'Password yang Anda masukkan salah',
-            ]);
+        $siswa = Siswa::where('nis', $request->nis)->first();
+
+        if (!$siswa) {
+            return back()->with('login_error', 'NIS yang Anda masukkan salah');
         }
 
-        return redirect()->intended(route('user.index'));
+        if (!Hash::check($request->password, $siswa->password)) {
+            return back()->with('login_error', 'Password yang Anda masukkan salah');
+        }
+
+        Auth::guard('siswa')->login($siswa);
+        return redirect()->back()->with('login_success', true);
     }
+
     public function showLoginFormPerusahaan()
     {
         return view('perusahaan.auth.login-perusahaan');
@@ -118,7 +124,7 @@ class AuthController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
         return redirect()->route('guest.index')->with('success', 'Logout berhasil.');
-    }    
+    }
 
     public function perusahaanlogout(Request $request)
     {
@@ -126,8 +132,8 @@ class AuthController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
         return redirect()->route('guest.index')->with('success', 'Logout berhasil.');
-    } 
-    
+    }
+
     public function logout(Request $request)
     {
         Auth::guard('admin')->logout();

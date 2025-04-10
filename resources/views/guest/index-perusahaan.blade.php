@@ -136,17 +136,7 @@
                                     width="100%"
                                     height="100%"
                                     style="object-fit: cover;"
-                                />
-                                <span class="banner-sm-1" style="height: 108px; display: block;">
-                                    <img
-                                      alt="JobPath"
-                                      src="assets/user/imgs/banner/banner-sm-1.png"
-                                      class="img-responsive shape-1"
-                                      width="100%"
-                                      height="100%"
-                                      style="object-fit: cover;"
-                                    />
-                                  </span>
+                                />                                
                                 <span class="banner-sm-2" style="height: 140px; display: block;">
                                     <img
                                         alt="JobPath"
