@@ -1,5 +1,7 @@
 <?php
 
+// GA KEPAKE
+
 namespace App\Http\Middleware;
 
 use Illuminate\Auth\Middleware\Authenticate as Middleware;
@@ -16,19 +18,22 @@ class Authenticate extends Middleware
     protected function redirectTo(Request $request)
     {
         if (! $request->expectsJson()) {
-            if ($request->is('admin') || $request->is('dashboard') || $request->is('admin/*')) {
+            // Cek guard yang sedang dipakai
+            $guard = $request->route()?->middleware() ?? [];
+    
+            if (in_array('auth:admin', $guard)) {
                 return route('sign-in'); // login admin
             }
-
-            if ($request->is('company*') || $request->is('perusahaan*')) {
+    
+            if (in_array('auth:company', $guard) || in_array('auth:perusahaan', $guard)) {
                 return route('guest.index'); // login perusahaan
             }
-
-            if ($request->is('index') || $request->is('lamaran') || $request->is('siswa/*') || $request->is('detail-pekerjaan*')) {
+    
+            if (in_array('auth:siswa', $guard)) {
                 return route('guest.index'); // login siswa
             }
-
-            // Default fallback
+    
+            // Fallback 
             return route('guest.index');
         }
     }

@@ -142,46 +142,6 @@
         </section>
 
     </main>
-
-    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true"
-        data-bs-backdrop="false">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content p-4" style="max-width: 100%; width: 100%;">
-                <div class="modal-header border-0">
-                    <div class="modal-title w-100 text-center fw-bold" style="font-size: 34px;" id="loginModalLabel">
-                        Login
-                    </div>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <p class="text-center text-muted" style="margin-bottom: 16px;">Login dan dapatkan akses ke semua fitur
-                    JobPath</p>
-                <div class="modal-body">
-                    <form action="{{ route('login-siswa') }}" method="POST">
-                        @csrf
-                        <div class="mb-3">
-                            <input type="text" name="nis" class="form-control input-custom"
-                                placeholder="Masukkan NIS, Email, atau Nomor Telepon">
-                        </div>
-                        <div class="mb-3 position-relative">
-                            <input type="password" name="password" class="form-control input-custom"
-                                placeholder="Password*">
-                            <span class="toggle-password">
-                                <i class="fas fa-eye-slash"></i>
-                            </span>
-                        </div>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="form-check">
-                                <input type="checkbox" class="form-check-input" id="rememberMe">
-                                <label class="form-check-label" for="rememberMe">Remember me</label>
-                            </div>
-                            <a href="#" class="text-primary">Forgot Password</a>
-                        </div>
-                        <button type="submit" class="btn btn-default w-100 mt-3">Log in</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
     
     <script>
         document.getElementById('searchButton').addEventListener('click', function(e) {

@@ -82,7 +82,7 @@
         
     </main>
     <!-- End Content -->
-    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true"
+    {{-- <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true"
         data-bs-backdrop="false">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content p-4" style="max-width: 100%; width: 100%;">
@@ -120,6 +120,6 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
     
 @endsection

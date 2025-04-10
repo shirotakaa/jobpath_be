@@ -38,11 +38,11 @@ Route::get('/guest-perusahaan', [IdentitasController::class, 'PerusahaanGuest'])
 Route::get('/guest-faq-perusahaan', [IdentitasController::class, 'PerusahaanFaq'])->name('guest-faq-perusahaan');
 
 // Route untuk admin
-Route::middleware(['auth:admin'])->group(function () {
+Route::middleware(['MustAdmin'])->group(function () {
     Route::get('/admin', function () {
         return view('admin.index');
     });
-    Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
+    // Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
     Route::get('/pengaturan-identitas', [AdminController::class, 'pengaturanIdentitas'])->name('pengaturan-identitas');
     Route::get('/hero-landing', [AdminController::class, 'heroLanding'])->name('hero-landing');
@@ -114,7 +114,7 @@ Route::middleware(['auth:admin'])->group(function () {
 });
 
 // Route untuk perusahaan
-Route::middleware(['auth:perusahaan'])->group(function () {
+Route::middleware(['MustPerusahaan'])->group(function () {
     // Tambah lowongan
     Route::get('/company-add-job', [UserController::class, 'addjob'])->name('company.addjob');
     Route::get('/company-landing', [UserController::class, 'landing'])->name('company.landing');
@@ -149,7 +149,7 @@ Route::middleware(['auth:perusahaan'])->group(function () {
     });
 });
 
-Route::middleware(['auth:siswa'])->group(function () {
+Route::middleware(['MustUser'])->group(function () {
     // Simpan lamaran kerja
     Route::get('/index', [AuthController::class, 'index'])->name('user.index');
     Route::post('/lamar-pekerjaan', [PelamarController::class, 'store'])->name('pelamar.store');
@@ -196,4 +196,8 @@ Route::get('/login-perusahaan', function () {
 Route::get('/login-perusahaan', [AuthController::class, 'showLoginFormPerusahaan'])->name('login-perusahaan');
 Route::post('/login-perusahaan', [AuthController::class, 'loginPerusahaan'])->name('login-perusahaan.submit');
 Route::post('/user-logout', [AuthController::class, 'userlogout'])->name('user.logout');
-Route::post('/perusahaan-logout', [AuthController::class, 'perusahaanlogout'])->name('perusahaan.logout');
+Route::post('/perusahaan-logout', [AuthController::class, 'perusahaanlogout'])->name('perusahaan.logout');      
+
+Route::fallback(function () {
+    return redirect('/');
+}); 
