@@ -88,7 +88,7 @@
                                                                 @if ($job->perusahaan->logo)
                                                                     <img alt="{{ $job->judul_pekerjaan }}"
                                                                         src="{{ asset($job->perusahaan->logo) }}"
-                                                                        class="w-100 h-100 object-fit-cover"  style="border-radius: 8px" />
+                                                                        class="w-100 h-100 object-fit-cover" style="border-radius: 8px;"/>
                                                                 @endif
                                                             </span>
                                                             <span>{{ $job->judul_pekerjaan }}</span>

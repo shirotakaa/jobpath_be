@@ -39,50 +39,55 @@
         </div>
 
 
-        <section class="mt-80">
-            <div class="container">
-                <div class="row align-items-end mb-50">
-                    <div class="col-lg-5">
-                        <span class="text-blue wow animate__animated animate__fadeInUp">Questions</span>
-                        <h3 class="mt-20 wow animate__animated animate__fadeInUp">Frequently Asked Questions</h3>
-                    </div>
-                    <div class="col-lg-2"></div>
-                    <div class="col-lg-5">
-                        <p class="text-lg text-muted wow animate__animated animate__fadeInUp">
-                            Temukan jawaban atas pertanyaan yang sering diajukan mengenai layanan kami.
-                        </p>
-                    </div>
+        <!-- Accordion FAQ -->
+    <section class="mt-80">
+        <div class="container">
+            <!-- Header teks FAQ -->
+            <div class="row align-items-end mb-50">
+                <div class="col-lg-5">
+                    <span class="text-blue wow animate__animated animate__fadeInUp">Questions</span>
+                    <h3 class="mt-20 wow animate__animated animate__fadeInUp">Frequently Asked Questions</h3>
                 </div>
-                <div class="row">
-                    @foreach ($faqs->chunk(ceil($faqs->count() / 2)) as $faqChunk)
-                        <div class="col-lg-6">
-                            <div class="accordion accordion-flush" id="accordionFlushExample{{ $loop->index }}">
-                                @foreach ($faqChunk as $faq)
-                                    <div class="accordion-item">
-                                        <h2 class="accordion-header" id="heading{{ $loop->parent->index }}{{ $loop->index }}">
-                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                                data-bs-target="#collapse{{ $loop->parent->index }}{{ $loop->index }}"
-                                                aria-expanded="false"
-                                                aria-controls="collapse{{ $loop->parent->index }}{{ $loop->index }}">
-                                                {{ $faq->pertanyaan }}
-                                            </button>
-                                        </h2>
-                                        <div id="collapse{{ $loop->parent->index }}{{ $loop->index }}"
-                                            class="accordion-collapse collapse"
-                                            aria-labelledby="heading{{ $loop->parent->index }}{{ $loop->index }}"
-                                            data-bs-parent="#accordionFlushExample{{ $loop->parent->index }}">
-                                            <div class="accordion-body">
-                                                <p class="mb-15">{{ $faq->jawaban }}</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                @endforeach
-                            </div>
-                        </div>
-                    @endforeach
+                <div class="col-lg-2"></div>
+                <div class="col-lg-5">
+                    <p class="text-lg text-muted wow animate__animated animate__fadeInUp">
+                        Temukan jawaban atas pertanyaan yang sering diajukan mengenai layanan kami.
+                    </p>
                 </div>
             </div>
-        </section>
+
+            <!-- Konten pertanyaan dan jawaban -->
+            <div class="row">
+                {{-- Membagi FAQ menjadi 2 kolom --}}
+                @foreach ($faqs->chunk(ceil($faqs->count() / 2)) as $faqChunk)
+                    <div class="col-lg-6">
+                        <div class="accordion accordion-flush" id="accordionFlushExample{{ $loop->index }}">
+                            @foreach ($faqChunk as $faq)
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="heading{{ $loop->parent->index }}{{ $loop->index }}">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                            data-bs-target="#collapse{{ $loop->parent->index }}{{ $loop->index }}"
+                                            aria-expanded="false"
+                                            aria-controls="collapse{{ $loop->parent->index }}{{ $loop->index }}">
+                                            {{ $faq->pertanyaan }}
+                                        </button>
+                                    </h2>
+                                    <div id="collapse{{ $loop->parent->index }}{{ $loop->index }}"
+                                        class="accordion-collapse collapse"
+                                        aria-labelledby="heading{{ $loop->parent->index }}{{ $loop->index }}"
+                                        data-bs-parent="#accordionFlushExample{{ $loop->parent->index }}">
+                                        <div class="accordion-body">
+                                            <p class="mb-15">{{ $faq->jawaban }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+    </section>
         <!-- End Content -->
 
 @endsection

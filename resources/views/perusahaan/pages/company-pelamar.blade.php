@@ -34,7 +34,10 @@
             padding: 10px;
             background: #fff;
         }
-        
+
+        .btn-verifikasi {
+            background-color: #fff9c4 !important;
+        }
     </style>
 
     <main class="main">
@@ -94,7 +97,7 @@
                                             <td>
                                                 @if ($p->status_lamaran == 'Pending')
                                                     <button onclick="confirmStatusChange({{ $p->id_pelamar }})"
-                                                        class="btn btn-small hover-up btn-pending">
+                                                        class="btn btn-small hover-up btn-pending btn-verifikasi">
                                                         Verifikasi
                                                     </button>
                                                 @elseif($p->status_lamaran == 'Approved')
@@ -113,8 +116,7 @@
                                                         Respon
                                                     </button>
                                                 @elseif($p->status_lamaran == 'Approved')
-                                                    <button class="btn btn-small hover-up btn-default"
-                                                        data-bs-toggle="modal"
+                                                    <button class="btn btn-small hover-up btn-default" data-bs-toggle="modal"
                                                         data-bs-target="#tindakLanjutModal-{{ $p->id_pelamar }}">
                                                         Respon
                                                     </button>
@@ -125,14 +127,15 @@
                                                 @endif
                                             </td>
                                             <td class="text-center">
-                                                <form action="{{ route('pelamar.destroy', ['id_pelamar' => $p->id_pelamar]) }}" method="POST" class="delete-form">
+                                                <form action="{{ route('pelamar.destroy', ['id_pelamar' => $p->id_pelamar]) }}"
+                                                    method="POST" class="delete-form">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="button" class="btn btn-tb btn-table-danger btn-delete">
                                                         <i class="fa fa-trash"></i>
                                                     </button>
                                                 </form>
-                                            </td>                                            
+                                            </td>
                                         </tr>
 
                                         <!-- Modal CV -->
@@ -171,11 +174,12 @@
                                                             <div class="mb-3">
                                                                 <label class="form-label">Tulis catatan selanjutnya untuk
                                                                     pelamar</label>
-                                                                <textarea id="job-editor-{{ $p->id_pelamar }}" class="form-control job-editor" name="kelanjutan" rows="3">{{ old('kelanjutan', $p->kelanjutan) }}</textarea>
+                                                                <textarea id="job-editor-{{ $p->id_pelamar }}"
+                                                                    class="form-control job-editor" name="kelanjutan"
+                                                                    rows="3">{{ old('kelanjutan', $p->kelanjutan) }}</textarea>
                                                             </div>
                                                             <div class="modal-footer">
-                                                                <button type="submit"
-                                                                    class="btn btn-primary">Kirim</button>
+                                                                <button type="submit" class="btn btn-primary">Kirim</button>
                                                             </div>
                                                         </form>
                                                     </div>
@@ -197,7 +201,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
+        document.addEventListener("DOMContentLoaded", function () {
             @if (session('success'))
                 Swal.fire({
                     text: "{{ session('success') }}",
@@ -210,7 +214,7 @@
                     }
                 });
             @endif
-        });
+            });
     </script>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
@@ -218,7 +222,7 @@
                 button.addEventListener("click", function (event) {
                     event.preventDefault();
                     let form = this.closest("form");
-    
+
                     Swal.fire({
                         title: "Apakah Anda yakin?",
                         text: "Data ini akan dihapus secara permanen!",
@@ -300,7 +304,7 @@
 
     <!-- Datatables -->
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             $('.datatable').DataTable({
                 "paging": true,
                 "searching": true,
@@ -341,9 +345,9 @@
     </script>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
+        document.addEventListener("DOMContentLoaded", function () {
             document.querySelectorAll(".update-kelanjutan").forEach(button => {
-                button.addEventListener("click", function() {
+                button.addEventListener("click", function () {
                     let id = this.getAttribute("data-id");
                     let form = document.getElementById(`updateKelanjutanForm-${id}`);
 
@@ -367,7 +371,7 @@
                     }).then((result) => {
                         if (result.isConfirmed) {
                             form
-                        .submit(); // Kirim form langsung agar Laravel menangani return back()
+                                .submit(); // Kirim form langsung agar Laravel menangani return back()
                         }
                     });
                 });

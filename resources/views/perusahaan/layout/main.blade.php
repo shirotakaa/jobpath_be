@@ -11,17 +11,17 @@
     <meta property="og:type" content="" />
     <meta property="og:url" content="" />
     <meta property="og:image" content="" />
+    
     <!-- Favicon -->
-    <link rel="shortcut icon" type="image/x-icon" href="assets/user/imgs/Logo Dark.png" />
-    <!-- Template CSS -->
-    <link rel="stylesheet" href="assets/user/css/plugins/animate.min.css" />
-    <link rel="stylesheet" href="assets/user/css/main.css?v=1.0" />
+    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/user/imgs/Logo Dark.png') }}" />
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <!-- Bootstrap 5 CSS -->
-    {{-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"> --}}
-    <!-- DataTables Bootstrap 5 CSS -->
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
+    <!-- Template CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/user/css/plugins/animate.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/user/css/main.css?v=1.0') }}" />
+
+    <!-- FontAwesome & CKEditor -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5/43.0.0/ckeditor5.css" />
 </head>
 
 <body>
@@ -42,11 +42,13 @@
 
     @include('user.layout.footer')
 
+    <!-- JS Libraries (jQuery + Bootstrap only once) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
     <!-- Vendor JS -->
     <script src="{{ asset('assets/user/js/vendor/modernizr-3.6.0.min.js') }}"></script>
-    <script src="{{ asset('assets/user/js/vendor/jquery-3.6.0.min.js') }}"></script>
     <script src="{{ asset('assets/user/js/vendor/jquery-migrate-3.3.0.min.js') }}"></script>
-    <script src="{{ asset('assets/user/js/vendor/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('assets/user/js/plugins/waypoints.js') }}"></script>
     <script src="{{ asset('assets/user/js/plugins/wow.js') }}"></script>
     <script src="{{ asset('assets/user/js/plugins/magnific-popup.js') }}"></script>
@@ -56,20 +58,17 @@
     <script src="{{ asset('assets/user/js/plugins/scrollup.js') }}"></script>
     <script src="{{ asset('assets/user/js/plugins/swiper-bundle.min.js') }}"></script>
     <script src="{{ asset('assets/user/js/plugins/leaflet.js') }}"></script>
+
     <!-- Template JS -->
     <script src="{{ asset('assets/user/js/main.js?v=1.0') }}"></script>
 
-    <script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
-    <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <!-- Bootstrap 5 JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- DataTables JS -->
+    <!-- DataTables -->
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
-
+    
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
+    
+    <script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
     @yield('script')
 </body>
 

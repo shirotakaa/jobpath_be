@@ -19,8 +19,7 @@
     <link rel="stylesheet" href="{{ asset('assets/user/css/plugins/animate.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/user/css/main.css?v=1.0') }}" />
 
-    <!-- Bootstrap 5 & FontAwesome -->
-    {{-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" /> --}}
+    <!-- FontAwesome & CKEditor -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5/43.0.0/ckeditor5.css" />
 </head>
@@ -36,21 +35,20 @@
             </div>
         </div>
     </div>
-    
+
     @include('user.layout.header')
 
-        @yield('content')
+    @yield('content')
 
     @include('user.layout.footer')
 
-    <!-- Bootstrap JS -->
+    <!-- JS Libraries (jQuery + Bootstrap only once) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <!-- Vendor JS -->
     <script src="{{ asset('assets/user/js/vendor/modernizr-3.6.0.min.js') }}"></script>
-    <script src="{{ asset('assets/user/js/vendor/jquery-3.6.0.min.js') }}"></script>
     <script src="{{ asset('assets/user/js/vendor/jquery-migrate-3.3.0.min.js') }}"></script>
-    <script src="{{ asset('assets/user/js/vendor/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('assets/user/js/plugins/waypoints.js') }}"></script>
     <script src="{{ asset('assets/user/js/plugins/wow.js') }}"></script>
     <script src="{{ asset('assets/user/js/plugins/magnific-popup.js') }}"></script>
@@ -63,16 +61,15 @@
 
     <!-- Template JS -->
     <script src="{{ asset('assets/user/js/main.js?v=1.0') }}"></script>
-    <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <!-- Bootstrap 5 JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- DataTables JS -->
+
+    <!-- DataTables -->
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
 
+    <!-- CKEditor -->
     <script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
 
+    <!-- SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     @yield('scripts')

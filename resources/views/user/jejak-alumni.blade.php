@@ -196,7 +196,7 @@
 
             // Prev Button
             const prev = document.createElement("li");
-            prev.innerHTML = `<a href="#" class="pager-prev">&laquo;</a>`;
+            prev.innerHTML = `<a href="#" class="pager-prev"></a>`;
             prev.classList.toggle("disabled", currentPage === 1);
             paginationContainer.appendChild(prev);
             prev.addEventListener("click", (e) => {
@@ -226,7 +226,7 @@
 
             // Next Button
             const next = document.createElement("li");
-            next.innerHTML = `<a href="#" class="pager-next">&raquo;</a>`;
+            next.innerHTML = `<a href="#" class="pager-next"></a>`;
             next.classList.toggle("disabled", currentPage === totalPages);
             paginationContainer.appendChild(next);
             next.addEventListener("click", (e) => {

@@ -59,8 +59,8 @@
                             <div class="row">
                                 <div class="col-lg-12 col-12" style="display: flex; justify-content: space-between; gap: 16px;">
                                     <a href="/detail-pekerjaan/${job.slug}" class="card-2-img-text card-grid-2-img-medium">
-                                        <span class="card-grid-2-img-small">
-                                            <img src="${job.logo}" alt="${job.judul}" class="w-100 h-100 object-fit-cover">
+                                        <span class="card-grid-2-img-small p-0">
+                                            <img src="${job.logo}" alt="${job.judul}" class="w-100 h-100 object-fit-cover" style="border-radius: 8px;">
                                         </span>
                                         <span>${job.judul}</span>
                                     </a>

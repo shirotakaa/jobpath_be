@@ -49,7 +49,8 @@
                                         <div class="card-grid-2 card-employers hover-up wow animate__animated animate__fadeIn">
                                             <div class="text-center card-grid-2-image-rd">
                                                 <a href="#" class="d-inline-block">
-                                                    <figure class="rounded-circle overflow-hidden d-flex align-items-center justify-content-center m-0"
+                                                    <figure
+                                                        class="rounded-circle overflow-hidden d-flex align-items-center justify-content-center m-0"
                                                         style="width: 85px; height: 85px;">
                                                         <img alt="JobPath"
                                                             src="{{ $item->logo ? asset($item->logo) : asset('assets/user/imgs/employers/employer-default.png') }}"
@@ -80,37 +81,37 @@
                             <div class="paginations text-center">
                                 <ul class="pager" id="pagination-container"></ul>
                             </div>
-                             
-        
+
+
                             <!-- Pagination -->
                             {{-- @if ($perusahaan->lastPage() > 1)
-                                <div class="paginations text-center">
-                                    <ul class="pager">
-                                        <!-- Tombol Previous -->
+                            <div class="paginations text-center">
+                                <ul class="pager">
+                                    <!-- Tombol Previous -->
+                                    <li>
+                                        <a href="{{ $perusahaan->previousPageUrl() ?? '#' }}"
+                                            class="pager-prev {{ $perusahaan->onFirstPage() ? 'disabled' : '' }}">
+                                        </a>
+                                    </li>
+
+                                    <!-- Nomor Halaman -->
+                                    @for ($i = 1; $i <= $perusahaan->lastPage(); $i++)
                                         <li>
-                                            <a href="{{ $perusahaan->previousPageUrl() ?? '#' }}"
-                                               class="pager-prev {{ $perusahaan->onFirstPage() ? 'disabled' : '' }}">                                                
+                                            <a href="{{ $perusahaan->url($i) }}"
+                                                class="pager-number {{ $perusahaan->currentPage() == $i ? 'active' : '' }}">
+                                                {{ $i }}
                                             </a>
                                         </li>
-                                    
-                                        <!-- Nomor Halaman -->
-                                        @for ($i = 1; $i <= $perusahaan->lastPage(); $i++)
-                                            <li>
-                                                <a href="{{ $perusahaan->url($i) }}"
-                                                   class="pager-number {{ $perusahaan->currentPage() == $i ? 'active' : '' }}">
-                                                    {{ $i }}
-                                                </a>
-                                            </li>
                                         @endfor
-                                    
+
                                         <!-- Tombol Next -->
                                         <li>
                                             <a href="{{ $perusahaan->nextPageUrl() ?? '#' }}"
-                                               class="pager-next {{ $perusahaan->currentPage() == $perusahaan->lastPage() ? 'disabled' : '' }}">                                            
+                                                class="pager-next {{ $perusahaan->currentPage() == $perusahaan->lastPage() ? 'disabled' : '' }}">
                                             </a>
                                         </li>
-                                    </ul>    
-                                </div>
+                                </ul>
+                            </div>
                             @endif --}}
                         </div>
                     </div>
@@ -125,18 +126,18 @@
             const searchButton = document.querySelector(".box-button-find button");
             const jobListContainer = document.querySelector(".job-listing-grid-2");
             const paginationContainer = document.getElementById("pagination-container");
-    
+
             const allCards = Array.from(document.querySelectorAll(".company-card"));
             const cardsPerPage = 8;
             let currentPage = 1;
             let filteredCards = [...allCards]; // default: semua
-    
+
             function renderCards() {
                 jobListContainer.innerHTML = "";
-    
+
                 const start = (currentPage - 1) * cardsPerPage;
                 const end = start + cardsPerPage;
-    
+
                 const currentCards = filteredCards.slice(start, end);
                 if (currentCards.length > 0) {
                     currentCards.forEach(card => jobListContainer.appendChild(card));
@@ -145,14 +146,14 @@
                         "<p class='text-center'>Tidak ada perusahaan yang ditemukan.</p>";
                 }
             }
-    
+
             function createPagination() {
                 paginationContainer.innerHTML = "";
                 const totalPages = Math.ceil(filteredCards.length / cardsPerPage);
-    
-                // Prev Button
+
+                // Tombol Sebelumnya
                 const prev = document.createElement("li");
-                prev.innerHTML = `<a href="#" class="pager-prev">&laquo;</a>`;
+                prev.innerHTML = `<a href="#" class="pager-prev"></a>`;
                 prev.classList.toggle("disabled", currentPage === 1);
                 paginationContainer.appendChild(prev);
                 prev.addEventListener("click", (e) => {
@@ -163,26 +164,26 @@
                         createPagination();
                     }
                 });
-    
-                // Page Numbers
+
+                // Nomor halaman
                 for (let i = 1; i <= totalPages; i++) {
                     const li = document.createElement("li");
                     li.innerHTML = `<a href="#" class="pager-number">${i}</a>`;
                     if (i === currentPage) li.querySelector("a").classList.add("active");
-    
+
                     li.querySelector("a").addEventListener("click", (e) => {
                         e.preventDefault();
                         currentPage = i;
                         renderCards();
                         createPagination();
                     });
-    
+
                     paginationContainer.appendChild(li);
                 }
-    
-                // Next Button
+
+                // Tombol Berikutnya
                 const next = document.createElement("li");
-                next.innerHTML = `<a href="#" class="pager-next">&raquo;</a>`;
+                next.innerHTML = `<a href="#" class="pager-next"></a>`;
                 next.classList.toggle("disabled", currentPage === totalPages);
                 paginationContainer.appendChild(next);
                 next.addEventListener("click", (e) => {
@@ -194,37 +195,37 @@
                     }
                 });
             }
-    
+
             function handleSearch() {
                 const searchValue = searchInput.value.trim().toLowerCase();
                 filteredCards = allCards.filter(card => {
                     const companyName = card.querySelector(".card-profile h5 strong")?.textContent.toLowerCase() || "";
                     return companyName.includes(searchValue);
                 });
-    
+
                 currentPage = 1;
                 renderCards();
                 createPagination();
             }
-    
+
             searchButton.addEventListener("click", function (e) {
                 e.preventDefault();
                 handleSearch();
             });
-    
+
             searchInput.addEventListener("keypress", function (e) {
                 if (e.key === "Enter") {
                     e.preventDefault();
                     handleSearch();
                 }
             });
-    
+
             // Inisialisasi awal
             renderCards();
             createPagination();
         });
     </script>
-    
+
 
 
 @endsection
