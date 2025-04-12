@@ -48,7 +48,7 @@
                                     <div class="col-lg-4 col-md-6 alumni-card">
                                         <div class="card-grid-2 hover-up">
                                             <div class="text-center card-grid-2-image-rd">
-                                                <a href="candidates-single.html">
+                                                <a>
                                                     <figure style="width: 110px; height: 110px;">
                                                         <img alt="{{ $item->nama }}" src="{{ asset('storage/' . $item->foto) }}" class="w-100 h-100 object-fit-cover" />
                                                     </figure>
@@ -56,7 +56,7 @@
                                             </div>
                                             <div class="card-block-info">
                                                 <div class="card-profile">
-                                                    <a href="#"><strong>{{ $item->nama }}</strong></a>
+                                                    <a><strong>{{ $item->nama }}</strong></a>
                                                     <span class="text-sm" style="color: #1f2938;">
                                                         Sebagai alumni SMKN 4 Malang dengan jurusan {{ $item->jurusan }}.
                                                         Sekarang saya telah bekerja saya bekerja sebagai {{ $item->pekerjaan }} di {{ $item->perusahaan }}.

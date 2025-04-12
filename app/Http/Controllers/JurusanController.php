@@ -9,7 +9,8 @@ class JurusanController extends Controller
 {
     public function index()
     {
-        $jurusans = Jurusan::all();
+        // Mengambil data dengan urutan descending berdasarkan created_at
+        $jurusans = Jurusan::orderBy('created_at', 'desc')->get();
         return view('admin.pages.jurusan', compact('jurusans'));
     }
 

@@ -10,6 +10,7 @@ use App\Models\Faq;
 use App\Models\PerusahaanContent;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 
 class IdentitasController extends Controller
 {
@@ -21,6 +22,14 @@ class IdentitasController extends Controller
 
     public function guestIndex()
     {
+        if (Auth::guard('siswa')->check()) {
+            return redirect('/index');
+        }
+
+        if (Auth::guard('perusahaan')->check()) {
+            return redirect('/company-landing');
+        }
+
         $identitas = Identitas::first();
         $perusahaan = Perusahaan::where('tampilkan_di_landing', true)
             ->select('perusahaan.*')
@@ -40,6 +49,13 @@ class IdentitasController extends Controller
 
     public function guestPerusahaan()
     {
+        if (Auth::guard('siswa')->check()) {
+            return redirect('/index');
+        }
+
+        if (Auth::guard('perusahaan')->check()) {
+            return redirect('/company-landing');
+        }
         $identitas = Identitas::first();
         $perusahaan = Perusahaan::select('perusahaan.*')
             ->selectSub(function ($query) {
@@ -55,13 +71,27 @@ class IdentitasController extends Controller
 
     public function guestJejakAlumni()
     {
+        if (Auth::guard('siswa')->check()) {
+            return redirect('/index');
+        }
+
+        if (Auth::guard('perusahaan')->check()) {
+            return redirect('/company-landing');
+        }
         $identitas = Identitas::first();
         $alumni = JejakAlumni::where('status', 'Approved')->paginate(6);
-        return view('guest.guest-jejak-alumni', compact('identitas','alumni'));
+        return view('guest.guest-jejak-alumni', compact('identitas', 'alumni'));
     }
 
     public function guestFaq()
     {
+        if (Auth::guard('siswa')->check()) {
+            return redirect('/index');
+        }
+
+        if (Auth::guard('perusahaan')->check()) {
+            return redirect('/company-landing');
+        }
         $identitas = Identitas::first();
         $faqs = Faq::all();
         $faqContent = \App\Models\FaqContent::latest()->first(); // Mengambil data terbaru dari tabel
@@ -70,6 +100,13 @@ class IdentitasController extends Controller
 
     public function PerusahaanGuest()
     {
+        if (Auth::guard('siswa')->check()) {
+            return redirect('/index');
+        }
+
+        if (Auth::guard('perusahaan')->check()) {
+            return redirect('/company-landing');
+        }
         $identitas = Identitas::first();
         $perusahaanContent = PerusahaanContent::first();
         return view('guest.index-perusahaan', compact('identitas', 'perusahaanContent'));
@@ -77,10 +114,17 @@ class IdentitasController extends Controller
 
     public function PerusahaanFaq()
     {
+        if (Auth::guard('siswa')->check()) {
+            return redirect('/index');
+        }
+
+        if (Auth::guard('perusahaan')->check()) {
+            return redirect('/company-landing');
+        }
         $identitas = Identitas::first();
         $faqs = Faq::all();
         $faqContent = \App\Models\FaqContent::latest()->first(); // Mengambil data terbaru dari tabel
-        return view('guest.faq-perusahaan', compact('identitas','faqContent', 'faqs'));
+        return view('guest.faq-perusahaan', compact('identitas', 'faqContent', 'faqs'));
     }
 
     // public function guest()

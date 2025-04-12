@@ -9,42 +9,43 @@ use App\Models\Perusahaan;
 use App\Models\JejakAlumni;
 use App\Models\Identitas;
 use App\Models\PerusahaanContent;
+use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
     public function daftarPekerjaan(Request $request)
-{
-    $query = $request->query('query');
-    $kategori = $request->query('kategori');
+    {
+        $query = $request->query('query');
+        $kategori = $request->query('kategori');
 
-    $pekerjaan = Pekerjaan::with('perusahaan')
-        ->where('status', 'Available')
-        ->when($query, function ($q) use ($query) {
-            $q->where(function ($subQuery) use ($query) {
-                $subQuery->where('judul_pekerjaan', 'like', "%$query%")
-                         ->orWhereHas('perusahaan', function ($q2) use ($query) {
-                             $q2->where('nama_perusahaan', 'like', "%$query%");
-                         });
-            });
-        })
-        ->when($kategori, function ($q) use ($kategori) {
-            $q->where('kategori', $kategori);
-        })
-        ->get(); // <-- gunakan get() bukan paginate()
+        $pekerjaan = Pekerjaan::with('perusahaan')
+            ->where('status', 'Available')
+            ->when($query, function ($q) use ($query) {
+                $q->where(function ($subQuery) use ($query) {
+                    $subQuery->where('judul_pekerjaan', 'like', "%$query%")
+                        ->orWhereHas('perusahaan', function ($q2) use ($query) {
+                            $q2->where('nama_perusahaan', 'like', "%$query%");
+                        });
+                });
+            })
+            ->when($kategori, function ($q) use ($kategori) {
+                $q->where('kategori', $kategori);
+            })
+            ->get(); // <-- gunakan get() bukan paginate()
 
-    $identitas = Identitas::first();
-    $categories = Pekerjaan::select('kategori')->distinct()->pluck('kategori');
+        $identitas = Identitas::first();
+        $categories = Pekerjaan::select('kategori')->distinct()->pluck('kategori');
 
-    return view('user.daftar-pekerjaan', compact('pekerjaan', 'identitas', 'categories', 'query', 'kategori'));
-}
+        return view('user.daftar-pekerjaan', compact('pekerjaan', 'identitas', 'categories', 'query', 'kategori'));
+    }
 
     public function detailPekerjaan($judul_pekerjaan)
     {
         $pekerjaan = Pekerjaan::with('perusahaan')->where('judul_pekerjaan', $judul_pekerjaan)->firstOrFail();
         $identitas = Identitas::first();
-    
+
         // Ambil pekerjaan lain dengan kategori yang sama, tapi beda judul
         $pekerjaanLain = Pekerjaan::with('perusahaan')
             ->where('judul_pekerjaan', '!=', $judul_pekerjaan)
@@ -53,28 +54,28 @@ class UserController extends Controller
             ->whereHas('perusahaan')
             ->limit(3)
             ->get();
-    
+
         $siswa = $pekerjaan->id_siswa ? Siswa::find($pekerjaan->id_siswa) : null;
-    
+
         return view('user.detail-pekerjaan', compact('pekerjaan', 'pekerjaanLain', 'siswa', 'identitas'));
     }
-    
-    
+
+
 
     public function jejakAlumni(Request $request)
     {
         $identitas = Identitas::first();
         $alumni = JejakAlumni::where('status', 'Approved')->get();
-    
+
         if ($request->ajax()) {
             return response()->json([
                 'html' => view('user.jejak-alumni')->with('alumni', $alumni)->renderSections()['alumni']
             ]);
         }
-    
+
         return view('user.jejak-alumni', compact('identitas', 'alumni'));
     }
-    
+
 
     public function faqUser()
     {
@@ -92,7 +93,7 @@ class UserController extends Controller
         $pekerjaanList = Pekerjaan::whereIn('id_pekerjaan', $ids)->get();
         $pekerjaan = Pekerjaan::with('perusahaan')->get(); // atau ->paginate(9) jika pakai paginasi
 
-        return view('user.profile-save-job', compact('identitas', 'pekerjaanList','pekerjaan'));
+        return view('user.profile-save-job', compact('identitas', 'pekerjaanList', 'pekerjaan'));
     }
 
     public function changePw()
@@ -102,19 +103,18 @@ class UserController extends Controller
     }
 
     public function perusahaan()
-{
-    $identitas = Identitas::first();
-    $perusahaan = Perusahaan::select('perusahaan.*')
-        ->selectSub(function ($query) {
-            $query->from('pekerjaan')
-                ->whereColumn('pekerjaan.id_perusahaan', 'perusahaan.id_perusahaan')
-                ->where('pekerjaan.status', 'Available')
-                ->selectRaw('COUNT(*)');
-        }, 'jumlah_lowongan')
-        ->get(); // Mengambil semua data tanpa pagination
-    return view('user.perusahaan', compact('identitas', 'perusahaan'));
-}
-
+    {
+        $identitas = Identitas::first();
+        $perusahaan = Perusahaan::select('perusahaan.*')
+            ->selectSub(function ($query) {
+                $query->from('pekerjaan')
+                    ->whereColumn('pekerjaan.id_perusahaan', 'perusahaan.id_perusahaan')
+                    ->where('pekerjaan.status', 'Available')
+                    ->selectRaw('COUNT(*)');
+            }, 'jumlah_lowongan')
+            ->get(); // Mengambil semua data tanpa pagination
+        return view('user.perusahaan', compact('identitas', 'perusahaan'));
+    }
 
     public function jejakAlumniForm()
     {
@@ -132,7 +132,7 @@ class UserController extends Controller
     {
         $identitas = Identitas::first();
         $perusahaanContent = PerusahaanContent::first();
-        return view('perusahaan.pages.company-landing', compact('identitas','perusahaanContent'));
+        return view('perusahaan.pages.company-landing', compact('identitas', 'perusahaanContent'));
     }
 
     // public function guestlanding()
@@ -151,12 +151,13 @@ class UserController extends Controller
         $perusahaan = auth()->guard('perusahaan')->user();
         $identitas = Identitas::first();
 
-        // Ambil pekerjaan yang dimiliki oleh perusahaan tersebut
-        $pekerjaan = \App\Models\Pekerjaan::where('id_perusahaan', $perusahaan->id_perusahaan)->get();
+        // Ambil pekerjaan terbaru milik perusahaan tersebut
+        $pekerjaan = \App\Models\Pekerjaan::where('id_perusahaan', $perusahaan->id_perusahaan)
+            ->orderBy('created_at', 'desc') // tampilkan yang terbaru di atas
+            ->get();
 
         return view('perusahaan.pages.company-job', compact('pekerjaan', 'identitas', 'perusahaan'));
     }
-
 
     public function pelamar()
     {
@@ -169,6 +170,7 @@ class UserController extends Controller
 
         $pelamar = Pelamar::where('id_perusahaan', $idPerusahaan)
             ->with(['pekerjaan', 'siswa'])
+            ->orderBy('created_at', 'desc') // pelamar terbaru muncul di atas
             ->get();
 
         return view('perusahaan.pages.company-pelamar', compact('pelamar', 'identitas'));
@@ -177,8 +179,12 @@ class UserController extends Controller
     public function lamaran()
     {
         $identitas = Identitas::first();
+        $siswa = Auth::guard('siswa')->user(); // ambil data siswa yang login
+
         $lamaran = Pelamar::join('pekerjaan', 'pelamar.id_pekerjaan', '=', 'pekerjaan.id_pekerjaan')
             ->join('perusahaan', 'pekerjaan.id_perusahaan', '=', 'perusahaan.id_perusahaan')
+            ->where('pelamar.id_siswa', $siswa->id_siswa) // filter berdasarkan siswa yang login
+            ->orderBy('pelamar.created_at', 'desc') // urutkan berdasarkan waktu dibuat
             ->select(
                 'pelamar.*',
                 'pekerjaan.judul_pekerjaan',
@@ -194,6 +200,7 @@ class UserController extends Controller
 
         return view('user.lamaran', compact('lamaran', 'identitas'));
     }
+
 
     public function addjob()
     {

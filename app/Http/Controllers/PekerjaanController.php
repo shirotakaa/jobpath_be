@@ -11,7 +11,7 @@ class PekerjaanController extends Controller
     // ========== ADMIN SECTION ========== //
     public function index()
     {
-        $pekerjaan = Pekerjaan::all();
+        $pekerjaan = Pekerjaan::orderBy('created_at', 'desc')->get();
         $perusahaan = Perusahaan::all(); // Ambil data perusahaan
         return view('admin.pages.tambah-pekerjaan', compact('pekerjaan', 'perusahaan'));
     }

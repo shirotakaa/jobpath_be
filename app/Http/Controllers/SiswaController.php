@@ -12,7 +12,7 @@ class SiswaController extends Controller
 {
     public function index()
     {
-        $siswa = Siswa::all();
+        $siswa = Siswa::orderBy('created_at', 'desc')->get();
         $jurusans = Jurusan::all();
         return view('admin.pages.data-user', compact('siswa', 'jurusans'));
     }

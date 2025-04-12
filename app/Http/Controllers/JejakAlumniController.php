@@ -12,7 +12,7 @@ class JejakAlumniController extends Controller
 {
     public function index()
     {
-        $alumni = JejakAlumni::all();
+        $alumni = JejakAlumni::orderBy('created_at', 'desc')->get();
         $siswa = Siswa::all(); // Ambil data siswa
 
         return view('admin.pages.data-pekerjaan-alumni', compact('alumni', 'siswa'));

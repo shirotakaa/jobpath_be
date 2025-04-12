@@ -39,16 +39,22 @@
     </main>
 
     <script>
+        const siswaId = "{{ Auth::guard('siswa')->check() ? Auth::guard('siswa')->user()->id_siswa : '' }}";
+    </script>
+    
+    <script>
         document.addEventListener("DOMContentLoaded", function () {
+            if (!siswaId) return;
+    
             const container = document.querySelector(".job-listing-grid-2");
-            const savedJobs = JSON.parse(localStorage.getItem("saved_jobs")) || [];
+            const savedJobs = JSON.parse(localStorage.getItem(`saved_jobs_${siswaId}`)) || [];
     
             if (savedJobs.length === 0) {
                 container.innerHTML = `<p>Belum ada pekerjaan yang disimpan.</p>`;
                 return;
             }
     
-            container.innerHTML = ""; // Kosongkan kontainer
+            container.innerHTML = "";
     
             savedJobs.forEach((job, index) => {
                 const jobCard = document.createElement("div");
@@ -97,7 +103,6 @@
                 container.appendChild(jobCard);
             });
     
-            // Tombol hapus
             container.addEventListener("click", function (e) {
                 if (e.target.closest(".btn-hapus")) {
                     const btn = e.target.closest(".btn-hapus");
@@ -118,14 +123,14 @@
                     }).then((result) => {
                         if (result.isConfirmed) {
                             savedJobs.splice(index, 1);
-                            localStorage.setItem("saved_jobs", JSON.stringify(savedJobs));
+                            localStorage.setItem(`saved_jobs_${siswaId}`, JSON.stringify(savedJobs));
                             location.reload();
                         }
                     });
                 }
             });
         });
-    </script>
+    </script>    
     
     
 

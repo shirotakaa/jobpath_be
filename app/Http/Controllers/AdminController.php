@@ -58,7 +58,7 @@ class AdminController extends Controller
 
     public function kelolaJurusan()
     {
-        $jurusans = Jurusan::all();
+        $jurusans = Jurusan::orderBy('id_jurusan', 'desc')->get();
         return view('admin.pages.jurusan', compact('jurusans'));
     }
 
@@ -90,20 +90,23 @@ class AdminController extends Controller
 
     public function kelolaPerusahaan()
     {
-        $perusahaan = Perusahaan::all();
+        // Mengambil data perusahaan dengan urutan descending berdasarkan created_at
+        $perusahaan = Perusahaan::orderBy('created_at', 'desc')->get();
         return view('admin.pages.kelola-perusahaan', compact('perusahaan'));
     }
 
     public function kelolaPekerjaan()
     {
-        $pekerjaan = Pekerjaan::all();
+        // Mengambil data pekerjaan dengan urutan descending berdasarkan created_at
+        $pekerjaan = Pekerjaan::orderBy('created_at', 'desc')->get();
         $perusahaan = Perusahaan::all(); // Ambil data perusahaan
         return view('admin.pages.tambah-pekerjaan', compact('pekerjaan', 'perusahaan'));
     }
 
     public function kelolaAlumni()
     {
-        $alumni = JejakAlumni::all();
+        // Mengambil data alumni dengan urutan descending berdasarkan created_at
+        $alumni = JejakAlumni::orderBy('created_at', 'desc')->get();
         $siswa = Siswa::all();
         return view('admin.pages.data-pekerjaan-alumni', compact('alumni', 'siswa'));
     }
@@ -135,7 +138,7 @@ class AdminController extends Controller
 
         return redirect()->back()->with('success', 'Perusahaan berhasil diperbarui.');
     }
-    
+
     public function updateAlumniLanding(Request $request, $id)
     {
         $alumni = JejakAlumni::findOrFail($id);
@@ -147,7 +150,8 @@ class AdminController extends Controller
 
     public function kelolaSiswa()
     {
-        $siswa = Siswa::all();
+        // Mengambil data siswa dengan urutan descending berdasarkan created_at
+        $siswa = Siswa::orderBy('created_at', 'desc')->get();
         $jurusans = Jurusan::all();
         return view('admin.pages.data-user', compact('siswa', 'jurusans'));
     }

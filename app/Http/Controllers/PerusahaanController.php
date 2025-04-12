@@ -11,7 +11,7 @@ class PerusahaanController extends Controller
 {
     public function index()
     {
-        $perusahaan = Perusahaan::all();
+        $perusahaan = Perusahaan::orderBy('created_at', 'desc')->get();
         return view('admin.pages.kelola-perusahaan', compact('perusahaan'));
     }
 

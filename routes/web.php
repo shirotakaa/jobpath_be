@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\HeroLandingController;
@@ -18,16 +17,12 @@ use App\Http\Controllers\JejakAlumniController;
 use App\Http\Controllers\PerusahaanContentController;
 use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\CompanyProfileController;
-use App\Models\Pelamar;
+use App\Models\Pelamar; 
+use Illuminate\Support\Facades\Route;
 
 // Route::get('/', function () {
 //     return view('guest.index');
 // });
-
-Route::get('/', function () {
-    return view('guest.index');
-})->name('guest.index');
-
 Route::get('/', [IdentitasController::class, 'guestIndex'])->name('guest.index');
 Route::get('/guest-jejak-alumni', [IdentitasController::class, 'guestJejakAlumni'])->name('guest-jejak-alumni');
 Route::get('/guest-list-perusahaan', [IdentitasController::class, 'guestPerusahaan'])->name('guest-list-perusahaan');
@@ -116,8 +111,8 @@ Route::middleware(['MustAdmin'])->group(function () {
 // Route untuk perusahaan
 Route::middleware(['MustPerusahaan'])->group(function () {
     // Tambah lowongan
-    Route::get('/company-add-job', [UserController::class, 'addjob'])->name('company.addjob');
     Route::get('/company-landing', [UserController::class, 'landing'])->name('company.landing');
+    Route::get('/company-add-job', [UserController::class, 'addjob'])->name('company.addjob');
     Route::get('/company-job', [UserController::class, 'job'])->name('company.job');
     Route::post('/pekerjaan/store-user', [PekerjaanController::class, 'storeUser'])->name('pekerjaan.storeUser');
     Route::delete('/company-job/{id}', [PekerjaanController::class, 'destroy'])->name('pekerjaan.deletejob');

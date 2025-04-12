@@ -19,6 +19,12 @@ class MustUser
         if (!Auth::guard('siswa')->check()) {
             return redirect()->route('guest.index');
         }
+
+        // Jika sudah login dan membuka "/", arahkan ke /index
+        if ($request->path() === '/') {
+            return redirect()->route('user.index');
+        }
+
         return $next($request);
     }
 }

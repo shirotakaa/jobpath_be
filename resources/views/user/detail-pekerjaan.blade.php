@@ -31,12 +31,28 @@
                         <div class="single-apply-jobs">
                             <div class="row align-items-center">
                                 <div class="col-md-5">
-                                    <a href="#" class="btn btn-default mr-15" data-bs-toggle="modal"
-                                        data-bs-target="#applyJobModal">Daftar</a>
+                                    @if (auth()->guard('siswa')->check())
+                                        @php
+                                            $sudahMelamar = \DB::table('pelamar')
+                                                ->where('id_siswa', auth()->guard('siswa')->user()->id_siswa)
+                                                ->where('id_pekerjaan', $pekerjaan->id_pekerjaan)
+                                                ->exists();
+                                        @endphp
+                        
+                                        @if (!$sudahMelamar)
+                                            <a href="#" class="btn btn-default mr-15" data-bs-toggle="modal" data-bs-target="#applyJobModal">Daftar</a>
+                                        @else
+                                            <button class="btn btn-secondary mr-15" disabled>Sudah Melamar</button>
+                                        @endif
+                                    @else
+                                        <a href="{{ route('siswa.login') }}" class="btn btn-warning mr-15">Login untuk Melamar</a>
+                                    @endif
+                        
                                     <a href="#" class="btn btn-border" id="btn-lihat-simpan">Simpan</a>
                                 </div>
                             </div>
                         </div>
+                        
                         <div class="single-recent-jobs">
                             <h4 class="heading-border"><span>Pekerjaan Lainnya</span></h4>
                             <div class="list-recent-jobs">
@@ -108,7 +124,7 @@
                                         <span class="sidebar-website-text">{{ $pekerjaan->lokasi }}</span>
                                     </div>
                                 </div>
-                            </div>                            
+                            </div>
                             <div class="sidebar-list-job">
                                 <ul>
                                     <li>
@@ -166,6 +182,7 @@
     </main>
     <!-- End Content -->
 
+
     <div class="modal fade" id="applyJobModal" tabindex="-1" aria-labelledby="applyJobModalLabel" aria-hidden="true"
         data-bs-backdrop="false">
         <div class="modal-dialog modal-dialog-centered">
@@ -215,11 +232,13 @@
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             const btnSimpan = document.getElementById("btn-lihat-simpan");
-
+    
             btnSimpan.addEventListener("click", function (e) {
                 e.preventDefault();
-
-                // Ambil data pekerjaan dari PHP
+    
+                const siswaId = "{{ auth()->guard('siswa')->user()->id_siswa }}";
+                const savedKey = `saved_jobs_${siswaId}`;
+    
                 const pekerjaan = {
                     slug: "{{ $pekerjaan->judul_pekerjaan }}",
                     judul: "{{ $pekerjaan->judul_pekerjaan }}",
@@ -229,14 +248,14 @@
                     gaji: "{{ $pekerjaan->rentang_gaji }}",
                     logo: "{{ asset($pekerjaan->perusahaan->logo ?? 'assets/user/imgs/job/default.png') }}"
                 };
-
-                let saved = JSON.parse(localStorage.getItem("saved_jobs")) || [];
-
+    
+                let saved = JSON.parse(localStorage.getItem(savedKey)) || [];
+    
                 const exist = saved.some(j => j.slug === pekerjaan.slug);
                 if (!exist) {
                     saved.push(pekerjaan);
-                    localStorage.setItem("saved_jobs", JSON.stringify(saved));
-
+                    localStorage.setItem(savedKey, JSON.stringify(saved));
+    
                     Swal.fire({
                         title: "Berhasil!",
                         text: "Pekerjaan disimpan ke Pekerjaan Tersimpan",
@@ -261,6 +280,17 @@
                 }
             });
         });
+    </script>    
+    <script>
+        @if (session('error'))
+                    < script >
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Gagal',
+                        text: '{{ session('error') }}',
+                    });
+            </script>
+        @endif
     </script>
 
 

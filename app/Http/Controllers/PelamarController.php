@@ -29,6 +29,15 @@ class PelamarController extends Controller
             return redirect()->back()->with('error', 'Anda harus login sebagai siswa.');
         }
 
+        // Cek apakah siswa sudah melamar pekerjaan ini
+        $sudahMelamar = Pelamar::where('id_siswa', $user->id_siswa)
+            ->where('id_pekerjaan', $request->id_pekerjaan)
+            ->exists();
+
+        if ($sudahMelamar) {
+            return redirect()->back()->with('error', 'Anda sudah melamar pekerjaan ini sebelumnya.');
+        }
+
         // Ambil data pekerjaan
         $pekerjaan = Pekerjaan::where('id_pekerjaan', $request->id_pekerjaan)->firstOrFail();
 
@@ -45,7 +54,6 @@ class PelamarController extends Controller
             'status_lamaran' => 'Pending',
         ]);
 
-        // Redirect ke route user.pelamar setelah berhasil mengirim lamaran
         return redirect()->route('user.lamaran')->with('success', 'Lamaran berhasil dikirim.')->withInput();
     }
 
