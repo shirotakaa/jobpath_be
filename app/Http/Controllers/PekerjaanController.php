@@ -9,6 +9,8 @@ use App\Models\Perusahaan;
 class PekerjaanController extends Controller
 {
     // ========== ADMIN SECTION ========== //
+
+    // Menampilkan daftar pekerjaan dan perusahaan untuk halaman admin
     public function index()
     {
         $pekerjaan = Pekerjaan::orderBy('created_at', 'desc')->get();
@@ -16,6 +18,7 @@ class PekerjaanController extends Controller
         return view('admin.pages.tambah-pekerjaan', compact('pekerjaan', 'perusahaan'));
     }
 
+    // Menampilkan daftar pekerjaan milik perusahaan yang sedang login
     public function daftarPekerjaanSaya()
     {
         if (!auth()->guard('perusahaan')->check()) {
@@ -31,6 +34,7 @@ class PekerjaanController extends Controller
         return view('perusahaan.pages.company-job', compact('pekerjaan'));
     }
 
+    // Menampilkan data perusahaan dan semua pekerjaan (digunakan admin untuk kelola pekerjaan)
     public function kelolaPerusahaan()
     {
         $pekerjaan = Pekerjaan::all();
@@ -38,6 +42,7 @@ class PekerjaanController extends Controller
         return view('admin.pages.tambah-pekerjaan', compact('pekerjaan', 'perusahaan'));
     }
 
+    // Menyimpan pekerjaan baru yang diinput oleh admin
     public function storeAdmin(Request $request)
     {
         // dd($request->all());
@@ -73,12 +78,14 @@ class PekerjaanController extends Controller
         }
     }
 
+    // Menampilkan form edit pekerjaan di sisi admin
     public function edit(Pekerjaan $pekerjaan)
     {
         $perusahaan = Perusahaan::all();
         return view('admin.pages.pekerjaan.edit', compact('pekerjaan', 'perusahaan'));
     }
 
+    // Menyimpan perubahan data pekerjaan oleh admin
     public function update(Request $request, $id_pekerjaan)
     {
         $request->validate([
@@ -101,7 +108,7 @@ class PekerjaanController extends Controller
         $pekerjaan->about_job = $request->about_job;
         $pekerjaan->detail_pekerjaan = $request->detail_pekerjaan;
 
-        // Jika deadline yang baru lebih besar dari hari ini dan pekerjaan sebelumnya kadaluarsa
+        // Jika deadline diperbarui dan sebelumnya statusnya expired atau rejected
         if (
             $request->deadline_lowongan > now()->toDateString() &&
             ($pekerjaan->status === 'Expired' || $pekerjaan->verifikasi === 'Rejected')
@@ -115,6 +122,7 @@ class PekerjaanController extends Controller
         return back()->with('success', 'Pekerjaan berhasil diperbarui.');
     }
 
+    // Menghapus pekerjaan dari database
     public function destroy($id)
     {
         $pekerjaan = Pekerjaan::findOrFail($id);
@@ -123,6 +131,8 @@ class PekerjaanController extends Controller
     }
 
     // ========== USER SECTION ========== //
+
+    // Menyimpan pekerjaan baru dari sisi user/perusahaan
     public function storeUser(Request $request)
     {
         // dd($request->all()); // Debug untuk melihat data yang dikirim
@@ -142,7 +152,7 @@ class PekerjaanController extends Controller
         Pekerjaan::create([
             'id_perusahaan' => $request->id_perusahaan,
             'judul_pekerjaan' => $request->judul_pekerjaan,
-            'deadline' => $request->deadline, // Tambahkan ini
+            'deadline' => $request->deadline,
             'lokasi' => $request->alamat,
             'kategori' => $request->category,
             'rentang_gaji' => "{$request->min_salary} - {$request->max_salary}",
@@ -155,26 +165,29 @@ class PekerjaanController extends Controller
         return redirect()->route('company.job')->with('success', 'Pekerjaan berhasil diunggah!');
     }
 
+    // Menyetujui pekerjaan oleh admin, ubah status menjadi Available
     public function approved(Pekerjaan $pekerjaan)
     {
         $pekerjaan->update([
             'verifikasi' => 'Approved',
-            'status' => 'Available' // Jika Approved, status otomatis jadi Available
+            'status' => 'Available'
         ]);
 
         return back()->with('success', 'Pekerjaan telah disetujui dan tersedia.');
     }
 
+    // Menolak pekerjaan oleh admin, ubah status menjadi Expired
     public function rejected(Pekerjaan $pekerjaan)
     {
         $pekerjaan->update([
             'verifikasi' => 'Rejected',
-            'status' => 'Expired' // Jika Rejected, status otomatis jadi Expired
+            'status' => 'Expired'
         ]);
 
         return back()->with('error', 'Pekerjaan ditolak dan kadaluarsa.');
     }
 
+    // Fungsi statis untuk memperbarui status pekerjaan jika deadline sudah lewat
     public static function updateExpiredJobs()
     {
         $today = now()->toDateString();
@@ -189,6 +202,8 @@ class PekerjaanController extends Controller
                 'verifikasi' => 'Rejected',
             ]);
     }
+
+    // Memperbarui deadline pekerjaan dari sisi perusahaan
     public function updateDeadline(Request $request, $id)
     {
         $request->validate([
