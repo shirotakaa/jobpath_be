@@ -49,7 +49,8 @@
                                 placeholder="Masukkan Email">
                         </div>
                         <div class="mb-3 position-relative">
-                            <input name="password" type="password" class="form-control input-custom" placeholder="Password">
+                            <input name="password" type="password" class="form-control input-custom"
+                                placeholder="Password">
                             <span class="toggle-password">
                                 <i class="fas fa-eye-slash"></i>
                             </span>
@@ -58,26 +59,11 @@
                             <div class="form-check">
                                 <input type="checkbox" class="form-check-input" id="rememberMe">
                                 <label class="form-check-label" for="rememberMe">Remember me</label>
-                            </div>                            
+                            </div>
                         </div>
                         <button type="submit" class="btn btn-default w-100 mt-3">Log in</button>
                     </form>
 
-                    @if ($errors->any())
-                        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-                        <script>
-                            Swal.fire({
-                                title: "Login Gagal!",
-                                html: "{!! implode('<br>', $errors->all()) !!}",
-                                icon: "error",
-                                buttonsStyling: false,
-                                confirmButtonText: "OK",
-                                customClass: {
-                                    confirmButton: "btn fw-bold btn-danger"
-                                }
-                            });
-                        </script>
-                    @endif
                     <div class="text-center mt-3">
                         <span>Belum punya akun? <a href="{{ route('register-perusahaan') }}"
                                 class="text-primary fw-semibold">Daftar di sini</a></span>
@@ -104,6 +90,41 @@
     <script src="assets/user/js/plugins/swiper-bundle.min.js"></script>
     <!-- Template  JS -->
     <script src="assets/user/js/main.js?v=1.0"></script>
+
+    @if ($errors->any() || session('success'))
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        @if ($errors->any())
+            Swal.fire({
+                title: "Login Gagal!",
+                html: `{!! implode('<br>', $errors->all()) !!}`,
+                icon: "error",
+                buttonsStyling: false,
+                confirmButtonText: "OK",
+                customClass: {
+                    confirmButton: "btn fw-bold btn-danger"
+                }
+            });
+        @elseif (session('success'))
+            Swal.fire({
+                title: "Berhasil!",
+                text: "{{ session('success') }}",
+                icon: "success",
+                buttonsStyling: false,
+                confirmButtonText: "OK",
+                customClass: {
+                    confirmButton: "btn fw-bold btn-success"
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = "{{ route('company.landing') }}";
+                }
+            });
+        @endif
+    </script>
+@endif
+
+
 </body>
 
 </html>

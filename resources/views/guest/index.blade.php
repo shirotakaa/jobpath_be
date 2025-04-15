@@ -161,39 +161,5 @@
 
     </main>
     <!-- End Content -->
-    @section('scripts')
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-        @if (session('login_success'))
-            <script>
-                document.addEventListener("DOMContentLoaded", function () {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Login Berhasil',
-                        text: 'Anda akan diarahkan ke halaman utama',
-                        confirmButtonColor: '#3085d6',
-                        backdrop: true,
-                        allowOutsideClick: false
-                    });
-                });
-            </script>
-        @endif
-
-        @if (session('login_error'))
-            <script>
-                document.addEventListener("DOMContentLoaded", function () {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Login Gagal',
-                        text: '{{ session('login_error') }}',
-                        confirmButtonColor: '#3085d6',
-                        backdrop: true,
-                        allowOutsideClick: false
-                    });
-                });
-            </script>
-        @endif
-    @endsection
-
 
 @endsection

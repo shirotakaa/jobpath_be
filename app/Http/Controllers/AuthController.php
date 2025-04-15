@@ -113,27 +113,28 @@ class AuthController extends Controller
         ], 401);
     }
 
-
     public function loginSiswa(Request $request)
     {
         $request->validate([
             'nis' => 'required|string',
             'password' => 'required|string',
         ]);
-
+    
         $siswa = Siswa::where('nis', $request->nis)->first();
-
+    
         if (!$siswa) {
             return back()->with('login_error', 'NIS yang Anda masukkan salah');
         }
-
+    
         if (!Hash::check($request->password, $siswa->password)) {
             return back()->with('login_error', 'Password yang Anda masukkan salah');
         }
-
+    
         Auth::guard('siswa')->login($siswa);
-        return redirect()->back()->with('login_success', true);
+        return back()->with('login_success', 'Login Berhasil, Anda akan diarahkan ke halaman utama.');
     }
+    
+    
 
     public function showLoginFormPerusahaan()
     {
@@ -146,18 +147,20 @@ class AuthController extends Controller
             'email' => 'required|email',
             'password' => 'required|string',
         ]);
-
+    
         $credentials = $request->only('email', 'password');
-
+    
         if (Auth::guard('perusahaan')->attempt($credentials)) {
             $request->session()->regenerate();
-            return redirect()->intended(route('company.landing'));
-        }
+            return back()->with('success', 'Berhasil login sebagai perusahaan!');
 
+        }
+    
         return back()->withErrors([
             'email' => 'Email atau password salah. Silakan coba lagi.',
         ]);
     }
+    
 
     public function userlogout(Request $request)
     {

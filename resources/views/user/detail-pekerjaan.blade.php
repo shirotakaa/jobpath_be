@@ -30,7 +30,7 @@
                         </div>
                         <div class="single-apply-jobs">
                             <div class="row align-items-center">
-                                <div class="col-md-5">
+                                <div class="col-md-8">
                                     @if (auth()->guard('siswa')->check())
                                         @php
                                             $sudahMelamar = \DB::table('pelamar')
@@ -42,7 +42,7 @@
                                         @if (!$sudahMelamar)
                                             <a href="#" class="btn btn-default mr-15" data-bs-toggle="modal" data-bs-target="#applyJobModal">Daftar</a>
                                         @else
-                                            <button class="btn btn-secondary mr-15" disabled>Sudah Melamar</button>
+                                            <button class="btn btn-secondary mr-15 btn-sudah-lamar" disabled>Sudah Melamar</button>
                                         @endif
                                     @else
                                         <a href="{{ route('siswa.login') }}" class="btn btn-warning mr-15">Login untuk Melamar</a>

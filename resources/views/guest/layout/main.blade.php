@@ -36,7 +36,7 @@
 
     @include('guest.layout.header')
     @yield('content')
-    
+
     <!-- Modal Login -->
     <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true"
         data-bs-backdrop="false">
@@ -55,7 +55,7 @@
                         @csrf
                         <div class="mb-3">
                             <input type="text" name="nis" class="form-control input-custom"
-                                placeholder="Masukkan NIS, Email, atau Nomor Telepon">
+                                placeholder="Masukkan NIS">
                         </div>
                         <div class="mb-3 position-relative">
                             <input type="password" name="password" class="form-control input-custom"
@@ -101,42 +101,45 @@
     <!-- Template JS -->
     <script src="{{ asset('assets/user/js/main.js?v=1.0') }}"></script>
 
-    
+
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-    @if (session('login_error'))
-        <script>
-            document.addEventListener("DOMContentLoaded", function () {
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            @if (session('login_error'))
                 Swal.fire({
                     icon: 'error',
                     title: 'Login Gagal',
                     text: '{{ session('login_error') }}',
-                    confirmButtonColor: '#3085d6',
+                    confirmButtonText: "OK",
+                    customClass: {
+                        confirmButton: "btn fw-bold btn-danger"
+                    },
                     backdrop: true,
                     allowOutsideClick: false
                 });
-            });
-        </script>
-    @endif
-
-    @if (session('login_success'))
-        <script>
-            document.addEventListener("DOMContentLoaded", function () {
+            @elseif (session('login_success'))
                 Swal.fire({
                     icon: 'success',
                     title: 'Login Berhasil',
-                    text: 'Anda akan diarahkan ke halaman utama',
-                    confirmButtonColor: '#3085d6',
+                    text: '{{ session('login_success') }}',
+                    confirmButtonText: "OK",
+                    customClass: {
+                        confirmButton: "btn fw-bold btn-success"
+                    },
                     backdrop: true,
                     allowOutsideClick: false
-                }).then(() => {
-                    window.location.href = "{{ route('user.index') }}";
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = "{{ route('user.index') }}";  // Ubah sesuai route yang diinginkan
+                    }
                 });
-            });
-        </script>
-    @endif
-
+            @endif
+        });
+    </script>
+    
+    
+    
 
 </body>
 
