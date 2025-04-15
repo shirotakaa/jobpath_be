@@ -10,7 +10,7 @@
                     @method('PUT')
                     <div class="row">
                         <!-- Kolom Kiri: Background Foto -->
-                        <div class="col-lg-4">
+                        <div class="col-lg-4 mb-5 mb-lg-0">
                             <div class="card card-flush py-4">
                                 <div class="card-header">
                                     <div class="card-title">
@@ -54,7 +54,7 @@
                         </div>
                     
                         <!-- Kolom Kanan: General -->
-                        <div class="col-lg-8">
+                        <div class="col-lg-8 mb-5 mb-lg-0">
                             <div class="card card-flush py-4">
                                 <div class="card-header">
                                     <div class="card-title">

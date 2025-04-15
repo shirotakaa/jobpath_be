@@ -53,7 +53,7 @@
                             <div class="d-flex justify-content-center position-relative mb-10">
                                 <figure style="width: 130px; height: 130px; position: relative;">
                                     <img id="companyLogo" src="{{$company->logo}}"
-                                        class="w-100 h-100 object-fit-cover rounded-circle" />
+                                        class="img-full-cover rounded-circle" />
 
                                     <button type="button" class="btn btn-tb btn-table-primary mb-1 mb-lg-0 edit-button"
                                         onclick="document.getElementById('logoInput').click()">

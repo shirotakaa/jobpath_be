@@ -24,6 +24,8 @@
     <link href="{{ asset('assets/admin/plugins/global/plugins.bundle.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('assets/admin/plugins/custom/select2/select2.bundle.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/admin/css/style.bundle.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/admin/css/custom.css') }}" rel="stylesheet">
+    
 
 
     {{-- Main Styles --}}

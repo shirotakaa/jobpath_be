@@ -28,13 +28,13 @@
 
                     <div class="row">
                         @foreach ($perusahaan as $item)
-                            <div class="col-12 col-lg-3 col-md-6">
-                                <div class="card border-hover-primary mb-2 mb-xl-8">
-                                    <div class="card-body">
+                            <div class="col-6 col-lg-3 col-md-6">
+                                <div class="card border-hover-primary mb-lg-2 mb-6 mb-xl-8">
+                                    <div class="card-body p-sm">
                                         <div class="d-flex flex-center flex-column py-3">
                                             <div class="symbol symbol-100px symbol-150px mb-5">
                                                 <img src="{{ $item->logo ? asset($item->logo) : asset('assets/admin/media/bumn-logo.png') }}"
-                                                    class="object-fit-cover" alt="{{ $item->nama_perusahaan }}" />
+                                                    class="object-fit-cover p-5 p-lg-0" style="border-radius: 25px" alt="{{ $item->nama_perusahaan }}" />
                                             </div>
                                             <a href="#"
                                                 class="fs-3 text-gray-800 text-hover-primary fw-bold mb-3">{{ $item->nama_perusahaan }}</a>

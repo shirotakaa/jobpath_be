@@ -30,6 +30,10 @@ class IdentitasController extends Controller
             return redirect('/company-landing');
         }
 
+        if (Auth::guard('admin')->check()) {
+            return redirect('/dashboard');
+        }
+
         $identitas = Identitas::first();
         $perusahaan = Perusahaan::where('tampilkan_di_landing', true)
             ->select('perusahaan.*')
@@ -56,20 +60,26 @@ class IdentitasController extends Controller
         if (Auth::guard('perusahaan')->check()) {
             return redirect('/company-landing');
         }
+
+        if (Auth::guard('admin')->check()) {
+            return redirect('/dashboard');
+        }
+
         $identitas = Identitas::first();
         $perusahaan = Perusahaan::select('perusahaan.*')
             ->selectSub(function ($query) {
                 $query->from('pekerjaan')
                     ->whereColumn('pekerjaan.id_perusahaan', 'perusahaan.id_perusahaan')
-                    ->where('pekerjaan.status', 'Available') // Hanya pekerjaan dengan status Available
+                    ->where('pekerjaan.status', 'Available')
                     ->selectRaw('COUNT(*)');
-            }, 'jumlah_lowongan') // Alias untuk jumlah pekerjaan yang tersedia
-            ->paginate(8); // Pagination dengan 8 perusahaan per halaman
+            }, 'jumlah_lowongan')
+            ->orderByDesc('created_at')         // perusahaan paling baru di sebelah kiri            
+            ->get();
 
         return view('guest.list-perusahaan', compact('identitas', 'perusahaan'));
     }
 
-    public function guestJejakAlumni()
+    public function guestJejakAlumni(Request $request)
     {
         if (Auth::guard('siswa')->check()) {
             return redirect('/index');
@@ -78,8 +88,19 @@ class IdentitasController extends Controller
         if (Auth::guard('perusahaan')->check()) {
             return redirect('/company-landing');
         }
+
+        if (Auth::guard('admin')->check()) {
+            return redirect('/dashboard');
+        }
+
         $identitas = Identitas::first();
-        $alumni = JejakAlumni::where('status', 'Approved')->paginate(6);
+        $alumni = JejakAlumni::where('status', 'Approved')->orderBy('created_at', 'desc')->get(); // Mengurutkan berdasarkan created_at dari terbaru
+
+        if ($request->ajax()) {
+            return response()->json([
+                'html' => view('guest.jejak-alumni')->with('alumni', $alumni)->renderSections()['alumni']
+            ]);
+        }
         return view('guest.guest-jejak-alumni', compact('identitas', 'alumni'));
     }
 
@@ -92,6 +113,11 @@ class IdentitasController extends Controller
         if (Auth::guard('perusahaan')->check()) {
             return redirect('/company-landing');
         }
+
+        if (Auth::guard('admin')->check()) {
+            return redirect('/dashboard');
+        }
+
         $identitas = Identitas::first();
         $faqs = Faq::all();
         $faqContent = \App\Models\FaqContent::latest()->first(); // Mengambil data terbaru dari tabel
@@ -107,6 +133,11 @@ class IdentitasController extends Controller
         if (Auth::guard('perusahaan')->check()) {
             return redirect('/company-landing');
         }
+
+        if (Auth::guard('admin')->check()) {
+            return redirect('/dashboard');
+        }
+
         $identitas = Identitas::first();
         $perusahaanContent = PerusahaanContent::first();
         return view('guest.index-perusahaan', compact('identitas', 'perusahaanContent'));
@@ -120,6 +151,10 @@ class IdentitasController extends Controller
 
         if (Auth::guard('perusahaan')->check()) {
             return redirect('/company-landing');
+        }
+
+        if (Auth::guard('admin')->check()) {
+            return redirect('/dashboard');
         }
         $identitas = Identitas::first();
         $faqs = Faq::all();

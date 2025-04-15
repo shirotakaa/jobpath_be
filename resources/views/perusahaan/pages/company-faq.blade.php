@@ -19,18 +19,22 @@
                 <div class="row">
                     <div class="col-lg-10 mx-auto">
                         <div class="row">
-                            <div class="col-lg-7">
-                                <img class="faqs-1 wow animate__animated animate__fadeIn" data-wow-delay=".1s"
+                            <div class="col-lg-7 fag-image-large" style="padding-right: 20px">
+                                <img class="faqs-1 wow animate__animated animate__fadeIn img-full-cover" data-wow-delay=".1s"
                                     src="{{ asset($faqContent) && $faqContent->asset_1 ? asset('storage/' . $faqContent->asset_1) : asset('assets/admin/media/svg/blank.svg') }}"
                                     alt="FAQ Image 1">
                             </div>
                             <div class="col-lg-5">
-                                <img class="faqs-2 mb-15 wow animate__animated animate__fadeIn" data-wow-delay=".3s"
+                                <div class="faq-image-small mb-30">
+                                    <img class="faqs-2 mb-15 wow animate__animated animate__fadeIn img-full-cover" data-wow-delay=".3s"
                                     src="{{ asset($faqContent) && $faqContent->asset_2 ? asset('storage/' . $faqContent->asset_2) : asset('assets/admin/media/svg/blank.svg') }}"
                                     alt="FAQ Image 2">
-                                <img class="faqs-3 wow animate__animated animate__fadeIn" data-wow-delay=".5s"
+                                </div>
+                                <div class="faq-image-small">
+                                    <img class="faqs-3 wow animate__animated animate__fadeIn img-full-cover" data-wow-delay=".5s"
                                     src="{{ asset($faqContent) && $faqContent->asset_3 ? asset('storage/' . $faqContent->asset_3) : asset('assets/admin/media/svg/blank.svg') }}"
                                     alt="FAQ Image 3">
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -65,7 +69,7 @@
                             @foreach ($faqChunk as $faq)
                                 <div class="accordion-item">
                                     <h2 class="accordion-header" id="heading{{ $loop->parent->index }}{{ $loop->index }}">
-                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        <button class="accordion-button collapsed faq-mobile" type="button" data-bs-toggle="collapse"
                                             data-bs-target="#collapse{{ $loop->parent->index }}{{ $loop->index }}"
                                             aria-expanded="false"
                                             aria-controls="collapse{{ $loop->parent->index }}{{ $loop->index }}">

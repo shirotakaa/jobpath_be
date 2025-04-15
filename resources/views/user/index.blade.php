@@ -236,75 +236,70 @@
 
                 <div class="mt-70">
                     <div class="tab-content" id="myTabContent">
-                        @foreach($categories as $index => $category)
-                                            <div class="tab-pane fade {{ $index == 0 ? 'show active' : '' }}" id="tab-{{ $index }}"
-                                                role="tabpanel" aria-labelledby="tab-{{ $index }}">
-                                                <div class="row">
-                                                    @php
-                                                        $jobs = \App\Models\Pekerjaan::where('kategori', $category)
-                                                            ->where('status', 'Available')
-                                                            ->get();
-                                                    @endphp
-                                                    @foreach($jobs as $job)
-                                                        <div class="col-lg-4 col-md-6">
-                                                            <div class="card-grid-2 hover-up">
-                                                                <div class="card-block-info">
-                                                                    <div class="row">
-                                                                        <div class="col-lg-12 col-12"
-                                                                            style="display: flex; justify-content: space-between; gap: 16px;">
-                                                                            <a href="{{ route('detail-pekerjaan', $job->judul_pekerjaan) }}"
-                                                                                class="card-2-img-text card-grid-2-img-medium">
-                                                                                <span class="card-grid-2-img-small p-0">
-                                                                                    @if ($job->perusahaan->logo)
-                                                                                        <img alt="{{ $job->judul_pekerjaan }}"
-                                                                                            src="{{ asset($job->perusahaan->logo) }}"
-                                                                                            class="w-100 h-100 object-fit-cover " style="border-radius: 8px" />
-                                                                                    @endif
-                                                                                </span>
-                                                                                <span>{{ $job->judul_pekerjaan }}</span>
-                                                                            </a>
-                                                                            <div class="text-end pt-5">
-                                                                                <span class="text-gray-100 text-md"><i
-                                                                                        class="fi-rr-bookmark"></i></span>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-
-                                                                    <div class="mt-15" style="display: flex; gap: 24px;">
-                                                                        <a href="#">
-                                                                            <span
-                                                                                class="text-brand-10 text-icon-first">{{ $job->perusahaan->nama_perusahaan }}</span>
-                                                                        </a>
-                                                                        <span class="text-mutted-2" style="font-size: 12px;">
-                                                                            <i class="fi-rr-marker" style="font-size: 12px;"></i> {{ $job->lokasi }}
-                                                                        </span>
-                                                                    </div>
-
-                                                                    <div class="text-small mt-15">
-                                                                        {{ Str::limit($job->about_job, 100) }}
-                                                                    </div>
-
-                                                                    <div class="card-2-bottom mt-30">
-                                                                        <div class="row">
-                                                                            <div class="col-lg-6 col-4">
-                                                                                <span class="card-text-price"> {{ $job->rentang_gaji }} jt</span>
-                                                                            </div>
-                                                                            <div class="col-lg-6 col-8 text-end">
-                                                                                <a href="{{ route('detail-pekerjaan', $job->judul_pekerjaan) }}">
-                                                                                    <span class="text-brand-10">Lamar Sekarang</span>
-                                                                                </a>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
+                        @foreach($categoriesOrdered as $index => $category)
+                            <div class="tab-pane fade {{ $index == 0 ? 'show active' : '' }}" id="tab-{{ $index }}"
+                                role="tabpanel" aria-labelledby="tab-{{ $index }}">
+                                <div class="row">
+                                    @foreach($pekerjaanPerKategori[$category] ?? [] as $job)
+                                        <div class="col-lg-4 col-md-6">
+                                            <div class="card-grid-2 hover-up">
+                                                <div class="card-block-info">
+                                                    <div class="row">
+                                                        <div class="col-lg-12 col-12"
+                                                            style="display: flex; justify-content: space-between; gap: 16px;">
+                                                            <a href="{{ route('detail-pekerjaan', $job->judul_pekerjaan) }}"
+                                                                class="card-2-img-text card-grid-2-img-medium">
+                                                                <span class="card-grid-2-img-small p-0">
+                                                                    @if ($job->perusahaan && $job->perusahaan->logo)
+                                                                        <img alt="{{ $job->judul_pekerjaan }}"
+                                                                            src="{{ asset($job->perusahaan->logo) }}"
+                                                                            class="w-100 h-100 object-fit-cover" style="border-radius: 8px" />
+                                                                    @endif
+                                                                </span>
+                                                                <span>{{ $job->judul_pekerjaan }}</span>
+                                                            </a>
+                                                            <div class="text-end pt-5">
+                                                                <span class="text-gray-100 text-md"><i class="fi-rr-bookmark"></i></span>
                                                             </div>
                                                         </div>
-                                                    @endforeach
+                                                    </div>
+                
+                                                    <div class="mt-15" style="display: flex; gap: 24px;">
+                                                        <a href="#">
+                                                            <span class="text-brand-10 text-icon-first">
+                                                                {{ $job->perusahaan->nama_perusahaan ?? '-' }}
+                                                            </span>
+                                                        </a>
+                                                        <span class="text-mutted-2" style="font-size: 12px;">
+                                                            <i class="fi-rr-marker" style="font-size: 12px;"></i> {{ $job->lokasi }}
+                                                        </span>
+                                                    </div>
+                
+                                                    <div class="text-small mt-15">
+                                                        {{ Str::limit($job->about_job, 100) }}
+                                                    </div>
+                
+                                                    <div class="card-2-bottom mt-30">
+                                                        <div class="row">
+                                                            <div class="col-lg-6 col-4">
+                                                                <span class="card-text-price">{{ $job->rentang_gaji }} jt</span>
+                                                            </div>
+                                                            <div class="col-lg-6 col-8 text-end">
+                                                                <a href="{{ route('detail-pekerjaan', $job->judul_pekerjaan) }}">
+                                                                    <span class="text-brand-10">Lamar Sekarang</span>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
                         @endforeach
                     </div>
-                </div>
+                </div>                
             </div>
         </section>
         <section class="section-box mt-40">
@@ -335,6 +330,20 @@
                                     </a>
                                 </div>
                                 <div class="card-block-info">
+                                    <div class="social-icons mb-10 d-flex justify-content-center">
+                                        @if($item->linkedin)
+                                            <a href="{{ $item->linkedin }}" target="_blank"
+                                                class="text-decoration-none me-2" style="font-size: 20px;">
+                                                <i class="bi bi-linkedin"></i>
+                                            </a>
+                                        @endif
+                                        @if($item->instagram)
+                                            <a href="{{ $item->instagram }}" target="_blank" class="text-decoration-none"
+                                                style="font-size: 20px;">
+                                                <i class="bi bi-instagram"></i>
+                                            </a>
+                                        @endif
+                                    </div>
                                     <div class="card-profile">
                                         <a href="#"><strong>{{ $item->nama }}</strong></a>
                                         <span class="text-sm" style="color: #1f2938;">

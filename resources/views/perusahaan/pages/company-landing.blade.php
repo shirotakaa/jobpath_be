@@ -17,7 +17,7 @@
                                 </div>
                                 <div class="mt-60">
                                     <div class="box-button-shadow mr-10">
-                                        <a href="{{ route('company.addjob') }}" class="btn btn-default">Add Job Now</a>
+                                        <a href="{{ route('company.addjob') }}" class="btn btn-default">Tambah Pekerjaan</a>
                                     </div>
                                 </div>
                             </div>

@@ -63,8 +63,8 @@
         <section class="section-box">
             <div class="container pt-50 pb-50">
                 <div class="tb-container">
-                    <div class="row mb-20">
-                        <div class="col-6 d-flex align-items-center">
+                    <div class="row mb-20 header-table-mobile">
+                        <div class="col-6 d-flex align-items-center table-title">
                             <span class="tb-title fw-bold">Daftar Semua Pelamar</span>
                         </div>
                     </div>

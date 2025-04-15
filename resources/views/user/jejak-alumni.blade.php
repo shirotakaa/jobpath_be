@@ -22,7 +22,8 @@
                             <div class="col-lg-9">
                                 <div class="box-search-job w-100">
                                     <form class="form-search-job w-100">
-                                        <input type="text" id="searchInput" class="input-search-job" placeholder="Cari alumni" />
+                                        <input type="text" id="searchInput" class="input-search-job"
+                                            placeholder="Cari alumni" />
                                     </form>
                                 </div>
                             </div>
@@ -43,23 +44,39 @@
                 <div class="row flex-row-reverse">
                     <div class="col-lg-9 col-md-12 col-sm-12 col-12 float-right" style="width: 100%;">
                         <div class="content-page">
-                            <div class="row job-listing-grid-2" style="padding-top: 8px;">                               
+                            <div class="row job-listing-grid-2" style="padding-top: 8px;">
                                 @foreach ($alumni as $item)
                                     <div class="col-lg-4 col-md-6 alumni-card">
                                         <div class="card-grid-2 hover-up">
                                             <div class="text-center card-grid-2-image-rd">
-                                                <a>
+                                                <a href="candidates-single.html">
                                                     <figure style="width: 110px; height: 110px;">
-                                                        <img alt="{{ $item->nama }}" src="{{ asset('storage/' . $item->foto) }}" class="w-100 h-100 object-fit-cover" />
+                                                        <img alt="{{ $item->nama }}" src="{{ asset('storage/' . $item->foto) }}"
+                                                            class="w-100 h-100 object-fit-cover" />
                                                     </figure>
                                                 </a>
                                             </div>
                                             <div class="card-block-info">
+                                                <div class="social-icons mb-10 d-flex justify-content-center">
+                                                    @if($item->linkedin)
+                                                        <a href="{{ $item->linkedin }}" target="_blank"
+                                                            class="text-decoration-none me-2" style="font-size: 20px;">
+                                                            <i class="bi bi-linkedin"></i>
+                                                        </a>
+                                                    @endif
+                                                    @if($item->instagram)
+                                                        <a href="{{ $item->instagram }}" target="_blank" class="text-decoration-none"
+                                                            style="font-size: 20px;">
+                                                            <i class="bi bi-instagram"></i>
+                                                        </a>
+                                                    @endif
+                                                </div>
                                                 <div class="card-profile">
-                                                    <a><strong>{{ $item->nama }}</strong></a>
+                                                    <a href="#"><strong>{{ $item->nama }}</strong></a>
                                                     <span class="text-sm" style="color: #1f2938;">
                                                         Sebagai alumni SMKN 4 Malang dengan jurusan {{ $item->jurusan }}.
-                                                        Sekarang saya telah bekerja saya bekerja sebagai {{ $item->pekerjaan }} di {{ $item->perusahaan }}.
+                                                        Sekarang saya telah bekerja sebagai {{ $item->pekerjaan }}
+                                                        di {{ $item->perusahaan }}.
                                                     </span>
                                                 </div>
                                                 <div class="employers-info d-flex align-items-center justify-content-center mt-15">
@@ -75,46 +92,15 @@
                                     </div>
                                 @endforeach
                             </div>
-
+        
                             <div class="paginations text-center">
                                 <ul class="pager" id="pagination-container"></ul>
                             </div>
-        
-                            <!-- PAGINATION -->
-                            {{-- @if ($alumni->lastPage() > 1)
-                                <div class="paginations text-center">
-                                    <ul class="pager">
-                                        <!-- Tombol Previous -->
-                                        <li>
-                                            <a href="{{ $alumni->previousPageUrl() ?? '#' }}"
-                                               class="pager-prev {{ $alumni->onFirstPage() ? 'disabled' : '' }}">                                                
-                                            </a>
-                                        </li>
-                                    
-                                        <!-- Nomor Halaman -->
-                                        @for ($i = 1; $i <= $alumni->lastPage(); $i++)
-                                            <li>
-                                                <a href="{{ $alumni->url($i) }}"
-                                                   class="pager-number {{ $alumni->currentPage() == $i ? 'active' : '' }}">
-                                                    {{ $i }}
-                                                </a>
-                                            </li>
-                                        @endfor
-                                    
-                                        <!-- Tombol Next -->
-                                        <li>
-                                            <a href="{{ $alumni->nextPageUrl() ?? '#' }}"
-                                               class="pager-next {{ $alumni->currentPage() == $alumni->lastPage() ? 'disabled' : '' }}">                                            
-                                            </a>
-                                        </li>
-                                    </ul>    
-                                </div>
-                            @endif --}}
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
+        </section>        
         <section class="section-box mt-90 mb-80">''
             <div class="container">
                 <div class="block-job-bg block-job-bg-homepage-2">
@@ -127,9 +113,11 @@
                         <div class="col-lg-6 col-md-12 col-sm-12 col-12">
                             <div class="box-info-job pl-90 pt-30 pr-90">
                                 <span class="text-blue wow animate__animated animate__fadeInUp">Formulir Jejak Alumni</span>
-                                <h5 class="heading-36 mb-30 mt-30 wow animate__animated animate__fadeInUp">Bantu kami dengan mengisi formulir jejak alumni</h5>
+                                <h5 class="heading-36 mb-30 mt-30 wow animate__animated animate__fadeInUp">Bantu kami dengan
+                                    mengisi formulir jejak alumni</h5>
                                 <p class="text-lg wow animate__animated animate__fadeInUp">
-                                    Terhubung Kembali dengan Almamater, Bagikan Perjalanan Karirmu untuk Menginspirasi Generasi Berikutnya!
+                                    Terhubung Kembali dengan Almamater, Bagikan Perjalanan Karirmu untuk Menginspirasi
+                                    Generasi Berikutnya!
                                 </p>
                                 <div class="box-button-shadow mt-30 wow animate__animated animate__fadeInUp">
                                     <a href="{{ route('jejak-alumni-form') }}" class="btn btn-default">Isi Formulir</a>
@@ -140,9 +128,9 @@
                 </div>
             </div>
         </section>
-        
+
     </main>
-    
+
     <script>
         document.getElementById('searchButton').addEventListener('click', function (e) {
             e.preventDefault(); // Mencegah reload form
@@ -162,113 +150,114 @@
 
     </script>
 
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const searchInput = document.getElementById("searchInput");
-        const searchButton = document.getElementById("searchButton");
-        const jobListContainer = document.querySelector(".job-listing-grid-2");
-        const paginationContainer = document.getElementById("pagination-container");
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const searchInput = document.getElementById("searchInput");
+            const searchButton = document.getElementById("searchButton");
+            const jobListContainer = document.querySelector(".job-listing-grid-2");
+            const paginationContainer = document.getElementById("pagination-container");
 
-        const allCards = Array.from(document.querySelectorAll(".alumni-card"));
-        const cardsPerPage = 6;
-        let currentPage = 1;
-        let filteredCards = [...allCards]; // default: semua alumni
+            const allCards = Array.from(document.querySelectorAll(".alumni-card"));
+            const cardsPerPage = 6;
+            let currentPage = 1;
+            let filteredCards = [...allCards];
 
-        function renderCards() {
-            jobListContainer.innerHTML = "";
+            function renderCards() {
+                jobListContainer.innerHTML = "";
 
-            const start = (currentPage - 1) * cardsPerPage;
-            const end = start + cardsPerPage;
+                const start = (currentPage - 1) * cardsPerPage;
+                const end = start + cardsPerPage;
+                const currentCards = filteredCards.slice(start, end);
 
-            const currentCards = filteredCards.slice(start, end);
-            if (currentCards.length > 0) {
-                currentCards.forEach(card => jobListContainer.appendChild(card));
-            } else {
-                jobListContainer.innerHTML =
-                    "<p class='text-center'>Tidak ada alumni yang ditemukan.</p>";
-            }
-        }
-
-        function createPagination() {
-            paginationContainer.innerHTML = "";
-            const totalPages = Math.ceil(filteredCards.length / cardsPerPage);
-
-
-            // Prev Button
-            const prev = document.createElement("li");
-            prev.innerHTML = `<a href="#" class="pager-prev"></a>`;
-            prev.classList.toggle("disabled", currentPage === 1);
-            paginationContainer.appendChild(prev);
-            prev.addEventListener("click", (e) => {
-                e.preventDefault();
-                if (currentPage > 1) {
-                    currentPage--;
-                    renderCards();
-                    createPagination();
+                if (currentCards.length > 0) {
+                    currentCards.forEach(card => jobListContainer.appendChild(card));
+                    paginationContainer.style.display = "flex";
+                } else {
+                    jobListContainer.innerHTML = "<p class='text-center'>Tidak ada alumni yang ditemukan.</p>";
+                    paginationContainer.style.display = "none";
                 }
-            });
+            }
 
-            // Page Numbers
-            for (let i = 1; i <= totalPages; i++) {
-                const li = document.createElement("li");
-                li.innerHTML = `<a href="#" class="pager-number">${i}</a>`;
-                if (i === currentPage) li.querySelector("a").classList.add("active");
+            function createPagination() {
+                paginationContainer.innerHTML = "";
+                const totalPages = Math.ceil(filteredCards.length / cardsPerPage);
 
-                li.querySelector("a").addEventListener("click", (e) => {
+                // Prev Button
+                const prev = document.createElement("li");
+                prev.innerHTML = `<a href="#" class="pager-prev" aria-label="Sebelumnya"></a>`;
+                if (currentPage === 1) prev.classList.add("disabled");
+                prev.addEventListener("click", (e) => {
                     e.preventDefault();
-                    currentPage = i;
-                    renderCards();
-                    createPagination();
+                    if (currentPage > 1) {
+                        currentPage--;
+                        renderCards();
+                        createPagination();
+                    }
+                });
+                paginationContainer.appendChild(prev);
+
+                // Page numbers
+                for (let i = 1; i <= totalPages; i++) {
+                    const li = document.createElement("li");
+                    const link = document.createElement("a");
+                    link.href = "#";
+                    link.textContent = i;
+                    link.className = "pager-number";
+                    if (i === currentPage) link.classList.add("active");
+
+                    link.addEventListener("click", (e) => {
+                        e.preventDefault();
+                        currentPage = i;
+                        renderCards();
+                        createPagination();
+                    });
+
+                    li.appendChild(link);
+                    paginationContainer.appendChild(li);
+                }
+
+                // Next Button
+                const next = document.createElement("li");
+                next.innerHTML = `<a href="#" class="pager-next" aria-label="Berikutnya"></a>`;
+                if (currentPage === totalPages) next.classList.add("disabled");
+                next.addEventListener("click", (e) => {
+                    e.preventDefault();
+                    if (currentPage < totalPages) {
+                        currentPage++;
+                        renderCards();
+                        createPagination();
+                    }
+                });
+                paginationContainer.appendChild(next);
+            }
+
+            function handleSearch() {
+                const keyword = searchInput.value.trim().toLowerCase();
+                filteredCards = allCards.filter(card => {
+                    const name = card.querySelector(".card-profile strong")?.textContent.toLowerCase() || "";
+                    return name.includes(keyword);
                 });
 
-                paginationContainer.appendChild(li);
+                currentPage = 1;
+                renderCards();
+                createPagination();
             }
 
-            // Next Button
-            const next = document.createElement("li");
-            next.innerHTML = `<a href="#" class="pager-next"></a>`;
-            next.classList.toggle("disabled", currentPage === totalPages);
-            paginationContainer.appendChild(next);
-            next.addEventListener("click", (e) => {
-                e.preventDefault();
-                if (currentPage < totalPages) {
-                    currentPage++;
-                    renderCards();
-                    createPagination();
-                }
-            });
-        }
-
-        function handleSearch() {
-            const keyword = searchInput.value.trim().toLowerCase();
-            filteredCards = allCards.filter(card => {
-                const name = card.querySelector(".card-profile strong")?.textContent.toLowerCase() || "";
-                return name.includes(keyword);
-            });
-
-            currentPage = 1;
-            renderCards();
-            createPagination();
-        }
-
-        // Event listeners
-        searchButton.addEventListener("click", function (e) {
-            e.preventDefault();
-            handleSearch();
-        });
-
-        searchInput.addEventListener("keypress", function (e) {
-            if (e.key === "Enter") {
+            searchButton.addEventListener("click", function (e) {
                 e.preventDefault();
                 handleSearch();
-            }
+            });
+
+            searchInput.addEventListener("keypress", function (e) {
+                if (e.key === "Enter") {
+                    e.preventDefault();
+                    handleSearch();
+                }
+            });
+
+            renderCards();
+            createPagination();
         });
+    </script>
 
-        // Inisialisasi awal
-        renderCards();
-        createPagination();
-    });
-</script>
-
-      
 @endsection

@@ -23,11 +23,11 @@
         <section class="section-box">
             <div class="container pt-50 pb-50">
                 <div class="tb-container">
-                    <div class="row mb-20">
-                        <div class="col-6 d-flex align-items-center">
+                    <div class="row mb-20 header-table-mobile">
+                        <div class="col-6 d-flex align-items-center table-title">
                             <span class="tb-title fw-bold">Daftar Pekerjaan Saya</span>
                         </div>
-                        <div class="col-6 d-flex justify-content-end">
+                        <div class="col-6 d-flex justify-content-end btn-full-mobile">
                             <a href="{{ route('company.addjob') }}" class="btn btn-default btn-md">
                                 <i class="fa fa-plus"></i> Tambah Job
                             </a>
@@ -50,47 +50,49 @@
                                 </thead>
                                 <tbody>
                                     @foreach ($pekerjaan as $key => $job)
-                                        <tr>
-                                            <td class="text-center">{{ $key + 1 }}</td>
-                                            <td class="text-center">{{ $job->judul_pekerjaan }}</td>
-                                            <td class="text-center">
-                                                <button class="btn btn-small hover-up btn-blue" data-bs-toggle="modal"
-                                                    data-bs-target="#jobDetailModal-{{ $job->id_pekerjaan }}">
-                                                    Lihat
-                                                </button>
-                                            </td>
-                                            <td class="text-center">{{ $job->kategori }}</td>
-                                            <td class="text-center">
-                                                {{ \Carbon\Carbon::parse($job->deadline)->format('d/m/Y') }}
-                                            </td>
-                                            <td class="text-center">
-                                                <span
-                                                    class="btn-small {{ $job->verifikasi == 'Pending' ? 'background-6' : ($job->verifikasi == 'Rejected' ? 'background-urgent' : 'background-12') }}">
-                                                    {{ ucfirst($job->verifikasi) }}
-                                                </span>
-                                            </td>
-                                            <td class="text-center">
-                                                <span
-                                                    class="btn-small {{ $job->status == 'Available' && $job->verifikasi == 'Approved'
-                                                        ? 'background-12 active-btn'
-                                                        : ($job->status == 'Expired' && $job->verifikasi == 'Rejected'
-                                                            ? 'background-urgent'
-                                                            : 'background-6') }}">
-                                                    {{ ucfirst($job->status) }}
-                                                </span>
-                                            </td>
-                                            <td class="text-center">
-                                                <form
-                                                    action="{{ route('pekerjaan.deletejob', ['id' => $job->id_pekerjaan]) }}"
-                                                    method="POST">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="button" class="btn btn-tb btn-table-danger btn-delete">
-                                                        <i class="fa fa-trash"></i>
-                                                    </button>
-                                                </form>
-                                            </td>
-                                        </tr>
+                                                                <tr>
+                                                                    <td class="text-center">{{ $key + 1 }}</td>
+                                                                    <td class="text-center">{{ $job->judul_pekerjaan }}</td>
+                                                                    <td class="text-center">
+                                                                        <button class="btn btn-small hover-up btn-blue" data-bs-toggle="modal"
+                                                                            data-bs-target="#jobDetailModal-{{ $job->id_pekerjaan }}">
+                                                                            Lihat
+                                                                        </button>
+                                                                    </td>
+                                                                    <td class="text-center">{{ $job->kategori }}</td>
+                                                                    <td class="text-center">
+                                                                        <span class="editable-deadline" data-id="{{ $job->id_pekerjaan }}"
+                                                                            data-deadline="{{ $job->deadline }}"
+                                                                            style="cursor: pointer; color: #007bff; text-decoration: underline;">
+                                                                            {{ \Carbon\Carbon::parse($job->deadline)->format('d/m/Y') }}
+                                                                        </span>
+                                                                    </td>
+                                                                    <td class="text-center">
+                                                                        <span
+                                                                            class="btn-small {{ $job->verifikasi == 'Pending' ? 'background-6' : ($job->verifikasi == 'Rejected' ? 'background-urgent' : 'background-12') }}">
+                                                                            {{ ucfirst($job->verifikasi) }}
+                                                                        </span>
+                                                                    </td>
+                                                                    <td class="text-center">
+                                                                        <span class="btn-small {{ $job->status == 'Available' && $job->verifikasi == 'Approved'
+                                        ? 'background-12 active-btn'
+                                        : ($job->status == 'Expired' && $job->verifikasi == 'Rejected'
+                                            ? 'background-urgent'
+                                            : 'background-6') }}">
+                                                                            {{ ucfirst($job->status) }}
+                                                                        </span>
+                                                                    </td>
+                                                                    <td class="text-center">
+                                                                        <form action="{{ route('pekerjaan.deletejob', ['id' => $job->id_pekerjaan]) }}"
+                                                                            method="POST">
+                                                                            @csrf
+                                                                            @method('DELETE')
+                                                                            <button type="button" class="btn btn-tb btn-table-danger btn-delete">
+                                                                                <i class="fa fa-trash"></i>
+                                                                            </button>
+                                                                        </form>
+                                                                    </td>
+                                                                </tr>
                                     @endforeach
                                 </tbody>
                             </table>
@@ -135,8 +137,32 @@
             </div>
         @endforeach
 
+        <!-- Modal Edit Deadline -->
+        <div class="modal fade" id="modalEditDeadline" tabindex="-1" aria-labelledby="modalEditDeadlineLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <form method="POST" id="formEditDeadline">
+                    @csrf
+                    @method('PUT')
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Edit Deadline</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <label for="newDeadline" class="form-label">Tanggal Deadline</label>
+                            <input type="date" name="deadline_lowongan" id="newDeadline" class="form-control" required>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">Simpan</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
 
-        <!-- Modal Edit -->
+
+        {{-- <!-- Modal Edit -->
         <div class="modal fade" id="modalEdit" tabindex="-1" aria-labelledby="modalEditLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-lg">
                 <div class="modal-content">
@@ -148,8 +174,8 @@
                         <form>
                             <div class="mb-3">
                                 <label class="form-label">Nama Pekerjaan</label>
-                                <input type="text" class="form-control" placeholder="Masukkan Nama Pekerjaan"
-                                    id="jobName" value="UI Designer">
+                                <input type="text" class="form-control" placeholder="Masukkan Nama Pekerjaan" id="jobName"
+                                    value="UI Designer">
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Lokasi</label>
@@ -173,13 +199,14 @@
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">About Job</label>
-                                <textarea class="form-control h-50" id="aboutJob">Deskripsi pekerjaan untuk UI Designer...</textarea>
+                                <textarea class="form-control h-50"
+                                    id="aboutJob">Deskripsi pekerjaan untuk UI Designer...</textarea>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Detail Job</label>
                                 <textarea id="detail-job-editor">
-                                    Ini adalah teks default yang sudah ada saat halaman dimuat.
-                                </textarea>
+                                        Ini adalah teks default yang sudah ada saat halaman dimuat.
+                                    </textarea>
                             </div>
                     </div>
                     <div class="modal-footer">
@@ -188,7 +215,7 @@
                     </form>
                 </div>
             </div>
-        </div>
+        </div> --}}
 
         {{-- <!-- Modal Detail -->
         <div class="modal fade" id="jobDetailModal-{{ $job->id_pekerjaan }}" tabindex="-1"
@@ -227,133 +254,156 @@
     </main> --}}
 
 
-        <script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
+    <script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
 
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-        <!-- Datatables -->
-        <script>
-            $(document).ready(function() {
-                $('.datatable').DataTable({
-                    "paging": true,
-                    "searching": true,
-                    "ordering": true,
-                    "info": true,
-                    "lengthMenu": [5, 10, 25, 50],
-                    "autoWidth": false, // Mencegah perhitungan kolom otomatis yang bisa menyebabkan error
-                    "columnDefs": [{
-                            "orderable": false,
-                            "targets": [2, 7]
-                        } // Matikan sorting di kolom "Detail Job" dan "Aksi"
-                    ],
-                    "language": {
-                        "lengthMenu": "Tampilkan _MENU_ data per halaman",
-                        "zeroRecords": "Tidak ada data yang ditemukan",
-                        "info": "Menampilkan _START_ - _END_ dari _TOTAL_ data",
-                        "infoEmpty": "Tidak ada data",
-                        "search": "Cari:",
-                        "paginate": {
-                            "next": "Berikutnya",
-                            "previous": "Sebelumnya"
-                        }
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const deadlineSpans = document.querySelectorAll('.editable-deadline');
+            const modal = new bootstrap.Modal(document.getElementById('modalEditDeadline'));
+            const form = document.getElementById('formEditDeadline');
+            const input = document.getElementById('newDeadline');
+    
+            deadlineSpans.forEach(span => {
+                span.addEventListener('click', function () {
+                    const id = this.getAttribute('data-id');
+                    const deadline = this.getAttribute('data-deadline');
+    
+                    // Format ke YYYY-MM-DD untuk input[type="date"]
+                    const formatted = new Date(deadline).toISOString().slice(0, 10);
+                    input.value = formatted;
+    
+                    form.action = `/perusahaan/pekerjaan/${id}/deadline`; // Ganti sesuai route update-mu
+                    modal.show();
+                });
+            });
+        });
+    </script>
+    
+    <!-- Datatables -->
+    <script>
+        $(document).ready(function () {
+            $('.datatable').DataTable({
+                "paging": true,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "lengthMenu": [5, 10, 25, 50],
+                "autoWidth": false, // Mencegah perhitungan kolom otomatis yang bisa menyebabkan error
+                "columnDefs": [{
+                    "orderable": false,
+                    "targets": [2, 7]
+                } // Matikan sorting di kolom "Detail Job" dan "Aksi"
+                ],
+                "language": {
+                    "lengthMenu": "Tampilkan _MENU_ data per halaman",
+                    "zeroRecords": "Tidak ada data yang ditemukan",
+                    "info": "Menampilkan _START_ - _END_ dari _TOTAL_ data",
+                    "infoEmpty": "Tidak ada data",
+                    "search": "Cari:",
+                    "paginate": {
+                        "next": "Berikutnya",
+                        "previous": "Sebelumnya"
+                    }
+                }
+            });
+        });
+    </script>
+
+    <!-- Text Editor -->
+    <script>
+        ClassicEditor
+            .create(document.querySelector('#detail-job-editor'))
+            .then(editor => {
+                console.log('CKEditor berhasil dimuat:', editor);
+                window.jobDetailEditor = editor;
+            })
+            .catch(error => {
+                console.error('Error CKEditor:', error);
+            });
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            @if (session('success'))
+                Swal.fire({
+                    text: "{{ session('success') }}",
+                    icon: "success",
+                    buttonsStyling: false,
+                    showConfirmButton: false,
+                    timer: 1500,
+                    customClass: {
+                        confirmButton: "btn fw-bold btn-primary"
                     }
                 });
-            });
-        </script>
-
-        <!-- Text Editor -->
-        <script>
-            ClassicEditor
-                .create(document.querySelector('#detail-job-editor'))
-                .then(editor => {
-                    console.log('CKEditor berhasil dimuat:', editor);
-                    window.jobDetailEditor = editor;
-                })
-                .catch(error => {
-                    console.error('Error CKEditor:', error);
+            @endif
                 });
-        </script>
+    </script>
+    <!-- Alert -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            document.querySelectorAll(".btn-delete").forEach(button => {
+                button.addEventListener("click", function (event) {
+                    event.preventDefault();
+                    let form = this.closest("form");
 
-        <script>
-            document.addEventListener("DOMContentLoaded", function() {
-                @if (session('success'))
                     Swal.fire({
-                        text: "{{ session('success') }}",
-                        icon: "success",
-                        buttonsStyling: false,
-                        showConfirmButton: false,
-                        timer: 1500,
-                        customClass: {
-                            confirmButton: "btn fw-bold btn-primary"
+                        title: "Apakah Anda yakin?",
+                        text: "Data ini akan dihapus secara permanen!",
+                        icon: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#d33",
+                        cancelButtonColor: "#3085d6",
+                        confirmButtonText: "Ya, hapus!",
+                        cancelButtonText: "Batal"
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            form.submit();
                         }
                     });
-                @endif
+                });
             });
-        </script>
-        <!-- Alert -->
-        <script>
-            document.addEventListener("DOMContentLoaded", function() {
-                document.querySelectorAll(".btn-delete").forEach(button => {
-                    button.addEventListener("click", function(event) {
-                        event.preventDefault();
-                        let form = this.closest("form");
+        });
+    </script>
 
-                        Swal.fire({
-                            title: "Apakah Anda yakin?",
-                            text: "Data ini akan dihapus secara permanen!",
-                            icon: "warning",
-                            showCancelButton: true,
-                            confirmButtonColor: "#d33",
-                            cancelButtonColor: "#3085d6",
-                            confirmButtonText: "Ya, hapus!",
-                            cancelButtonText: "Batal"
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-                                form.submit();
-                            }
-                        });
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            document.querySelectorAll(".btn-edit").forEach(button => {
+                button.addEventListener("click", function (event) {
+                    event.preventDefault(); // Mencegah submit langsung
+
+                    Swal.fire({
+                        title: "<span style='color: #9777fa;'>Konfirmasi Edit</span>",
+                        html: "Apakah Anda yakin ingin mengedit pekerjaan ini?",
+                        icon: "question",
+                        showCancelButton: true,
+                        confirmButtonText: "Ya, Edit!",
+                        cancelButtonText: "Batal",
+                        customClass: {
+                            popup: "rounded-3xl",
+                            confirmButton: "btn swal-verif-btn",
+                            cancelButton: "btn swal-cancel-verif-btn"
+                        }
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            Swal.fire({
+                                title: "Berhasil!",
+                                text: "Pekerjaan telah berhasil diperbarui.",
+                                icon: "success",
+                                timer: 1300, // Otomatis hilang setelah 1.3 detik
+                                showConfirmButton: false,
+                                customClass: {
+                                    popup: "rounded-3xl"
+                                }
+                            }).then(() => {
+                                document.getElementById("editForm")
+                                    .submit(); // Submit form jika dikonfirmasi
+                            });
+                        }
                     });
                 });
             });
-        </script>
-
-        <script>
-            document.addEventListener("DOMContentLoaded", function() {
-                document.querySelectorAll(".btn-edit").forEach(button => {
-                    button.addEventListener("click", function(event) {
-                        event.preventDefault(); // Mencegah submit langsung
-
-                        Swal.fire({
-                            title: "<span style='color: #9777fa;'>Konfirmasi Edit</span>",
-                            html: "Apakah Anda yakin ingin mengedit pekerjaan ini?",
-                            icon: "question",
-                            showCancelButton: true,
-                            confirmButtonText: "Ya, Edit!",
-                            cancelButtonText: "Batal",
-                            customClass: {
-                                popup: "rounded-3xl",
-                                confirmButton: "btn swal-verif-btn",
-                                cancelButton: "btn swal-cancel-verif-btn"
-                            }
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-                                Swal.fire({
-                                    title: "Berhasil!",
-                                    text: "Pekerjaan telah berhasil diperbarui.",
-                                    icon: "success",
-                                    timer: 1300, // Otomatis hilang setelah 1.3 detik
-                                    showConfirmButton: false,
-                                    customClass: {
-                                        popup: "rounded-3xl"
-                                    }
-                                }).then(() => {
-                                    document.getElementById("editForm")
-                                        .submit(); // Submit form jika dikonfirmasi
-                                });
-                            }
-                        });
-                    });
-                });
-            });
-        </script>
-    @endsection
+        });
+    </script>
+@endsection

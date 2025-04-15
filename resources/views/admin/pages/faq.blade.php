@@ -1,5 +1,6 @@
 @extends('admin.layout.main')
 @section('content')
+
     <div class="app-main flex-column flex-row-fluid" id="kt_app_main">
         <div class="d-flex flex-column flex-column-fluid">
 
@@ -8,7 +9,7 @@
                 <div id="kt_app_content_container" class="app-container container-fluid">
 
                     {{-- FAQ Content --}}
-                    <div class="card mb-5 mb-xl-10">
+                    <div class="card mb-5 mb-xl-10 mb-8">
                         <div class="card-header border-0 cursor-pointer" role="button" data-bs-toggle="collapse"
                             data-bs-target="#kt_account_profile_details" aria-expanded="true"
                             aria-controls="kt_account_profile_details">
@@ -24,10 +25,10 @@
                                 @method('PUT')
                                 <div class="card-body border-top p-9">
                                     <div class="row mb-6">
-                                        <label class="col-lg-3 col-form-label fw-semibold fs-6">Foto Asset Penunjang</label>
+                                        <label class="col-lg-3 col-form-label fw-semibold fs-6 mb-5">Foto Asset Penunjang</label>
                                         <div class="col-lg-9">
                                             <div class="row">
-                                                <div class="col-lg-2 mb-10 mb-lg-0">
+                                                <div class="col-6 col-lg-2 mb-10 mb-lg-0">
                                                     <div class="image-input image-input-outline" data-kt-image-input="true"
                                                         style="background-image: url('{{ asset('assets/admin/media/svg/blank.svg') }}')">
                                                         <div class="image-input-wrapper w-125px h-125px"
@@ -51,7 +52,7 @@
                                                     </div>
                                                     <div class="form-text">Foto Asset 1</div>
                                                 </div>
-                                                <div class="col-lg-2 mb-10 mb-lg-0">
+                                                <div class="col-6 col-lg-2 mb-10 mb-lg-0">
                                                     <div class="image-input image-input-outline" data-kt-image-input="true"
                                                         style="background-image: url('{{ asset('assets/admin/media/svg/blank.svg') }}')">
                                                         <div class="image-input-wrapper w-125px h-125px"
@@ -75,7 +76,7 @@
                                                     </div>
                                                     <div class="form-text">Foto Asset 2</div>
                                                 </div>
-                                                <div class="col-lg-2 mb-10 mb-lg-0">
+                                                <div class="col-6 col-lg-2 mb-3 mb-lg-0">
                                                     <div class="image-input image-input-outline" data-kt-image-input="true"
                                                         style="background-image: url('{{ asset('assets/admin/media/svg/blank.svg') }}')">
                                                         <div class="image-input-wrapper w-125px h-125px"
@@ -127,18 +128,18 @@
                     {{-- Tabel --}}
                     <div class="card card-flush">
                         <div class="card-header align-items-center py-5 gap-2 gap-md-5">
-                            <div class="card-title">
-                                <div class="d-flex align-items-center position-relative my-1">
+                            <div class="card-title mobile-full-width">
+                                <div class="d-flex align-items-center position-relative my-1 mobile-full-width">
                                     <i class="ki-duotone ki-magnifier fs-3 position-absolute ms-4">
                                         <span class="path1"></span>
                                         <span class="path2"></span>
                                     </i>
                                     <input type="text" table-search="search"
-                                        class="form-control form-control-solid w-250px ps-12" placeholder="Cari..." />
+                                        class="form-control form-control-solid mobile-full-width input-sm ps-12 " placeholder="Cari..." />
                                 </div>
                             </div>
-                            <div class="card-toolbar">
-                                <button type="button" class="btn btn-primary mb-3" id="btnTambah">
+                            <div class="card-toolbar flex-row-fluid justify-content-end gap-5">
+                                <button type="button" class="btn btn-primary mb-3 " id="btnTambah">
                                     Tambah Pertanyaan
                                 </button>
                             </div>
@@ -146,7 +147,7 @@
 
                         <div class="card-body pt-0">
                             <div class="d-flex justify-content-between align-items-center mb-4">
-                                <div>
+                                <div class="faq-tabs">
                                     <button class="btn btn-light-primary me-2" id="copyBtn">Copy</button>
                                     <button class="btn btn-light-primary me-2" id="excelBtn">Excel</button>
                                     <button class="btn btn-light-primary me-2" id="pdfBtn">PDF</button>

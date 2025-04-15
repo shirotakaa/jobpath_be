@@ -48,7 +48,7 @@ $user = Auth::guard('siswa')->user();
             ?>
 
             <div class="user-account">
-                <img src="<?= $user->foto ?>" alt="<?= $user->nama ?>" class="w-100 h-100 object-fit-cover" />
+                <img src="<?= $user->foto ?>" alt="<?= $user->nama ?>" class="img-full-cover" style="width: 200px"/>
                 <div class="content">
                     <h6 class="user-name"><?= $user->nama ?></h6>
                     <p class="font-xs text-muted"><?= $user->email ?></p>

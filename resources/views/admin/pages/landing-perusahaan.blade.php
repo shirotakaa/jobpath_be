@@ -25,7 +25,7 @@
 									<label class="col-lg-3 col-form-label fw-semibold fs-6">Foto Asset Penunjang</label>
 									<div class="col-lg-9">
 										<div class="row">
-											<div class="col-lg-2 mb-10 mb-lg-0">
+											<div class="col-6 col-lg-2 mb-10 mb-lg-0">
 												<div class="image-input image-input-outline" data-kt-image-input="true"
 														style="background-image: url('{{ asset('assets/admin/media/svg/blank.svg') }}')">
 													<div class="image-input-wrapper w-125px h-125px"
@@ -43,7 +43,7 @@
 												</div>
 												<div class="form-text">Foto Asset 1</div>
 											</div>
-											<div class="col-lg-2 mb-10 mb-lg-0">
+											<div class="col-6 col-lg-2 mb-10 mb-lg-0">
 												<div class="image-input image-input-outline" data-kt-image-input="true"
 														style="background-image: url('{{ asset('assets/admin/media/svg/blank.svg') }}')">
 													<div class="image-input-wrapper w-125px h-125px"
@@ -61,7 +61,7 @@
 												</div>
 												<div class="form-text">Foto Asset 2</div>
 											</div>
-											<div class="col-lg-2 mb-10 mb-lg-0">
+											<div class="col-6 col-lg-2 mb-10 mb-lg-0">
 												<div class="image-input image-input-outline" data-kt-image-input="true"
 														style="background-image: url('{{ asset('assets/admin/media/svg/blank.svg') }}')">
 													<div class="image-input-wrapper w-125px h-125px"

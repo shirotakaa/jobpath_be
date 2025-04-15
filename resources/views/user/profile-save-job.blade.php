@@ -24,12 +24,12 @@
             <div class="container pt-50 pb-50">
                 <div class="tb-container">
                     <div class="row mb-20">
-                        <div class="col-6 d-flex align-items-center">
+                        <div class="col-6 d-flex align-items-center w-100">
                             <span class="tb-title fw-bold">Pekerjaan Tersimpan</span>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="row job-listing-grid-2" id="saved-jobs-container" style="padding-top: 8px;">
+                        <div class="row job-listing-grid-2 " id="saved-jobs-container" style="padding-top: 8px; padding-right: 0;">
                             
                         </div>                        
                     </div>
@@ -61,7 +61,7 @@
                 jobCard.className = "col-lg-4 col-md-6";
                 jobCard.innerHTML = `
                     <div class="card-grid-2 hover-up wow animate__animated animate__fadeIn">
-                        <div class="card-block-info">
+                        <div class="card-block-info card-job-mobile">
                             <div class="row">
                                 <div class="col-lg-12 col-12" style="display: flex; justify-content: space-between; gap: 16px;">
                                     <a href="/detail-pekerjaan/${job.slug}" class="card-2-img-text card-grid-2-img-medium">
@@ -83,14 +83,14 @@
                                 <span class="text-mutted-2" style="font-size: 12px;"><i class="fi-rr-marker"></i> ${job.lokasi}</span>
                             </div>
     
-                            <div class="text-small mt-15">${job.deskripsi}</div>
+                            <div class="text-small mt-15 no-wrap-ellipsis">${job.deskripsi}</div>
     
                             <div class="card-2-bottom mt-30">
-                                <div class="row">
-                                    <div class="col-lg-6 col-4">
+                                <div class="row save-job-card-bottom">
+                                    <div class="col-lg-6 col-4 salary-jobs">
                                         <span class="card-text-price">${job.gaji}<span>/Juta</span></span>
                                     </div>
-                                    <div class="col-lg-6 col-8 text-end">
+                                    <div class="col-lg-6 col-8 text-end apply-button">
                                         <a href="/detail-pekerjaan/${job.slug}">
                                             <span class="text-brand-10">Lamar Sekarang</span>
                                         </a>

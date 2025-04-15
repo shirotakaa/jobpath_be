@@ -1,7 +1,6 @@
 <!-- filepath: /c:/laragon/www/JobPath/resources/views/admin/pages/pengaturan-identitas.blade.php -->
 @extends('admin.layout.main')
 @section('content')
-
 <div class="app-main flex-column flex-row-fluid" id="kt_app_main">
     <div class="d-flex flex-column flex-column-fluid">
         <div id="kt_app_content" class="app-content flex-column-fluid">
@@ -218,10 +217,10 @@
                                         </span>
                                     </label>
                                     <div class="col-lg-9 fv-row">
-                                        <div class="input-group mb-5">
-                                            <span class="input-group-text"
+                                        <div class="input-group mb-5 input-whatsapp">
+                                            <span class="input-group-text input-whatsapp-1"
                                                 id="basic-addon3">Ex:  https://wa.me/628000999888</span>
-                                            <input type="url" name="whatsapp" class="form-control" 
+                                            <input type="url" name="whatsapp" class="form-control input-whatsapp-2" 
                                                 placeholder="Masukkan Link WhatsApp" value="{{ $identitas->whatsapp ?? '' }}" />
                                         </div>
                                     </div>

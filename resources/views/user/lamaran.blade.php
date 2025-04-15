@@ -24,7 +24,7 @@
             <div class="container pt-50 pb-50">
                 <div class="tb-container">
                     <div class="row mb-20">
-                        <div class="col-6 d-flex align-items-center">
+                        <div class="col-6 d-flex align-items-center w-100">
                             <span class="tb-title fw-bold">Lamaran Pekerjaan Saya</span>
                         </div>
                     </div>

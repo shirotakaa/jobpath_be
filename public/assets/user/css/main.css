@@ -1561,6 +1561,13 @@ label {
   font-size: 14px;
   z-index: 1;
 }
+
+@media (min-width: 320px) {
+  .card-job-mobile {
+   padding: 20px !important;
+  }
+}
+
 .card-grid-2 .card-block-info {
   display: inline-block;
   width: 100%;
@@ -2937,6 +2944,12 @@ label {
   height: 100vh;
   width: 300px;
   position: relative;
+}
+
+@media (max-width: 576px) {
+  .perfect-scroll {
+    width: 100%;
+  }
 }
 
 .body-overlay-1 {
@@ -5464,6 +5477,13 @@ label {
     padding-left: 0;
   }
 }
+
+@media (max-width: 576px) {
+  .faq-mobile {
+    padding-left: 48px !important;
+  }
+}
+
 .accordion-flush .accordion-button::after {
   flex-shrink: 0;
   width: 14px;
@@ -6165,6 +6185,9 @@ label {
   margin: 20px 0px 50px 0px;
 }
 .paginations .pager {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
   padding: 0px;
 }
 .paginations .pager li {
@@ -7820,4 +7843,68 @@ em, i {
 
 .ck-editor__editable_inline {
   min-height: 200px !important;
+}
+
+.no-wrap-ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media (max-width: 320px) {
+  .save-job-card-bottom {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+}
+
+@media (max-width: 320px) {
+  .salary-jobs {
+    width: 100%;
+  }
+}
+
+@media (max-width: 320px) {
+  .apply-button {
+    text-align: left !important;
+    width: 100%;
+  }
+}
+
+@media (max-width: 540px) {
+  .header-table-mobile {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+}
+
+@media (max-width: 540px) {
+  .table-title {
+   width: 100%;
+  }
+}
+
+@media (max-width: 540px) {
+  .btn-full-mobile {
+   width: 100%;
+  }
+}
+
+.img-full-cover {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.fag-image-large {
+  width: 630px;
+  height: 480px;
+}
+
+.faq-image-small {
+  width: 442px;
+  height: 225px;
 }

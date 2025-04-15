@@ -117,7 +117,7 @@
                                                     </span>
                                                 </div>
 
-                                                <div class="text-small mt-15">
+                                                <div class="text-small mt-15 no-wrap-ellipsis">
                                                     {!! Str::limit(strip_tags($job->about_job), 135) !!}
                                                 </div>
 
@@ -201,110 +201,82 @@
     </script>
 
 
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const companyCards = document.querySelectorAll(".job-card");
-            const cardsPerPage = 8;
-            const totalPages = Math.ceil(companyCards.length / cardsPerPage);
-            let currentPage = 1;
-
-            const paginationContainer = document.getElementById("pagination-container");
-
-            function createPagination() {
-                paginationContainer.innerHTML = "";
-
-                const prev = document.createElement("li");
-                prev.innerHTML = `<a href="#" class="pager-prev"></a>`;
-                paginationContainer.appendChild(prev);
-                prev.addEventListener("click", (e) => {
-                    e.preventDefault();
-                    if (currentPage > 1) showPage(currentPage - 1);
-                });
-
-                for (let i = 1; i <= totalPages; i++) {
-                    const li = document.createElement("li");
-                    li.innerHTML = `<a href="#" class="pager-number">${i}</a>`;
-                    li.querySelector("a").addEventListener("click", (e) => {
-                        e.preventDefault();
-                        showPage(i);
-                    });
-                    paginationContainer.appendChild(li);
-                }
-
-                const next = document.createElement("li");
-                next.innerHTML = `<a href="#" class="pager-next"></a>`;
-                paginationContainer.appendChild(next);
-                next.addEventListener("click", (e) => {
-                    e.preventDefault();
-                    if (currentPage < totalPages) showPage(currentPage + 1);
-                });
-            }
-
-            function showPage(page) {
-                const start = (page - 1) * cardsPerPage;
-                const end = start + cardsPerPage;
-
-                companyCards.forEach((card, index) => {
-                    card.style.display = (index >= start && index < end) ? "block" : "none";
-                });
-
-                const pageLinks = document.querySelectorAll(".pager-number");
-                pageLinks.forEach((link) => {
-                    link.classList.toggle("active", parseInt(link.textContent) === page);
-                });
-
-                currentPage = page;
-            }
-
-            createPagination();
-            showPage(currentPage);
-        });
-    </script>
-
-
-    {{--
-    <script>
-        const jobCards = document.querySelectorAll(".job-card");
-        const pageNumbers = document.querySelectorAll(".pager-number");
-        const prevButton = document.querySelector(".pager-prev");
-        const nextButton = document.querySelector(".pager-next");
-
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const searchInput = document.getElementById("searchInput");
+        const searchButton = document.getElementById("searchButton");
+        const companyCards = Array.from(document.querySelectorAll(".job-card"));
         const cardsPerPage = 8;
-        const totalPages = Math.ceil(jobCards.length / cardsPerPage);
         let currentPage = 1;
-
+    
+        const jobListContainer = document.querySelector(".job-listing-grid-2");
+        const paginationContainer = document.getElementById("pagination-container");
+    
         function showPage(page) {
             const start = (page - 1) * cardsPerPage;
             const end = start + cardsPerPage;
-
-            jobCards.forEach((card, index) => {
-                card.style.display = (index >= start && index < end) ? "block" : "none";
+    
+            let hasVisibleCard = false;
+            jobListContainer.innerHTML = "";
+    
+            companyCards.forEach((card, index) => {
+                if (index >= start && index < end) {
+                    card.style.display = "block";
+                    jobListContainer.appendChild(card);
+                    hasVisibleCard = true;
+                } else {
+                    card.style.display = "none";
+                }
             });
-
-            pageNumbers.forEach((number) => {
-                number.classList.toggle("active", parseInt(number.textContent) === page);
+    
+            if (!hasVisibleCard) {
+                jobListContainer.innerHTML =
+                    "<p class='text-center'>Tidak ada data yang ditemukan.</p>";
+            }
+    
+            const pageLinks = document.querySelectorAll(".pager-number");
+            pageLinks.forEach((link) => {
+                link.classList.toggle("active", parseInt(link.textContent) === page);
             });
-
+    
             currentPage = page;
         }
-
-        pageNumbers.forEach((number) => {
-            number.addEventListener("click", (e) => {
+    
+        function createPagination() {
+            paginationContainer.innerHTML = "";
+    
+            const totalPages = Math.ceil(companyCards.length / cardsPerPage);
+            if (totalPages === 0) return;
+    
+            const prev = document.createElement("li");
+            prev.innerHTML = `<a href="#" class="pager-prev"></a>`;
+            paginationContainer.appendChild(prev);
+            prev.addEventListener("click", (e) => {
                 e.preventDefault();
-                showPage(parseInt(number.textContent));
+                if (currentPage > 1) showPage(currentPage - 1);
             });
-        });
-
-        prevButton.addEventListener("click", (e) => {
-            e.preventDefault();
-            if (currentPage > 1) showPage(currentPage - 1);
-        });
-
-        nextButton.addEventListener("click", (e) => {
-            e.preventDefault();
-            if (currentPage < totalPages) showPage(currentPage + 1);
-        });
-
+    
+            for (let i = 1; i <= totalPages; i++) {
+                const li = document.createElement("li");
+                li.innerHTML = `<a href="#" class="pager-number">${i}</a>`;
+                li.querySelector("a").addEventListener("click", (e) => {
+                    e.preventDefault();
+                    showPage(i);
+                });
+                paginationContainer.appendChild(li);
+            }
+    
+            const next = document.createElement("li");
+            next.innerHTML = `<a href="#" class="pager-next"></a>`;
+            paginationContainer.appendChild(next);
+            next.addEventListener("click", (e) => {
+                e.preventDefault();
+                if (currentPage < totalPages) showPage(currentPage + 1);
+            });
+        }
+    
+        createPagination();
         showPage(currentPage);
-    </script> --}}
+    });
+    </script>        
 @endsection

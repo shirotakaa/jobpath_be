@@ -28,7 +28,7 @@
         id="kt_app_header_container">
         <div class="app-header-logo d-flex flex-center">
             <a href="{{ route('dashboard') }}">
-                <img alt="Logo" src="{{ asset('assets/admin/media/logos/icon-dark.png') }}" class="mh-60px" />
+                <img alt="Logo" src="{{ asset('assets/admin/media/logos/logo-dark-admin.png') }}" class="mh-60px" />
             </a>            
             <button class="btn btn-icon btn-sm btn-active-color-primary d-flex d-lg-none"
                 id="kt_app_sidebar_mobile_toggle">
@@ -36,7 +36,7 @@
             </button>
         </div>
         <div class="d-flex flex-lg-grow-1 flex-stack" id="kt_app_header_wrapper">
-            <div class="app-header-wrapper d-flex align-items-center justify-content-around justify-content-lg-between flex-wrap gap-6 gap-lg-0 mb-6 mb-lg-0"
+            <div class="app-header-wrapper d-flex align-items-center justify-content-lg-between flex-wrap gap-6 gap-lg-0 mb-6 mb-lg-0"
                 data-kt-swapper="true" data-kt-swapper-mode="{default: 'prepend', lg: 'prepend'}"
                 data-kt-swapper-parent="{default: '#kt_app_content_container', lg: '#kt_app_header_wrapper'}">
                 <div class="d-flex flex-column justify-content-center">
@@ -56,7 +56,7 @@
                     <div class="cursor-pointer symbol symbol-40px"
                         data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-attach="parent"
                         data-kt-menu-placement="bottom-end">
-                        <img src="{{ asset($admin->avatar ?? '/assets/admin/media/svg/blank.svg') }}" class="rounded-3" alt="user" />
+                        <img src="{{ asset($admin->avatar ?? '/assets/admin/media/svg/blank.svg') }}" class="rounded-3 img-full-cover" alt="user" />
                     </div>
                     <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg menu-state-color fw-semibold py-4 fs-6 w-275px"
                         data-kt-menu="true">

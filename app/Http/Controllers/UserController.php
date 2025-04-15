@@ -33,7 +33,8 @@ class UserController extends Controller
             ->when($kategori, function ($q) use ($kategori) {
                 $q->where('kategori', $kategori);
             })
-            ->get(); // <-- gunakan get() bukan paginate()
+            ->orderBy('created_at', 'desc') // <-- urutkan berdasarkan waktu pembuatan terbaru
+            ->get();
 
         $identitas = Identitas::first();
         $categories = Pekerjaan::select('kategori')->distinct()->pluck('kategori');
@@ -46,12 +47,13 @@ class UserController extends Controller
         $pekerjaan = Pekerjaan::with('perusahaan')->where('judul_pekerjaan', $judul_pekerjaan)->firstOrFail();
         $identitas = Identitas::first();
 
-        // Ambil pekerjaan lain dengan kategori yang sama, tapi beda judul
+        // Ambil pekerjaan lain dengan kategori yang sama, tapi beda judul, urutkan dari yang terbaru
         $pekerjaanLain = Pekerjaan::with('perusahaan')
             ->where('judul_pekerjaan', '!=', $judul_pekerjaan)
-            ->where('kategori', $pekerjaan->kategori) // filter berdasarkan kategori yang sama
+            ->where('kategori', $pekerjaan->kategori)
             ->whereNotNull('judul_pekerjaan')
             ->whereHas('perusahaan')
+            ->orderBy('created_at', 'desc') // <-- urutkan berdasarkan waktu pembuatan terbaru
             ->limit(3)
             ->get();
 
@@ -61,11 +63,10 @@ class UserController extends Controller
     }
 
 
-
     public function jejakAlumni(Request $request)
     {
         $identitas = Identitas::first();
-        $alumni = JejakAlumni::where('status', 'Approved')->get();
+        $alumni = JejakAlumni::where('status', 'Approved')->orderBy('created_at', 'desc')->get(); // Mengurutkan berdasarkan created_at dari terbaru
 
         if ($request->ajax()) {
             return response()->json([
@@ -75,7 +76,6 @@ class UserController extends Controller
 
         return view('user.jejak-alumni', compact('identitas', 'alumni'));
     }
-
 
     public function faqUser()
     {
@@ -105,6 +105,7 @@ class UserController extends Controller
     public function perusahaan()
     {
         $identitas = Identitas::first();
+
         $perusahaan = Perusahaan::select('perusahaan.*')
             ->selectSub(function ($query) {
                 $query->from('pekerjaan')
@@ -112,7 +113,9 @@ class UserController extends Controller
                     ->where('pekerjaan.status', 'Available')
                     ->selectRaw('COUNT(*)');
             }, 'jumlah_lowongan')
-            ->get(); // Mengambil semua data tanpa pagination
+            ->orderByDesc('created_at')         // perusahaan paling baru di sebelah kiri            
+            ->get();
+
         return view('user.perusahaan', compact('identitas', 'perusahaan'));
     }
 

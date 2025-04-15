@@ -124,6 +124,20 @@
                                     </a>
                                 </div>
                                 <div class="card-block-info">
+                                    <div class="social-icons mb-10 d-flex justify-content-center">
+                                        @if($item->linkedin)
+                                            <a href="{{ $item->linkedin }}" target="_blank"
+                                                class="text-decoration-none me-2" style="font-size: 20px;">
+                                                <i class="bi bi-linkedin"></i>
+                                            </a>
+                                        @endif
+                                        @if($item->instagram)
+                                            <a href="{{ $item->instagram }}" target="_blank" class="text-decoration-none"
+                                                style="font-size: 20px;">
+                                                <i class="bi bi-instagram"></i>
+                                            </a>
+                                        @endif
+                                    </div>
                                     <div class="card-profile">
                                         <a href="#"><strong>{{ $item->nama }}</strong></a>
                                         <span class="text-sm" style="color: #1f2938;">
@@ -147,5 +161,39 @@
 
     </main>
     <!-- End Content -->
+    @section('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    @if (session('login_success'))
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Login Berhasil',
+                    text: 'Anda akan diarahkan ke halaman utama',
+                    confirmButtonColor: '#3085d6',
+                    backdrop: true,
+                    allowOutsideClick: false
+                });
+            });
+        </script>
+    @endif
+
+    @if (session('login_error'))
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Login Gagal',
+                    text: '{{ session('login_error') }}',
+                    confirmButtonColor: '#3085d6',
+                    backdrop: true,
+                    allowOutsideClick: false
+                });
+            });
+        </script>
+    @endif
+@endsection
+
 
 @endsection

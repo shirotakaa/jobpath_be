@@ -18,21 +18,34 @@ class AuthController extends Controller
 {
     public function signIn()
     {
+        if (Auth::guard('siswa')->check()) {
+            return redirect('/index');
+        }
+
+        if (Auth::guard('perusahaan')->check()) {
+            return redirect('/company-landing');
+        }
+
+        if (Auth::guard('admin')->check()) {
+            return redirect('/dashboard');
+        }
         return view('admin.auth.sign-in');
     }
 
     public function index()
     {
         $identitas = Identitas::first();
+
         $perusahaan = Perusahaan::where('tampilkan_di_landing', true)
             ->select('perusahaan.*')
             ->selectSub(function ($query) {
                 $query->from('pekerjaan')
                     ->whereColumn('pekerjaan.id_perusahaan', 'perusahaan.id_perusahaan')
-                    ->where('pekerjaan.status', 'Available') // Hanya pekerjaan dengan status Available
+                    ->where('pekerjaan.status', 'Available')
                     ->selectRaw('COUNT(*)');
-            }, 'jumlah_lowongan') // Alias untuk jumlah pekerjaan yang tersedia
+            }, 'jumlah_lowongan')
             ->get();
+
         $kategoriPekerjaan = Pekerjaan::where('status', 'Available')
             ->select('kategori')
             ->distinct()
@@ -40,15 +53,43 @@ class AuthController extends Controller
             ->map(function ($item) {
                 return [
                     'nama' => $item->kategori,
-                    'jumlah' => Pekerjaan::where('status', 'Available')->where('kategori', $item->kategori)->count(),
+                    'jumlah' => Pekerjaan::where('status', 'Available')
+                        ->where('kategori', $item->kategori)
+                        ->count(),
                 ];
             });
 
-        $categories = Pekerjaan::select('kategori')->distinct()->pluck('kategori');
+        // Ambil semua kategori unik
+        $categories = Pekerjaan::where('status', 'Available')
+            ->select('kategori')
+            ->distinct()
+            ->pluck('kategori');
+
+        // Ambil maksimal 6 pekerjaan untuk setiap kategori
+        $pekerjaanPerKategori = [];
+        foreach ($categories as $kategori) {
+            $pekerjaanPerKategori[$kategori] = Pekerjaan::where('status', 'Available')
+                ->where('kategori', $kategori)
+                ->with('perusahaan')
+                ->orderBy('created_at', 'desc')
+                ->take(6)
+                ->get();
+        }
+
         $alumni = JejakAlumni::where('tampilkan_di_landing', true)->get();
-        $hero = \App\Models\HeroLanding::latest()->first(); // Mengambil data terbaru dari tabel
-        return view('user.index', compact('identitas', 'perusahaan', 'alumni', 'hero', 'kategoriPekerjaan', 'categories'));
+        $hero = \App\Models\HeroLanding::latest()->first();
+
+        return view('user.index', compact(
+            'identitas',
+            'perusahaan',
+            'alumni',
+            'hero',
+            'kategoriPekerjaan',
+            'categories',
+            'pekerjaanPerKategori'
+        ));
     }
+
 
     public function loginAdmin(Request $request)
     {

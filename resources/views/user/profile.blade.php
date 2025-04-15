@@ -43,7 +43,7 @@
                     @method('PUT')
                     <div class="tb-container">
                         <div class="row mb-20">
-                            <div class="col-6 d-flex align-items-center">
+                            <div class="col-6 d-flex align-items-center w-100">
                                 <span class="tb-title fw-bold">Profil Saya</span>
                             </div>
                         </div>
@@ -52,7 +52,7 @@
                                 <figure style="width: 130px; height: 130px; position: relative;">
                                     <img id="profileImage"
                                         src="{{ Auth::guard('siswa')->user()->foto ? (Str::startsWith(Auth::guard('siswa')->user()->foto, 'http') ? Auth::guard('siswa')->user()->foto : asset('storage/' . Auth::guard('siswa')->user()->foto)) : asset('img/default-profile.jpg') }}"
-                                        class="w-100 h-100 object-fit-cover rounded-circle" />
+                                        class="img-full-cover rounded-circle" />
                                     <button type="button" class="btn btn-tb btn-table-primary mb-1 mb-lg-0 edit-button"
                                         onclick="document.getElementById('fileInput').click()">
                                         <i class="fa fa-pen"></i>

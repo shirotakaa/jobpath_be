@@ -1,21 +1,20 @@
 <!-- filepath: /c:/laragon/www/JobPath/resources/views/admin/pages/data-user.blade.php -->
 @extends('admin.layout.main')
 @section('content')
-
 	<div class="app-main flex-column flex-row-fluid" id="kt_app_main">
 		<div class="d-flex flex-column flex-column-fluid">
 			<div id="kt_app_content" class="app-content flex-column-fluid pt-10">
 				<div id="kt_app_content_container" class="app-container container-fluid">
 					<div class="card card-flush">
 						<div class="card-header align-items-center py-5 gap-2 gap-md-5">
-							<div class="card-title">
-								<div class="d-flex align-items-center position-relative my-1">
+							<div class="card-title mobile-full-width">
+								<div class="d-flex align-items-center position-relative my-1 mobile-full-width">
 									<i class="ki-duotone ki-magnifier fs-3 position-absolute ms-4">
 										<span class="path1"></span>
 										<span class="path2"></span>
 									</i>
 									<input type="text" table-search="search"
-										class="form-control form-control-solid w-250px ps-12" placeholder="Cari..." />
+										class="form-control form-control-solid input-sm ps-12" placeholder="Cari..." />
 								</div>
 							</div>
 							<div class="card-toolbar flex-row-fluid justify-content-end gap-5">
@@ -31,7 +30,7 @@
 						</div>
 						<div class="card-body pt-0">
 							<div class="d-flex justify-content-between align-items-center mb-4">
-								<div>
+								<div class="faq-tabs">
 									<button class="btn btn-light-primary me-2" id="copyBtn">Copy</button>
 									<button class="btn btn-light-primary me-2" id="excelBtn">Excel</button>
 									<button class="btn btn-light-primary me-2" id="pdfBtn">PDF</button>
@@ -136,7 +135,7 @@
 					<h5 class="modal-title text-uppercase">Tambah Data User</h5>
 					<div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal"
 						aria-label="Close">
-						<i class="ki-duotone ki-cross fs-2"><span class="path1"></span><span class="path2"></span></i>
+						<i class="ki-duotone ki-cross icon-close"><span class="path1"></span><span class="path2"></span></i>
 					</div>
 				</div>
 				<div class="modal-body">

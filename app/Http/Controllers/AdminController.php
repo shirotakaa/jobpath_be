@@ -13,6 +13,8 @@ use App\Models\Pekerjaan;
 use App\Models\FaqContent;
 use App\Models\JejakAlumni;
 use App\Models\PerusahaanContent;
+use App\Http\Controllers\PekerjaanController;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -97,9 +99,11 @@ class AdminController extends Controller
 
     public function kelolaPekerjaan()
     {
-        // Mengambil data pekerjaan dengan urutan descending berdasarkan created_at
+        // Update pekerjaan yang melewati deadline
+        PekerjaanController::updateExpiredJobs();
+
         $pekerjaan = Pekerjaan::orderBy('created_at', 'desc')->get();
-        $perusahaan = Perusahaan::all(); // Ambil data perusahaan
+        $perusahaan = Perusahaan::all();
         return view('admin.pages.tambah-pekerjaan', compact('pekerjaan', 'perusahaan'));
     }
 

@@ -79,11 +79,11 @@ Route::middleware(['MustAdmin'])->group(function () {
     Route::get('/identitas/edit', [IdentitasController::class, 'edit'])->name('identitas.edit');
     Route::put('/identitas/update', [IdentitasController::class, 'update'])->name('identitas.update');
 
-    Route::get('/tambah-pekerjaan', [AdminController::class, 'kelolaPekerjaan'])->name('tambah-pekerjaan');
     Route::resource('siswa', SiswaController::class);
     Route::resource('faq', FaqController::class);
     // Route::resource('perusahaan', PerusahaanController::class);
     Route::resource('faq-content', FaqContentController::class)->only(['update']);
+    Route::get('/tambah-pekerjaan', [AdminController::class, 'kelolaPekerjaan'])->name('tambah-pekerjaan');
 
     // CRUD Pekerjaan
     Route::get('/pekerjaan', [PekerjaanController::class, 'index'])->name('pekerjaan.index');
@@ -114,7 +114,8 @@ Route::middleware(['MustPerusahaan'])->group(function () {
     Route::get('/company-landing', [UserController::class, 'landing'])->name('company.landing');
     Route::get('/company-add-job', [UserController::class, 'addjob'])->name('company.addjob');
     Route::get('/company-job', [UserController::class, 'job'])->name('company.job');
-    Route::post('/pekerjaan/store-user', [PekerjaanController::class, 'storeUser'])->name('pekerjaan.storeUser');
+    Route::put('/perusahaan/pekerjaan/{id}/deadline', [PekerjaanController::class, 'updateDeadline'])->name('pekerjaan.updateDeadline');
+    Route::post('/pekerjaan/store-user', [PekerjaanController::class, 'storeUser'])->name('pekerjaan.storeUser');    
     Route::delete('/company-job/{id}', [PekerjaanController::class, 'destroy'])->name('pekerjaan.deletejob');
 
     Route::get('/perusahaan-page', [UserController::class, 'perusahaan'])->name('perusahaan');

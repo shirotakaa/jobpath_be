@@ -35,7 +35,7 @@
             </div>
             <div class="header-right">
                 <div class="block-signin">
-                    <a href="{{ route('company.addjob') }}" class="btn btn-default btn-shadow ml-10 hover-up">Add Job Now</a>
+                    <a href="{{ route('company.addjob') }}" class="btn btn-default btn-shadow ml-10 hover-up">Tambah Pekerjaan</a>
                 </div>
             </div>
         </div>
@@ -49,7 +49,7 @@
             ?>
 
             <div class="user-account">
-                <img src="<?= $user->logo ?>" alt="<?= $user->nama_perusahaan ?>" class="w-100 h-100 object-fit-cover" />
+                <img src="<?= $user->logo ?>" alt="<?= $user->nama_perusahaan ?>" style="width: 200px;" class="img-full-cover" />
                 <div class="content">
                     <h6 class="user-name"><?= $user->nama_perusahaan ?></h6>
                     <p class="font-xs text-muted"><?= $user->email ?></p>
@@ -96,7 +96,7 @@
                     </ul>
                 </div>
                 <div class="block-signin mt-3 d-flex align-items-center mobile-wrap">
-                    <a href="{{ route('company.addjob') }}" class="btn btn-default btn-shadow hover-up">Add Job Now</a>
+                    <a href="{{ route('company.addjob') }}" class="btn btn-default btn-shadow hover-up">Tambah Pekerjaan</a>
                 </div>
             </div>
         </div>

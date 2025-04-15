@@ -18,18 +18,14 @@ class PekerjaanController extends Controller
 
     public function daftarPekerjaanSaya()
     {
-        // Periksa apakah ada perusahaan yang sedang login
         if (!auth()->guard('perusahaan')->check()) {
-            return redirect()->route('login')->with('error', 'Silakan login terlebih dahulu.');
+            return redirect()->route('guest.index')->with('error', 'Silakan login terlebih dahulu.');
         }
 
-        // Ambil data perusahaan yang sedang login
+        $this->updateExpiredJobs();
+
         $perusahaan = auth()->guard('perusahaan')->user();
-
-        // Ambil id_perusahaan
         $id_perusahaan = $perusahaan->id_perusahaan;
-
-        // Ambil daftar pekerjaan berdasarkan id_perusahaan
         $pekerjaan = Pekerjaan::where('id_perusahaan', $id_perusahaan)->get();
 
         return view('perusahaan.pages.company-job', compact('pekerjaan'));
@@ -85,9 +81,6 @@ class PekerjaanController extends Controller
 
     public function update(Request $request, $id_pekerjaan)
     {
-        // dd($request->all());
-
-        // Validasi input
         $request->validate([
             'nama_pekerjaan' => 'required|max:255',
             'deadline_lowongan' => 'required|date',
@@ -98,10 +91,8 @@ class PekerjaanController extends Controller
             'detail_pekerjaan' => 'required',
         ]);
 
-        // Cari pekerjaan berdasarkan ID
         $pekerjaan = Pekerjaan::findOrFail($id_pekerjaan);
 
-        // Update data pekerjaan
         $pekerjaan->judul_pekerjaan = $request->nama_pekerjaan;
         $pekerjaan->deadline = $request->deadline_lowongan;
         $pekerjaan->lokasi = $request->lokasi;
@@ -110,10 +101,17 @@ class PekerjaanController extends Controller
         $pekerjaan->about_job = $request->about_job;
         $pekerjaan->detail_pekerjaan = $request->detail_pekerjaan;
 
-        // Simpan perubahan ke database
+        // Jika deadline yang baru lebih besar dari hari ini dan pekerjaan sebelumnya kadaluarsa
+        if (
+            $request->deadline_lowongan > now()->toDateString() &&
+            ($pekerjaan->status === 'Expired' || $pekerjaan->verifikasi === 'Rejected')
+        ) {
+            $pekerjaan->status = 'Available';
+            $pekerjaan->verifikasi = 'Approved';
+        }
+
         $pekerjaan->save();
 
-        // Redirect kembali dengan pesan sukses
         return back()->with('success', 'Pekerjaan berhasil diperbarui.');
     }
 
@@ -175,5 +173,50 @@ class PekerjaanController extends Controller
         ]);
 
         return back()->with('error', 'Pekerjaan ditolak dan kadaluarsa.');
+    }
+
+    public static function updateExpiredJobs()
+    {
+        $today = now()->toDateString();
+
+        Pekerjaan::where('deadline', '<', $today)
+            ->where(function ($query) {
+                $query->where('status', '!=', 'Expired')
+                    ->orWhere('verifikasi', '!=', 'Rejected');
+            })
+            ->update([
+                'status' => 'Expired',
+                'verifikasi' => 'Rejected',
+            ]);
+    }
+    public function updateDeadline(Request $request, $id)
+    {
+        $request->validate([
+            'deadline_lowongan' => 'required|date',
+        ]);
+
+        $pekerjaan = Pekerjaan::findOrFail($id);
+
+        if (auth()->guard('perusahaan')->id() != $pekerjaan->id_perusahaan) {
+            return redirect()->route('company.job')->with('error', 'Anda tidak memiliki izin untuk mengubah pekerjaan ini.');
+        }
+
+        $pekerjaan->deadline = $request->deadline_lowongan;
+
+        $today = now()->toDateString();
+
+        if ($pekerjaan->deadline < $today) {
+            // Jika deadline di masa lalu
+            $pekerjaan->status = 'Expired';
+            $pekerjaan->verifikasi = 'Rejected';
+        } else {
+            // Jika deadline diperpanjang
+            $pekerjaan->status = 'Available';
+            $pekerjaan->verifikasi = 'Approved';
+        }
+
+        $pekerjaan->save();
+
+        return back()->with('success', 'Deadline pekerjaan berhasil diperbarui.');
     }
 }
