@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Storage;
 
 class SiswaController extends Controller
 {
+    // Menampilkan daftar siswa yang diurutkan berdasarkan waktu pembuatan terbaru dan semua jurusan
     public function index()
     {
         $siswa = Siswa::orderBy('created_at', 'desc')->get();
@@ -17,19 +18,23 @@ class SiswaController extends Controller
         return view('admin.pages.data-user', compact('siswa', 'jurusans'));
     }
 
+    // Menampilkan profil siswa berdasarkan ID
     public function show($id)
     {
         $siswa = Siswa::findOrFail($id); // Ambil data siswa berdasarkan ID
         return view('siswa.profil', compact('siswa'));
     }
 
+    // Menampilkan form untuk menambahkan siswa baru
     public function create()
     {
         return view('admin.pages.siswa.create');
     }
 
+    // Menyimpan data siswa baru ke dalam database
     public function store(Request $request)
     {
+        // Validasi input data
         $request->validate([
             'nama' => 'required|max:255',
             'email' => 'nullable|email|unique:siswa,email',
@@ -41,7 +46,7 @@ class SiswaController extends Controller
             'foto' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
-        // Simpan foto atau gunakan default
+        // Menyimpan foto atau menggunakan foto default
         $path = 'storage/siswa/default.png'; // Default foto
         if ($request->hasFile('foto')) {
             $path = $request->file('foto')->store('siswa', 'public');
@@ -49,6 +54,7 @@ class SiswaController extends Controller
         }
 
         try {
+            // Menambahkan data siswa ke dalam database
             Siswa::create([
                 'nama' => $request->nama,
                 'email' => $request->email,
@@ -67,13 +73,16 @@ class SiswaController extends Controller
         }
     }
 
+    // Menampilkan form untuk mengedit data siswa
     public function edit(Siswa $siswa)
     {
         return view('admin.pages.siswa.edit', compact('siswa'));
     }
 
+    // Memperbarui data siswa yang ada di database
     public function update(Request $request, Siswa $siswa)
     {
+        // Validasi input data
         $request->validate([
             'nama' => 'required|max:255',
             'email' => 'nullable|email|unique:siswa,email,' . $siswa->id_siswa . ',id_siswa',
@@ -85,7 +94,7 @@ class SiswaController extends Controller
             'foto' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
-        // Jika ada file baru, hapus yang lama
+        // Jika ada foto baru, hapus foto lama dan simpan foto baru
         if ($request->hasFile('foto')) {
             if ($siswa->foto && Storage::exists(str_replace('/storage/', 'public/', $siswa->foto))) {
                 Storage::delete(str_replace('/storage/', 'public/', $siswa->foto));
@@ -94,6 +103,7 @@ class SiswaController extends Controller
             $siswa->foto = Storage::url($path);
         }
 
+        // Memperbarui data siswa
         $siswa->update([
             'nama' => $request->nama,
             'email' => $request->email,
@@ -108,8 +118,10 @@ class SiswaController extends Controller
         return redirect()->back()->with('success', 'Siswa berhasil diperbarui.');
     }
 
+    // Menghapus data siswa dari database
     public function destroy(Siswa $siswa)
     {
+        // Menghapus foto siswa jika ada dan bukan foto default
         if ($siswa->foto && $siswa->foto !== 'storage/siswa/default.png') {
             $filePath = str_replace('/storage/', 'public/', $siswa->foto);
             if (Storage::exists($filePath)) {
@@ -117,6 +129,7 @@ class SiswaController extends Controller
             }
         }
 
+        // Menghapus siswa dari database
         $siswa->delete();
 
         return redirect()->back()->with('success', 'Siswa berhasil dihapus.');
