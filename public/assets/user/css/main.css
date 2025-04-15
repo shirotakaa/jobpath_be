@@ -2948,7 +2948,7 @@ label {
 
 @media (max-width: 576px) {
   .perfect-scroll {
-    width: 100%;
+    width: 100% !important;
   }
 }
 

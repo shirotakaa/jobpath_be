@@ -57,44 +57,44 @@
                     </div>
                     <div class="col-lg-5 text-lg-end text-start wow animate__animated animate__fadeInUp"
                         data-wow-delay=".2s">
-                        <a href="{{ route('guest-list-perusahaan') }}"
+                        <a href="{{ route('perusahaan') }}"
                             class="mt-sm-15 mt-lg-30 btn btn-border icon-chevron-right">Lihat
                             Semua</a>
                     </div>
-                    <div class="row mt-70">
-                        @foreach ($perusahaan as $item)
-                            <div class="col-lg-3 col-md-6">
-                                <div class="card-grid-2 card-employers hover-up wow animate__animated animate__fadeIn">
-                                    <div class="text-center card-grid-2-image-rd">
-                                        <a href="#">
-                                            <figure style=" width: 110px ;height: 110px;">
-                                                <img alt="JobPath"
-                                                    src="{{ $item->logo ? asset($item->logo) : 'assets/user/imgs/employers/employer-default.png' }}"
-                                                    class="w-100 h-100 object-fit-cover" />
-                                            </figure>
-                                        </a>
+                </div>
+                <div class="row mt-70">
+                    @foreach ($perusahaan as $item)
+                        <div class="col-lg-3 col-md-6">
+                            <div class="card-grid-2 card-employers hover-up wow animate__animated animate__fadeIn">
+                                <div class="text-center card-grid-2-image-rd">
+                                    <a>
+                                        <figure style=" width: 110px ;height: 110px;">
+                                            <img alt="JobPath"
+                                                src="{{ $item->logo ? asset($item->logo) : 'assets/user/imgs/employers/employer-default.png' }}"
+                                                class="w-100 h-100 object-fit-cover" />
+                                        </figure>
+                                    </a>
+                                </div>
+                                <div class="card-block-info">
+                                    <div class="card-profile">
+                                        <h5><a><strong>{{ $item->nama_perusahaan }}</strong></a></h5>
+                                        <span class="text-sm">{{ $item->lokasi }}</span>
                                     </div>
-                                    <div class="card-block-info">
-                                        <div class="card-profile">
-                                            <h5><a href="#"><strong>{{ $item->nama_perusahaan }}</strong></a></h5>
-                                            <span class="text-sm">{{ $item->lokasi }}</span>
-                                        </div>
-                                        <div class="mt-15 d-flex flex-column align-items-center text-center">
-                                        </div>
-                                        <div class="card-2-bottom card-2-bottom-candidate">
-                                            <div class="text-center mb-5">
-                                                <a href="#" class="btn btn-border btn-brand-hover" data-bs-toggle="modal"
-                                                    data-bs-target="#loginModal">
-                                                    {{ $item->jumlah_lowongan }} Open
-                                                    Jobs
-                                                </a>
-                                            </div>
+                                    <div class="mt-15 d-flex flex-column align-items-center text-center">
+                                    </div>
+                                    <div class="card-2-bottom card-2-bottom-candidate">
+                                        <div class="text-center mb-5">
+                                            <a class="btn btn-border btn-brand-hover" data-bs-toggle="modal" data-bs-target="">
+                                                {{ $item->jumlah_lowongan }} Open
+                                                Jobs
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        @endforeach
-                    </div>
+                        </div>
+                    @endforeach
+                </div>
         </section>
         <section class="section-box mt-40">
             <div class="container">
@@ -116,7 +116,7 @@
                         <div class="col-lg-4 col-md-6">
                             <div class="card-grid-2 hover-up">
                                 <div class="text-center card-grid-2-image-rd">
-                                    <a href="#">
+                                    <a>
                                         <figure style="width: 110px; height: 110px;">
                                             <img alt="{{ $item->nama }}" src="{{ asset('storage/' . $item->foto) }}"
                                                 class="w-100 h-100 object-fit-cover" />
@@ -126,8 +126,8 @@
                                 <div class="card-block-info">
                                     <div class="social-icons mb-10 d-flex justify-content-center">
                                         @if($item->linkedin)
-                                            <a href="{{ $item->linkedin }}" target="_blank"
-                                                class="text-decoration-none me-2" style="font-size: 20px;">
+                                            <a href="{{ $item->linkedin }}" target="_blank" class="text-decoration-none me-2"
+                                                style="font-size: 20px;">
                                                 <i class="bi bi-linkedin"></i>
                                             </a>
                                         @endif
@@ -139,7 +139,7 @@
                                         @endif
                                     </div>
                                     <div class="card-profile">
-                                        <a href="#"><strong>{{ $item->nama }}</strong></a>
+                                        <a><strong>{{ $item->nama }}</strong></a>
                                         <span class="text-sm" style="color: #1f2938;">
                                             Sebagai alumni SMKN 4 Malang jurusan {{ $item->jurusan }}, saya bekerja sebagai
                                             {{ $item->pekerjaan }} di {{ $item->perusahaan }}.
@@ -162,38 +162,38 @@
     </main>
     <!-- End Content -->
     @section('scripts')
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    @if (session('login_success'))
-        <script>
-            document.addEventListener("DOMContentLoaded", function () {
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Login Berhasil',
-                    text: 'Anda akan diarahkan ke halaman utama',
-                    confirmButtonColor: '#3085d6',
-                    backdrop: true,
-                    allowOutsideClick: false
+        @if (session('login_success'))
+            <script>
+                document.addEventListener("DOMContentLoaded", function () {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Login Berhasil',
+                        text: 'Anda akan diarahkan ke halaman utama',
+                        confirmButtonColor: '#3085d6',
+                        backdrop: true,
+                        allowOutsideClick: false
+                    });
                 });
-            });
-        </script>
-    @endif
+            </script>
+        @endif
 
-    @if (session('login_error'))
-        <script>
-            document.addEventListener("DOMContentLoaded", function () {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Login Gagal',
-                    text: '{{ session('login_error') }}',
-                    confirmButtonColor: '#3085d6',
-                    backdrop: true,
-                    allowOutsideClick: false
+        @if (session('login_error'))
+            <script>
+                document.addEventListener("DOMContentLoaded", function () {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Login Gagal',
+                        text: '{{ session('login_error') }}',
+                        confirmButtonColor: '#3085d6',
+                        backdrop: true,
+                        allowOutsideClick: false
+                    });
                 });
-            });
-        </script>
-    @endif
-@endsection
+            </script>
+        @endif
+    @endsection
 
 
 @endsection

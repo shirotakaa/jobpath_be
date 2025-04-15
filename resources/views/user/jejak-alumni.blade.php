@@ -12,7 +12,7 @@
                         </div>
                         <div class="col-lg-5 col-md-3 text-lg-end text-start">
                             <ul class="breadcrumbs mt-sm-15">
-                                <li><a href="#">Home</a></li>
+                                <li><a href="{{ route('user.index') }}">Home</a></li>
                                 <li>Jejak Alumni</li>
                             </ul>
                         </div>
@@ -49,7 +49,7 @@
                                     <div class="col-lg-4 col-md-6 alumni-card">
                                         <div class="card-grid-2 hover-up">
                                             <div class="text-center card-grid-2-image-rd">
-                                                <a href="candidates-single.html">
+                                                <a>
                                                     <figure style="width: 110px; height: 110px;">
                                                         <img alt="{{ $item->nama }}" src="{{ asset('storage/' . $item->foto) }}"
                                                             class="w-100 h-100 object-fit-cover" />

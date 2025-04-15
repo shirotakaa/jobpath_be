@@ -85,7 +85,7 @@
                         <div class="col-lg-3 col-md-6">
                             <div class="card-grid-2 card-employers hover-up wow animate__animated animate__fadeIn">
                                 <div class="text-center card-grid-2-image-rd">
-                                    <a href="#">
+                                    <a>
                                         <figure style=" width: 110px ;height: 110px;">
                                             <img alt="JobPath"
                                                 src="{{ $item->logo ? asset($item->logo) : 'assets/user/imgs/employers/employer-default.png' }}"
@@ -95,15 +95,15 @@
                                 </div>
                                 <div class="card-block-info">
                                     <div class="card-profile">
-                                        <h5><a href="#"><strong>{{ $item->nama_perusahaan }}</strong></a></h5>
+                                        <h5><a><strong>{{ $item->nama_perusahaan }}</strong></a></h5>
                                         <span class="text-sm">{{ $item->lokasi }}</span>
                                     </div>
                                     <div class="mt-15 d-flex flex-column align-items-center text-center">
                                     </div>
                                     <div class="card-2-bottom card-2-bottom-candidate">
                                         <div class="text-center mb-5">
-                                            <a href="#" class="btn btn-border btn-brand-hover" data-bs-toggle="modal"
-                                                data-bs-target="#loginModal">
+                                            <a class="btn btn-border btn-brand-hover" data-bs-toggle="modal"
+                                                data-bs-target="">
                                                 {{ $item->jumlah_lowongan }} Open
                                                 Jobs
                                             </a>
@@ -265,7 +265,7 @@
                                                     </div>
                 
                                                     <div class="mt-15" style="display: flex; gap: 24px;">
-                                                        <a href="#">
+                                                        <a>
                                                             <span class="text-brand-10 text-icon-first">
                                                                 {{ $job->perusahaan->nama_perusahaan ?? '-' }}
                                                             </span>
@@ -322,7 +322,7 @@
                         <div class="col-lg-4 col-md-6">
                             <div class="card-grid-2 hover-up">
                                 <div class="text-center card-grid-2-image-rd">
-                                    <a href="#">
+                                    <a>
                                         <figure style="width: 110px; height: 110px;">
                                             <img alt="{{ $item->nama }}" src="{{ asset('storage/' . $item->foto) }}"
                                                 class="w-100 h-100 object-fit-cover" />
@@ -345,7 +345,7 @@
                                         @endif
                                     </div>
                                     <div class="card-profile">
-                                        <a href="#"><strong>{{ $item->nama }}</strong></a>
+                                        <a><strong>{{ $item->nama }}</strong></a>
                                         <span class="text-sm" style="color: #1f2938;">
                                             Sebagai alumni SMKN 4 Malang jurusan {{ $item->jurusan }}, saya bekerja sebagai
                                             {{ $item->pekerjaan }} di {{ $item->perusahaan }}.

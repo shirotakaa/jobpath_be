@@ -70,7 +70,7 @@
                 <div class="header-right">
                     <div class="block-signin">
                         <a href="{{ route('login-perusahaan') }}" class="btn btn-default btn-shadow ml-40 hover-up">Login</a>
-                        <a href="{{ route('login-perusahaan') }}" class="btn btn-default btn-shadow ml-10 hover-up">Add Job Now</a>
+                        <a href="{{ route('login-perusahaan') }}" class="btn btn-default btn-shadow ml-10 hover-up">Tambah Pekerjaan</a>
                     </div>
                 </div>
             </div>
@@ -103,8 +103,7 @@
 
                     <!-- Tombol login untuk mobile -->
                     <div class="block-signin mt-3 d-flex align-items-center mobile-wrap">
-                        <a href="{{ route('login-perusahaan') }}" class="btn btn-default btn-shadow me-2 hover-up btn-login-mobile">Login</a>
-                        <a href="{{ route('login-perusahaan') }}" class="btn btn-default btn-shadow hover-up">Add Job Now</a>
+                        <a href="{{ route('login-perusahaan') }}" class="btn btn-default btn-shadow me-2 hover-up btn-login-mobile">Login</a>                        
                     </div>
                 </div>
             </div>
