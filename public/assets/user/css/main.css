@@ -7905,6 +7905,6 @@ em, i {
 }
 
 .faq-image-small {
-  width: 442px;
+  width: 442px !important;
   height: 225px;
 }
