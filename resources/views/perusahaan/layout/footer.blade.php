@@ -12,22 +12,20 @@
                 <h6>Navigasi</h6>
                 <ul class="menu-footer mt-40">
                     <li><a href="#">Home</a></li>
-                    <li><a href="#">Daftar Pekerjaan</a></li>
-                    <li><a href="#">Daftar Perusahaan</a></li>
-                    <li><a href="#">Jejak Alumni</a></li>
+                    <li><a href="#">Pekerjaan</a></li>
+                    <li><a href="#">Pelamar</a></li>
+                    <li><a href="#">FAQ</a></li>
                 </ul>
             </div>
             <div class="col-md-2 col-xs-6">
                 <h6>Informasi</h6>
-                <ul class="menu-footer mt-40">
-                    <li><a href="#">Landing Page Perusahaan</a></li>
+                <ul class="menu-footer mt-40">                    
                     <li><a href="#">Form Alumni</a></li>
                 </ul>
             </div>
             <div class="col-md-2 col-xs-6">
                 <h6>Bantuan</h6>
-                <ul class="menu-footer mt-40">
-                    <li><a href="#">FAQ</a></li>
+                <ul class="menu-footer mt-40">                    
                     <li><a href="#">Pusat Bantuan</a></li>
                     <li><a href="#">Hubungi Kami</a></li>
                     <li><a href="#">Panduan Pengguna</a></li>

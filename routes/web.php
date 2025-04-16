@@ -38,7 +38,7 @@ Route::middleware(['MustAdmin'])->group(function () {
         return view('admin.index');
     });
     // Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
-    Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
+    Route::get('/dashboard', [AdminController::class, 'admin'])->name('dashboard');
     Route::get('/pengaturan-identitas', [AdminController::class, 'pengaturanIdentitas'])->name('pengaturan-identitas');
     Route::get('/hero-landing', [AdminController::class, 'heroLanding'])->name('hero-landing');
     Route::get('/kelola-perusahaan', [AdminController::class, 'kelolaPerusahaan'])->name('kelola-perusahaan');

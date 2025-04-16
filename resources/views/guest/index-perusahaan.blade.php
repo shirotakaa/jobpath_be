@@ -225,25 +225,42 @@
                     </a>
                     <p class="mt-20 mb-20">Temukan peluang kerja terbaik untuk masa depan Anda.</p>
                 </div>
-                @php
-                    $menus = [
-                        'Navigasi' => ['Home', 'Daftar Pekerjaan', 'Daftar Perusahaan', 'Jejak Alumni'],
-                        'Informasi' => ['Landing Page Perusahaan', 'Form Alumni'],
-                        'Bantuan' => ['FAQ', 'Pusat Bantuan', 'Hubungi Kami', 'Panduan Pengguna'],
-                        'Legal' => ['Hak Cipta', 'Kebijakan Privasi', 'Syarat Penggunaan', 'Laporan Masalah']
-                    ];
-                @endphp
+                <!-- Navigasi footer -->
+                <div class="col-md-2 col-xs-6">
+                    <h6>Navigasi</h6>
+                    <ul class="menu-footer mt-40">
+                        <li><a href="{{ route('guest-perusahaan') }}">Home</a></li>
+                        <li><a href="{{ route('guest-faq-perusahaan') }}">Faq</a></li>                       
+                    </ul>
+                </div>
 
-                @foreach ($menus as $section => $items)
-                    <div class="col-md-2 col-xs-6">
-                        <h6>{{ $section }}</h6>
-                        <ul class="menu-footer mt-40">
-                            @foreach ($items as $item)
-                                <li><a href="#">{{ $item }}</a></li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endforeach
+                <!-- Informasi tambahan -->
+                <div class="col-md-2 col-xs-6">
+                    <h6>Informasi</h6>
+                    <ul class="menu-footer mt-40">
+                        <li><a href="#">Landing Page Perusahaan</a></li>
+                        <li><a href="#">Form Alumni</a></li>
+                    </ul>
+                </div>
+
+                <!-- Bantuan dan legalitas -->
+                <div class="col-md-2 col-xs-6">
+                    <h6>Bantuan</h6>
+                    <ul class="menu-footer mt-40">                        
+                        <li><a href="#">Pusat Bantuan</a></li>
+                        <li><a href="#">Hubungi Kami</a></li>
+                        <li><a href="#">Panduan Pengguna</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-2 col-xs-6">
+                    <h6>Legal</h6>
+                    <ul class="menu-footer mt-40">
+                        <li><a href="#">Hak Cipta</a></li>
+                        <li><a href="#">Kebijakan Privasi</a></li>
+                        <li><a href="#">Syarat Penggunaan</a></li>
+                        <li><a href="#">Laporan Masalah</a></li>
+                    </ul>
+                </div>
             </div>
             <div class="footer-bottom mt-50 text-center">
                 <div class="footer-social">

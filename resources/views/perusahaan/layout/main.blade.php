@@ -40,7 +40,7 @@
 
     @yield('content')
 
-    @include('user.layout.footer')
+    @include('perusahaan.layout.footer')
 
     <!-- JS Libraries (jQuery + Bootstrap only once) -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

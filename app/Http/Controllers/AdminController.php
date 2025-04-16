@@ -121,6 +121,14 @@ class AdminController extends Controller
         return view('admin.pages.perusahaan-landing', compact('perusahaan'));
     }
 
+    public function admin()
+    {        
+        $perusahaan = Perusahaan::all();
+        $alumni = JejakAlumni::all();
+        $siswa = Siswa::all();
+        return view('admin.index', compact('alumni', 'siswa','perusahaan'));
+    }
+
     public function landingPerusahaan()
     {
         $perusahaanContent = PerusahaanContent::first(); // Ambil hanya satu data

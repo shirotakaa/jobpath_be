@@ -209,24 +209,20 @@
         <div class="container">
             <div class="row">
                 <!-- Kolom logo dan deskripsi -->
-                <div class="col-md-4 col-sm-12">
-                    <a href="index.html">
-                        <img alt="JobPath" src="{{ Storage::url($identitas->logo_dark) }}"
-                            style="width: 134px; height: 43px; object-fit: cover;" />
+                <div class="col-md-4">
+                    <a href="{{ route('guest.index') }}">
+                        <img src="{{ Storage::url($identitas->logo_dark) }}"
+                            style="width: 134px; height: 43px; object-fit: cover;" alt="JobPath" />
                     </a>
-                    <div class="mt-20 mb-20" style="width: 70%;">
-                        Temukan peluang kerja terbaik untuk masa depan Anda.
-                    </div>
+                    <p class="mt-20 mb-20">Temukan peluang kerja terbaik untuk masa depan Anda.</p>
                 </div>
 
                 <!-- Navigasi footer -->
                 <div class="col-md-2 col-xs-6">
                     <h6>Navigasi</h6>
                     <ul class="menu-footer mt-40">
-                        <li><a href="#">Home</a></li>
-                        <li><a href="#">Daftar Pekerjaan</a></li>
-                        <li><a href="#">Daftar Perusahaan</a></li>
-                        <li><a href="#">Jejak Alumni</a></li>
+                        <li><a href="{{ route('guest-perusahaan') }}">Home</a></li>
+                        <li><a href="{{ route('guest-faq-perusahaan') }}">Faq</a></li>                       
                     </ul>
                 </div>
 
@@ -242,8 +238,7 @@
                 <!-- Bantuan dan legalitas -->
                 <div class="col-md-2 col-xs-6">
                     <h6>Bantuan</h6>
-                    <ul class="menu-footer mt-40">
-                        <li><a href="#">FAQ</a></li>
+                    <ul class="menu-footer mt-40">                        
                         <li><a href="#">Pusat Bantuan</a></li>
                         <li><a href="#">Hubungi Kami</a></li>
                         <li><a href="#">Panduan Pengguna</a></li>

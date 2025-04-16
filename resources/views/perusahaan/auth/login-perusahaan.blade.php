@@ -29,6 +29,7 @@
             </div>
         </div>
     </div>
+    {{-- login perusahaan --}}
     <section class="section-box">
         <div class="container">
             <div class="col-md-6 d-flex align-items-center w-100">
@@ -91,6 +92,7 @@
     <!-- Template  JS -->
     <script src="assets/user/js/main.js?v=1.0"></script>
 
+    {{-- script untuk allert --}}
     @if ($errors->any() || session('success'))
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>

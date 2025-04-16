@@ -8664,6 +8664,7 @@ em, i {
 
   .faq-image-small {
     width: 405px;
+    height: 225px !important;
   }
   .content-job-inner {
     padding: 0;
@@ -8672,6 +8673,15 @@ em, i {
   .box-image-job {
     padding: 0;
   }
+
+  .mobile-hide {
+    display: none;
+  }
+
+  .faq-image-small {
+    width: 100%;
+    height:100%;
+    }
 }
 
 @media (max-width: 767px) {
@@ -8683,3 +8693,28 @@ em, i {
 .custom-margin-faq {
   margin-bottom: 28px;
 }
+
+@media (max-width: 1200px) {
+
+  .fag-image-large {
+  width: 58.3333333333%;
+  }
+
+  .faq-image-small {
+    width:100%;
+    }
+    
+  }
+
+  @media (max-width:768px) {
+    .mobile-hide {
+    display: none;
+    }
+
+    .fag-image-large {
+      width: 100%;
+      height: 400px;
+      }
+
+  }
+

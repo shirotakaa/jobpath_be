@@ -19,7 +19,7 @@
             <div class="row">
                 <div class="col-lg-10 mx-auto">
                     <div class="row">
-                        <div class="col-lg-7 fag-image-large mb-30 hide-on-mobile" style="padding-right: 20px">
+                        <div class="col-lg-7 fag-image-large mobile-hide mb-30 hide-on-mobile" style="padding-right: 20px">
                             <img class="faqs-1 wow animate__animated animate__fadeIn img-full-cover" data-wow-delay=".1s"
                                 src="{{ asset($faqContent) && $faqContent->asset_1 ? asset('storage/' . $faqContent->asset_1) : asset('assets/admin/media/svg/blank.svg') }}"
                                 alt="FAQ Image 1">
@@ -30,7 +30,7 @@
                                 src="{{ asset($faqContent) && $faqContent->asset_2 ? asset('storage/' . $faqContent->asset_2) : asset('assets/admin/media/svg/blank.svg') }}"
                                 alt="FAQ Image 2">
                             </div>
-                            <div class="faq-image-small hide-on-mobile">
+                            <div class="faq-image-small mobile-hide hide-on-mobile">
                                 <img class="faqs-3 wow animate__animated animate__fadeIn img-full-cover" data-wow-delay=".5s"
                                 src="{{ asset($faqContent) && $faqContent->asset_3 ? asset('storage/' . $faqContent->asset_3) : asset('assets/admin/media/svg/blank.svg') }}"
                                 alt="FAQ Image 3">

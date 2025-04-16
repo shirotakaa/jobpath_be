@@ -29,6 +29,7 @@
             </div>
         </div>
     </div>
+    {{-- register perusahaan --}}
     <section class="section-box">
         <div class="container">
             <div class="col-md-6 d-flex align-items-center w-100">
@@ -100,17 +101,7 @@
                             Continue with Google
                         </button> --}}
 
-                    </form>
-                    @if ($errors->any())
-                        <div class="alert alert-danger">
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
-
+                    </form>                   
                     <!-- Sudah punya akun -->
                     <div class="text-center mt-3">
                         <span>Sudah punya akun? <a href="{{ route('login-perusahaan') }}" class="text-primary fw-semibold">Masuk di

@@ -13,21 +13,20 @@
                     <h6>Navigasi</h6>
                     <ul class="menu-footer mt-40">
                         <li><a href="{{ route('guest.index') }}">Home</a></li>
-                        <li><a href="#">Daftar Perusahaan</a></li>
+                        <li><a href="{{ route('guest-list-perusahaan') }}">Daftar Perusahaan</a></li>
                         <li><a href="{{ route('guest-jejak-alumni') }}">Jejak Alumni</a></li>
+                        <li><a href="{{ route('guest-faq') }}">FAQ</a></li>
                     </ul>
                 </div>
                 <div class="col-md-2 col-xs-6">
                     <h6>Informasi</h6>
-                    <ul class="menu-footer mt-40">
-                        <li><a href="#">Landing Page Perusahaan</a></li>
-                        <li><a href="#">Form Alumni</a></li>
+                    <ul class="menu-footer mt-40">                        
+                        <li><a href="{{ route('jejak-alumni-form') }}">Form Alumni</a></li>
                     </ul>
                 </div>
                 <div class="col-md-2 col-xs-6">
                     <h6>Bantuan</h6>
-                    <ul class="menu-footer mt-40">
-                        <li><a href="#">FAQ</a></li>
+                    <ul class="menu-footer mt-40">                        
                         <li><a href="#">Pusat Bantuan</a></li>
                         <li><a href="#">Hubungi Kami</a></li>
                         <li><a href="#">Panduan Pengguna</a></li>

@@ -94,6 +94,7 @@
     </div>
 </div>
 
+{{-- logout --}}
 <script>
     document.addEventListener("DOMContentLoaded", function () {
     const logoutButton = document.querySelector(".logout-link");
