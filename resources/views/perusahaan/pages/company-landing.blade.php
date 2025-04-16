@@ -77,7 +77,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                            <div class="col-lg-3 col-md-6 col-sm-6 col-12 mb-md-30">
                                 <div class="card-grid-4 hover-up">
                                     <div class="image-top-feature">
                                         <figure class="w-100 h-100 m-0"><img alt="JobPath" src="assets/user/imgs/icons/seo-backlink.svg" class="w-100 h-100 object-fit-cover"/></figure>
